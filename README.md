@@ -1,5 +1,7 @@
 # LoNalogy v87
 
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.19115338.svg)](https://doi.org/10.5281/zenodo.19115338)
+
 **Complete Unified Draft of Full-System Physics**
 *From $\jmath^2=+1$ to the Standard Model, Yang–Mills Mass Gap, and the Idea Sector*
 
