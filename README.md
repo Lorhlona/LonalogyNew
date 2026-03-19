@@ -105,10 +105,14 @@ Numerical verification (Part X)
 |------|-------------|
 | `v87.md` | Full text with numerical results and code (Japanese) |
 | `v87en.md` | Full text with numerical results and code (English) |
+| `v87.pdf` | PDF rendering of v87 (Japanese) |
+| `v87en.pdf` | PDF rendering of v87 (English) |
+| `GRF2026_Nakamura.tex` | GRF 2026 essay — "A Cubic Equation for the Cosmological Constant from Modular Geometry" |
+| `GRF2026_Nakamura.pdf` | Compiled PDF of the GRF 2026 essay |
 
 ## Author
 
-**LoNa** (木村 ロナ / Kimura Rona)
+**Lorhlona** 
 
 ## License
 
