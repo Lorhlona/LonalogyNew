@@ -30,7 +30,9 @@ The observed physics is the **Schur complement** (reduced law) of the full syste
 | **Mass gap** | Schwarzian wall $\mathcal{V}_S''(u) \geq 7$ confines states; spectral gap $> 0$ |
 | **Proton decay** | $M_X = 3.464 \times 10^{15}$ GeV, testable at Hyper-Kamiokande |
 | **Higgs vev** | $\Lambda_* = 246$ GeV geometrically fixed |
-| **Cosmological constant** | Selected as one root of a cubic equation |
+| **Cosmological constant** | $\Lambda_{\rm eff} = \Lambda_*^4 Q_{\rm ker}^{20} \approx 2.9 \times 10^{-47}$ GeV$^4$ (obs: $2.5 \times 10^{-47}$), 18% agreement with no free parameters |
+| **Nome** | $Q_{\rm ker} = 1.568 \times 10^{-3}$, determined by strict kernel equation $12(1-k)^2(1+k)=2$ |
+| **Suppression exponent** | $n = d \times N = 4 \times 5 = 20$ ($n_{\rm exact} = 20.025$) |
 | **Fourth generation** | Confined to the Idea sector; visible only through dark matter and neutrino anomalies |
 
 ## Logical Flow
@@ -63,6 +65,12 @@ Kimura–Thévenin principle
   → SM as Schur shadow of the full system
   → Fourth generation in Idea sector
   → Cosmological constant, dark matter, neutrino masses, baryon asymmetry
+
+Numerical verification (Part X)
+  → Q_ker = 1.568e-3 from elliptic integrals
+  → Lambda_eff = Lambda_*^4 * Q_ker^20 ≈ 2.9e-47 GeV^4 (obs: 2.5e-47)
+  → n_exact = 20.025 ≈ 20 = 4 × 5 = d × N
+  → Cubic Vieta identity: sigma_3 = Lambda_*^12 * Q^4 (portal fixes vacuum product)
 ```
 
 ## Status (v87)
@@ -78,12 +86,25 @@ Kimura–Thévenin principle
 
 > *The architecture and analytic skeleton of LoNalogy are closed in v87. A complete answer to the Clay Millennium Problem requires the dynamical derivation of uniform clustering.*
 
+## Key Numerical Results (Part X)
+
+| Quantity | Value |
+|---|---|
+| $k_{\rm ker}(12)$ | $0.685548$ |
+| $Q_{\rm ker} = e^{-2\pi K'/K}$ | $1.568 \times 10^{-3}$ |
+| $j(\tau_{\rm ker})$ | $1746.8$ ($j - 1728 = 18.8$) |
+| $M_C = \Lambda_* Q^{-4}$ | $4.07 \times 10^{13}$ GeV |
+| $\Lambda_{\rm eff} = \Lambda_*^4 Q^{20}$ | $2.9 \times 10^{-47}$ GeV$^4$ |
+| pred/obs | $1.178$ (18% match, zero free parameters) |
+| $n_{\rm exact}$ | $20.025 \approx 20 = 4 \times 5$ |
+| $w_{\rm DE} + 1$ | $\sim 2.5 \times 10^{-6}$ |
+
 ## Files
 
 | File | Description |
 |------|-------------|
-| `v87.md` | Full text (Japanese) |
-| `v87en.md` | Full text (English) |
+| `v87.md` | Full text with numerical results and code (Japanese) |
+| `v87en.md` | Full text with numerical results and code (English) |
 
 ## Author
 
