@@ -1,9 +1,8 @@
-# LoNalogy v87
+# LoNalogy
 
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.19115338.svg)](https://doi.org/10.5281/zenodo.19115338)
 
-**Complete Unified Draft of Full-System Physics**
-*From $\jmath^2=+1$ to the Standard Model, Yang–Mills Mass Gap, and the Idea Sector*
+**A Constructive Framework for Yang–Mills and Unified Physics from Elliptic Modular Geometry**
 
 ---
 
@@ -23,6 +22,20 @@ $$\mathfrak{U} = \mathfrak{I} \oplus \mathfrak{V} \oplus \mathfrak{B}$$
 
 The observed physics is the **Schur complement** (reduced law) of the full system, formalized through the **Kimura–Thévenin principle**.
 
+## Main Papers
+
+### Yang–Mills Existence and Mass Gap
+
+**"Yang–Mills Existence and Mass Gap: A Constructive Proof via Elliptic Modular Geometry and Transfer-Poincaré Descent"**
+
+Four-stage proof: Modular Geometry → Three-Sector Structure → Gluing → Transfer-Poincaré Descent. For every compact simple gauge group $G$, constructs a non-trivial quantum Yang–Mills theory on $\mathbb{R}^4$ with mass gap $\Delta > 0$.
+
+### A Cubic Equation for the Cosmological Constant
+
+**GRF 2026 essay: "A Cubic Equation for the Cosmological Constant from Modular Geometry"**
+
+The strict kernel equation $12(1-k)^2(1+k)=2$ determines nome $Q_{\rm ker} \approx 1.568 \times 10^{-3}$. The cosmological constant emerges as the smallest root of a cubic: $\Lambda_{\rm eff} = \Lambda_*^4 Q_{\rm ker}^{20} \approx 2.9 \times 10^{-47}$ GeV$^4$ — 18% agreement with observation, zero free parameters.
+
 ## Key Results
 
 | Result | Statement |
@@ -37,58 +50,9 @@ The observed physics is the **Schur complement** (reduced law) of the full syste
 | **Suppression exponent** | $n = d \times N = 4 \times 5 = 20$ ($n_{\rm exact} = 20.025$) |
 | **Fourth generation** | Confined to the Idea sector; visible only through dark matter and neutrino anomalies |
 
-## Logical Flow
+## Key Numerical Results
 
-```
-jmath^2 = +1
-  → Para-Chebyshev quotient → X(2) necessity
-
-X(2) geometry
-  → Schwarzian master law
-  → CP^1 balancing → strict kernel equation
-  → N=5 forcing (Yukawa + anomaly)
-
-Analytic implementation (general SU(N) Yang–Mills)
-  → Schwarzian radial core (wall ≥ 7)
-  → Bridge Hessian floor ≥ (1/6)I
-  → Doeblin contraction → automatic Q-entry
-  → P3 closure (Wilson finite-step positivity)
-  → P4 closure (pair covariance decay, circularity-free)
-  → P5 closure (transport nondegeneracy)
-  → Polymer gluing → continuum limit → OS reconstruction → mass gap
-
-SU(5) specialization
-  → Standard Model (3+2 split, hypercharge, three families)
-  → Split-bridge theory (proton stability)
-  → Observable hierarchy manifold
-  → M_X numerical prediction
-
-Kimura–Thévenin principle
-  → SM as Schur shadow of the full system
-  → Fourth generation in Idea sector
-  → Cosmological constant, dark matter, neutrino masses, baryon asymmetry
-
-Numerical verification (Part X)
-  → Q_ker = 1.568e-3 from elliptic integrals
-  → Lambda_eff = Lambda_*^4 * Q_ker^20 ≈ 2.9e-47 GeV^4 (obs: 2.5e-47)
-  → n_exact = 20.025 ≈ 20 = 4 × 5 = d × N
-  → Cubic Vieta identity: sigma_3 = Lambda_*^12 * Q^4 (portal fixes vacuum product)
-```
-
-## Status (v87)
-
-**Newly closed in v87:**
-- P4 (pair covariance decay) — Theorem 4.11
-- P5 (transport nondegeneracy) — Theorem 4.13
-- Wilson finite-step positivity — Theorem 4.18
-
-**Remaining (external):**
-- Uniform Euclidean time clustering — the dynamical hard part of constructive QFT
-- OS reconstruction — standard Osterwalder–Schrader theorem
-
-> *The architecture and analytic skeleton of LoNalogy are closed in v87. A complete answer to the Clay Millennium Problem requires the dynamical derivation of uniform clustering.*
-
-## Key Numerical Results (Part X)
+All claims verified: **50/50 PASS** ([`verify_numerics.py`](verify_numerics.py), [`verification_results.md`](verification_results.md))
 
 | Quantity | Value |
 |---|---|
@@ -105,16 +69,17 @@ Numerical verification (Part X)
 
 | File | Description |
 |------|-------------|
-| `v87.md` | Full text with numerical results and code (Japanese) |
-| `v87en.md` | Full text with numerical results and code (English) |
-| `v87.pdf` | PDF rendering of v87 (Japanese) |
-| `v87en.pdf` | PDF rendering of v87 (English) |
-| `GRF2026_Nakamura.tex` | GRF 2026 essay — "A Cubic Equation for the Cosmological Constant from Modular Geometry" |
-| `GRF2026_Nakamura.pdf` | Compiled PDF of the GRF 2026 essay |
+| `YM_mass_gap.tex` | Yang–Mills existence and mass gap — full proof |
+| `YM_mass_gap.pdf` | Compiled PDF |
+| `GRF2026_Nakamura.tex` | GRF 2026 essay — cubic equation for the cosmological constant |
+| `GRF2026_Nakamura.pdf` | Compiled PDF |
+| `verify_numerics.py` | Numerical verification script (numpy/scipy) — 50/50 PASS |
+| `verification_results.md` | Detailed verification results with classification table |
+| `archive/` | Previous versions (v77–v89) and development history |
 
 ## Author
 
-**Lorhlona** 
+**Lorhlona**
 
 ## License
 
