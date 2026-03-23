@@ -43,7 +43,7 @@ The strict kernel equation $12(1-k)^2(1+k)=2$ determines nome $Q_{\rm ker} \appr
 | **Gauge group** | $SU(5) \to SU(3)_C \times SU(2)_L \times U(1)_Y$ forced by Yukawa closure + anomaly cancellation |
 | **Families** | $N_{\rm fam}^{\rm vis} = 3$ (cusps of $\bar{X}(2)$), $N_{\rm fam}^{\rm full} = 4$ (+ self-dual point) |
 | **Mass gap** | Schwarzian wall $\mathcal{V}_S''(u) \geq 7$ confines states; spectral gap $> 0$ |
-| **Proton decay** | $M_X = 3.464 \times 10^{15}$ GeV, testable at Hyper-Kamiokande |
+| **Proton decay** | $M_X = \Lambda_*(r/s)^{1/3}Q_{\rm ker}^{-14/3} = 3.455 \times 10^{15}$ GeV; $\tau_p = 1.49 \times 10^{38}$ yr |
 | **Higgs vev** | $\Lambda_* = 246$ GeV geometrically fixed |
 | **Cosmological constant** | $\Lambda_{\rm eff} = \Lambda_*^4 Q_{\rm ker}^{20} \approx 2.9 \times 10^{-47}$ GeV$^4$ (obs: $2.5 \times 10^{-47}$), 18% agreement with no free parameters |
 | **Nome** | $Q_{\rm ker} = 1.568 \times 10^{-3}$, determined by strict kernel equation $12(1-k)^2(1+k)=2$ |
@@ -60,6 +60,8 @@ All claims verified: **50/50 PASS** ([`verify_numerics.py`](verify_numerics.py),
 | $Q_{\rm ker} = e^{-2\pi K'/K}$ | $1.568 \times 10^{-3}$ |
 | $j(\tau_{\rm ker})$ | $1746.8$ ($j - 1728 = 18.8$) |
 | $M_C = \Lambda_* Q^{-4}$ | $4.07 \times 10^{13}$ GeV |
+| $M_X = \Lambda_*(r/s)^{1/3}Q^{-14/3}$ | $3.455 \times 10^{15}$ GeV |
+| $\tau_p$ | $1.49 \times 10^{38}$ yr |
 | $\Lambda_{\rm eff} = \Lambda_*^4 Q^{20}$ | $2.9 \times 10^{-47}$ GeV$^4$ |
 | pred/obs | $1.178$ (18% match, zero free parameters) |
 | $n_{\rm exact}$ | $20.025 \approx 20 = 4 \times 5$ |
@@ -69,8 +71,8 @@ All claims verified: **50/50 PASS** ([`verify_numerics.py`](verify_numerics.py),
 
 | File | Description |
 |------|-------------|
-| `YM_mass_gap.tex` | Yang–Mills existence and mass gap — full proof |
-| `YM_mass_gap.pdf` | Compiled PDF |
+| `YM_mass_gap_v2.tex` | Yang–Mills existence and mass gap — full proof (v2) |
+| `YM_mass_gap_v2.pdf` | Compiled PDF |
 | `GRF2026_Nakamura.tex` | GRF 2026 essay — cubic equation for the cosmological constant |
 | `GRF2026_Nakamura.pdf` | Compiled PDF |
 | `verify_numerics.py` | Numerical verification script (numpy/scipy) — 50/50 PASS |
