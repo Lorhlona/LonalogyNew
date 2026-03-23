@@ -79,8 +79,10 @@ All claims verified: **50/50 PASS** ([`verify_numerics.py`](verify_numerics.py),
 
 | File | Description |
 |------|-------------|
-| `YM_mass_gap_v3.tex` | Yang–Mills existence and mass gap — full proof (v3) |
+| `YM_mass_gap_v3.tex` | Yang–Mills existence and mass gap — full proof (v3, English) |
 | `YM_mass_gap_v3.pdf` | Compiled PDF |
+| `YM_mass_gap_ja.tex` | Yang–Mills existence and mass gap — full proof (v3, Japanese) |
+| `YM_mass_gap_ja..pdf` | Compiled PDF |
 | `particle_cosmology_v3.tex` | SM structure, GUT scale, dark sector — predictions (v3) |
 | `particle_cosmology_v3.pdf` | Compiled PDF |
 | `GRF2026_Nakamura.tex` | GRF 2026 essay — cubic equation for the cosmological constant |
