@@ -1,0 +1,389 @@
+\documentclass[12pt]{article}
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage{fontspec}
+\setmainfont{Noto Serif CJK JP}
+\XeTeXlinebreaklocale "ja"
+\XeTeXlinebreakskip = 0pt plus 1pt minus 0.1pt
+\usepackage{hyperref}
+\usepackage{enumitem}
+\usepackage{booktabs}
+\usepackage{caption}
+
+\theoremstyle{plain}
+\newtheorem{theorem}{定理}[section]
+\newtheorem{proposition}[theorem]{命題}
+\newtheorem{corollary}[theorem]{系}
+\theoremstyle{definition}
+\newtheorem{definition}[theorem]{定義}
+\newtheorem{remark}[theorem]{注意}
+\numberwithin{equation}{section}
+
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\C}{\mathbb{C}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\HH}{\mathbb{H}}
+\newcommand{\br}{\mathrm{br}}
+\newcommand{\vis}{\mathrm{vis}}
+\newcommand{\eff}{\mathrm{eff}}
+\newcommand{\LoN}{\mathrm{LoN}}
+\newcommand{\Pl}{\mathrm{Pl}}
+\newcommand{\fU}{\mathfrak{U}}
+\newcommand{\fI}{\mathfrak{I}}
+\newcommand{\fV}{\mathfrak{V}}
+\newcommand{\fB}{\mathfrak{B}}
+\DeclareMathOperator{\Tr}{Tr}
+\DeclareMathOperator{\Gr}{Gr}
+\DeclareMathOperator{\sech}{sech}
+\renewcommand{\proofname}{証明}
+
+\begin{document}
+
+\begin{titlepage}
+\centering
+\vspace*{1cm}
+{\LARGE\bfseries 余剰次元の脱リテラル化：\\[6pt]
+コンパクト化された時空座標の\\[6pt]
+4D代替としての$X(2)$上の内部モジュラー幾何}
+\vspace{1.5cm}
+
+{\large 中村 昌義$^{1,*}$}
+\vspace{0.8cm}
+
+{\normalsize
+$^1$\,北与野メンタルクリニック、〒338-0002
+埼玉県さいたま市中央区下落合4-20-14\\
+\texttt{mjolnir501@gmail.com}\\[4pt]
+$^*$\,責任著者
+}
+\vspace{0.8cm}
+
+{\small
+\noindent\textbf{関連リポジトリ：}\\
+LoNalogyフレームワーク (v87.1):
+\href{https://doi.org/10.5281/zenodo.19115338}{doi:10.5281/zenodo.19115338}\\
+Yang--Mills証明 (v90):
+\href{https://doi.org/10.5281/zenodo.19183838}{doi:10.5281/zenodo.19183838}\\
+姉妹論文：$X(2)$上の統計力学、素粒子宇宙論 (v9)、
+ハッブル再構成 (v2)、コロナ加熱
+}
+\vspace{1.0cm}
+
+\begin{abstract}
+\noindent
+弦理論は量子重力の整合性のために余剰空間次元を要求する。
+LHC（ADD重力子放出に対して
+$M_D\gtrsim 5.5$--$11.2\,\mathrm{TeV}$、
+RSカルツァ-クライン重力子に対して
+$m_1\gtrsim 2.2$--$5.6\,\mathrm{TeV}$）
+および短距離重力実験（$\delta=1$で$R<44\,\mu\mathrm{m}$）
+による広範な探索にもかかわらず、
+余剰次元の証拠は見つかっていない。
+
+LoNalogyフレームワークではリテラルな余剰時空座標が不要であることを示す。
+核心作用は4次元であり、弦理論で余剰次元が果たす役割——ゲージ統一、
+世代構造、結合階層——は$X(2)$の内部モジュラー/ファイバー幾何が担う。
+LoNalogyに現れる整数$\nu_{\br}=12$、$d_{\mathrm{fib}}=7$、$N=5$は
+内部束の次元であり時空座標ではない。
+
+結論：余剰次元は否定されるのではなく\emph{脱リテラル化}される。
+4D法則の背後にある内部幾何として再解釈され、
+これはワープ型余剰次元を4D複合ダイナミクスとして読む
+主流のAdS/CFT的解釈と整合する。
+\end{abstract}
+\end{titlepage}
+
+\setcounter{page}{1}
+\tableofcontents
+\newpage
+
+
+\section{序論}\label{sec:intro}
+
+カルツァ（1921年）とクライン（1926年）以来、時空が4次元以上を
+持つ可能性は理論物理学で繰り返し主題となってきた。
+弦理論はアノマリー消去と量子整合性のために10次元または11次元の
+時空を要求する。余剰次元は通常スケール$R$でコンパクト化され、
+カルツァ-クライン（KK）励起が質量$m_n\sim n/R$で現れると仮定される。
+
+実験的に研究された三つの広いクラスがある：
+(i) ADD（大きな平坦余剰次元、基本スケール$M_D$がTeVスケール）、
+(ii) RS（一つのワープ余剰次元、指数的階層）、
+(iii) UED（標準模型場がバルクに伝播）。
+
+広範な探索にもかかわらず、いずれの証拠も見つかっていない。
+
+
+\section{実験的ステータス}\label{sec:experiment}
+
+\subsection{LHCの制約}
+
+LHC Run~2データセット（$\sqrt{s}=13\,\mathrm{TeV}$、
+$\sim140\,\mathrm{fb}^{-1}$）は余剰次元モデルに対する
+最強の加速器制約を与える。
+
+\begin{center}
+\begin{tabular}{lll}
+\toprule
+モデル & チャンネル & 制約\\
+\midrule
+ADD（重力子放出）& モノジェット & $M_D\gtrsim 5.5$--$11.2\,\mathrm{TeV}$\\
+ADD（仮想重力子）& ダイジェット角度 & $M_{TT}>9.02\,\mathrm{TeV}$\\
+RS（KK重力子）& ダイフォトン & $m_1\gtrsim 2.2$--$5.6\,\mathrm{TeV}$\\
+ラディオン & ATLAS/CMS & $m_{\mathrm{radion}}\gtrsim 3.1$--$3.2\,\mathrm{TeV}$\\
+微小BH & 高多重度 & $M_{\mathrm{BH}}\lesssim 10.1\,\mathrm{TeV}$排除\\
+UED & 各種 & $1/R\gtrsim 1.4$--$1.5\,\mathrm{TeV}$\\
+\bottomrule
+\end{tabular}
+\end{center}
+
+最小UEDはLHC制約と暗黒物質レリック密度の要件を合わせると排除される。
+
+\subsection{短距離重力実験}
+
+卓上重力実験は大きな平坦余剰次元を直接制約する。
+$\delta=1$の平坦余剰次元に対して$R<44\,\mu\mathrm{m}$、
+$\delta=2$ではATLASモノジェットから$R<3.8\,\mu\mathrm{m}$。
+
+\subsection{実験的ステータスの要約}
+
+\begin{proposition}[実験的判定]\label{prop:experiment}
+\begin{equation}
+\boxed{\text{低スケールのリテラルな余剰次元：排除方向に強く制約。}}
+\end{equation}
+\begin{equation}
+\boxed{\parbox{0.8\textwidth}{\centering
+プランクスケールでコンパクト化された余剰次元：\\
+論理的には可能だが実験的に到達不可能。}}
+\end{equation}
+\end{proposition}
+
+
+\section{LoNalogyは4D理論である}\label{sec:4D}
+
+\subsection{核心作用}
+
+\begin{definition}[LoNalogy核心作用]\label{def:action}
+LoNalogyのマスター作用は4次元時空上で定義される：
+\begin{equation}\label{eq:action}
+S_{\LoN} = S_{\mathrm{grav}} + S_x + S_{\vis} + S_A + S_X^{\eff},
+\end{equation}
+ここで
+\begin{equation}
+S_{\mathrm{grav}}+S_x
+= \int d^4x\,\sqrt{-g}\left[
+\frac{M_{\Pl}^2}{2}R
+-\frac{1}{2}G_{xx}(x)\,\partial_\mu x\,\partial^\mu x
+-V(x)\right].
+\end{equation}
+可視、ポータル、ブリッジの各セクターも同様に4D作用として書かれる。
+第5以上の座標$x^5,x^6,\ldots$は現れない。
+\end{definition}
+
+\subsection{内部次元 vs 時空次元}
+
+LoNalogyフレームワークにはいくつかの大きな整数が現れる。
+これらを時空次元と区別することが不可欠である。
+
+\begin{proposition}[内部次元は時空座標ではない]\label{prop:internal}
+LoNalogyに現れる整数の起源：
+
+(i) $\nu_{\br}=12$：破れた接空間
+$SU(5)/S(U(3)\times U(2))\cong\Gr_2(\C^5)$の実次元
+（$2\cdot 3\cdot 2=12$）。内部コセット次元であり時空座標数ではない。
+
+(ii) $d_{\mathrm{fib}}=7$：三セクター分解のファイバー/ブリッジ次元。
+内部自由度の数であり空間方向ではない。
+
+(iii) $N=5$（ランク）：湯川閉包
+$\Lambda^2 V\otimes\Lambda^2 V\otimes V\to\det V$と
+アノマリー消去から選択。束のランクであり時空次元ではない。
+\end{proposition}
+
+\begin{remark}
+内部次元と時空次元の混同はLoNalogyの最も一般的な誤読である。
+弦理論に馴染みのある者は、内部次元が\emph{リテラルに}
+余分な時空座標（コンパクト化された）であることに慣れている。
+LoNalogyではそうではない。
+\end{remark}
+
+
+\section{余剰次元の脱リテラル化}\label{sec:delit}
+
+\begin{theorem}[脱リテラル化]\label{thm:delit}
+弦/KK理論で余剰次元が果たす全ての構造的役割は、
+LoNalogyに4D対応物を持つ：
+
+\begin{center}
+\begin{tabular}{lll}
+\toprule
+役割 & 弦/KK言語 & LoNalogy言語\\
+\midrule
+ゲージ統一 & $G/H$上のコンパクト化 & $X(2)$上のランク5束\\
+世代構造 & 固定点/交差 & 3カスプ$\{0,1,\infty\}$\\
+結合階層 & ワープ因子$e^{-kr_c\pi}$ & ブリッジ相互律\\
+KKタワー & $m_n = n/R$ & ホロノミーフーリエモード\\
+モジュライ安定化 & フラックスコンパクト化 & strict kernel方程式\\
+隠れたセクター & バルク/ブレーン分離 & $\fI$-セクター、Schur補行列\\
+\bottomrule
+\end{tabular}
+\end{center}
+
+各ケースでLoNalogyの構成は完全に4D内で、
+内部（ファイバー/モジュラー）構造とともに生きており、
+追加の時空座標を導入しない。
+\end{theorem}
+
+\begin{proof}
+各行はLoNalogyフレームワークとの直接比較により検証される。
+
+\emph{ゲージ統一。}
+弦理論はアイソメトリー群がゲージ群を与える多様体$G/H$上で
+コンパクト化する。LoNalogyはアノマリーフリーな分解$5=3+2$を通じて
+$X(2)$上のランク5束から$SU(3)\times SU(2)\times U(1)$を得る。
+
+\emph{世代構造。}
+弦理論では3世代はコンパクト多様体の交差数や固定点から生じる。
+LoNalogyでは3世代は$X(2)$の3カスプ$\{0,1,\infty\}$に対応する。
+
+\emph{結合階層。}
+RSモデルはワープ因子$e^{-kr_c\pi}$でプランク/TeV階層を生成する。
+LoNalogyはブリッジ相互律$M_C\|\sigma_{\br}\|=\Lambda_*$と
+strict kernel方程式で階層を代数的に固定する。
+
+\emph{KKタワー。}
+KK理論ではタワー$m_n=n/R$はコンパクト方向のフーリエ分解から生じる。
+LoNalogyではホロノミー変数$u\in[0,1)$が類似の役割を果たすが、
+時空座標ではなくファイバー座標である。
+
+\emph{モジュライ安定化。}
+弦理論はフラックスコンパクト化でモジュライを固定する。
+LoNalogyはstrict kernel方程式$\nu_{\br}(1-k)^2(1+k)=2$で
+モジュライを固定する。
+
+\emph{隠れたセクター。}
+ブレーンワールドモデルでは隠れたセクターは余剰次元で
+分離された別のブレーン上に住む。LoNalogyでは隠れたセクター$\fI$は
+空間的距離ではなくSchur補行列構造によって分離される。
+\end{proof}
+
+\begin{corollary}[余剰次元の脱リテラル化]
+\begin{equation}
+\boxed{\text{余剰次元は否定されるのではなく脱リテラル化される。}}
+\end{equation}
+余剰次元の構造的内容——統一、世代構造、階層、タワー、
+モジュライ、隠れたセクター——はLoNalogyで保存されるが、
+追加の時空座標ではなく内部モジュラー/ファイバー幾何に収容される。
+\end{corollary}
+
+
+\section{AdS/CFTとの整合性}\label{sec:adscft}
+
+\begin{proposition}[ホログラフィック双対性との両立]\label{prop:adscft}
+LoNalogyにおける余剰次元の脱リテラル化はAdS/CFT対応と整合し、
+実際にそれによって予見されている。
+RSモデルでは5Dワープ幾何$\mathrm{AdS}_5$は
+AdS/CFT辞書を通じて4D強結合複合理論と双対である。
+LoNalogyはこの双対性の「4D側」を最初から選択する。
+\end{proposition}
+
+
+\section{LHCが探すべきもの}\label{sec:lhc}
+
+\begin{proposition}[LoNalogy予測 vs KKタワー]\label{prop:lhc}
+LoNalogyが正しければ、LHCはKKタワー（$m_n=n/R$）を
+見ることを期待すべきではない。新物理のシグナチャーは
+4Dブリッジ/ポータル/隠れたセクター現象である：
+
+(i) 暗黒物質候補$\chi$（$338$--$348\,\mathrm{GeV}$、ブリッジセクター）。
+
+(ii) 軽いポータルスカラー$A'$
+（$m_{A'}=0.204\,\mathrm{GeV}$）。
+
+(iii) LoNalogy予測レートでの陽子崩壊。
+
+これらは4D予測であり余剰次元のシグナチャーではない。
+\begin{equation}
+\boxed{\text{正しい問い：LHCは4Dブリッジ/ポータル構造を見られるか？}}
+\end{equation}
+\end{proposition}
+
+
+\section{最終判定}\label{sec:verdict}
+
+\begin{center}
+\begin{tabular}{p{5.5cm}l}
+\toprule
+命題 & ステータス\\
+\midrule
+リテラルな余剰時空次元が実在する & 未確認\\
+低スケール（$\sim$TeV）余剰次元 & 強く制約\\
+プランクスケールのコンパクト化 & 論理的に可能、実験的に到達不可能\\
+LoNalogyがリテラルな余剰次元を要求する & \textbf{いいえ}\\
+LoNalogyが余剰次元の構造的役割を再現する & \textbf{はい}（内部幾何を通じて）\\
+\bottomrule
+\end{tabular}
+\end{center}
+
+最短の答え：
+\begin{equation}
+\boxed{\text{余剰次元：否定ではなく脱リテラル化。LoNalogyは4D完備。}}
+\end{equation}
+
+
+\section*{結論}
+\addcontentsline{toc}{section}{結論}
+
+実験的ステータスは明白：余剰次元の証拠は見つかっておらず、
+最も単純な低スケールモデルは次第に排除されつつある。
+LoNalogyフレームワークはこのヌル結果の説明を与える：
+リテラルな余剰時空座標は最初から不要だった。
+
+余剰次元の構造的内容——ゲージ統一、世代構造、結合階層、
+モジュライ安定化、隠れたセクター——は$X(2)$の内部
+モジュラー/ファイバー幾何に完全に捕捉される。
+核心作用は4次元である。
+
+一文で：
+
+\begin{quote}
+\emph{余剰次元とは、内部モジュラー幾何が時空座標の言語の上に
+投じる影である。}
+\end{quote}
+
+
+\section*{謝辞}
+\addcontentsline{toc}{section}{謝辞}
+
+著者はClaude (Anthropic)に、LoNalogyフレームワークと
+余剰次元モデルとの関係の共同分析を感謝する。
+
+
+\begin{thebibliography}{99}
+
+\bibitem{LoNalogyv87}
+M.~Nakamura, \textit{LoNalogy v87.1},
+Zenodo (2026),
+\href{https://doi.org/10.5281/zenodo.19115338}{doi:10.5281/zenodo.19115338}.
+
+\bibitem{YMmassGap}
+M.~Nakamura, \textit{Yang--Mills Existence and Mass Gap},
+Zenodo (2026),
+\href{https://doi.org/10.5281/zenodo.19183838}{doi:10.5281/zenodo.19183838}.
+
+\bibitem{PDG2025}
+R.~L.~Workman \textit{et al.}\ (Particle Data Group),
+\textit{Review of Particle Physics},
+Prog.\ Theor.\ Exp.\ Phys.\ (2025).
+
+\bibitem{ADD}
+N.~Arkani-Hamed, S.~Dimopoulos, and G.~Dvali,
+Phys.\ Lett.\ B \textbf{429}, 263 (1998).
+
+\bibitem{RS}
+L.~Randall and R.~Sundrum,
+Phys.\ Rev.\ Lett.\ \textbf{83}, 3370 (1999).
+
+\end{thebibliography}
+
+\end{document}

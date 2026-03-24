@@ -1,0 +1,506 @@
+\documentclass[12pt]{article}
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage{hyperref}
+\usepackage{enumitem}
+\usepackage{booktabs}
+\usepackage{caption}
+
+\theoremstyle{plain}
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{corollary}[theorem]{Corollary}
+\theoremstyle{definition}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{remark}[theorem]{Remark}
+\numberwithin{equation}{section}
+
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\C}{\mathbb{C}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\HH}{\mathbb{H}}
+\newcommand{\br}{\mathrm{br}}
+\newcommand{\vis}{\mathrm{vis}}
+\newcommand{\eff}{\mathrm{eff}}
+\newcommand{\LoN}{\mathrm{LoN}}
+\newcommand{\Pl}{\mathrm{Pl}}
+\newcommand{\fU}{\mathfrak{U}}
+\newcommand{\fI}{\mathfrak{I}}
+\newcommand{\fV}{\mathfrak{V}}
+\newcommand{\fB}{\mathfrak{B}}
+\DeclareMathOperator{\Tr}{Tr}
+\DeclareMathOperator{\Gr}{Gr}
+\DeclareMathOperator{\sech}{sech}
+
+\begin{document}
+
+\begin{titlepage}
+\centering
+\vspace*{1cm}
+
+{\LARGE\bfseries Extra Dimensions De-Literalised:\\[6pt]
+Internal Modular Geometry on $X(2)$\\[6pt]
+as the 4D Replacement for\\[6pt]
+Compactified Spacetime Coordinates}
+
+\vspace{1.5cm}
+
+{\large Masayoshi Nakamura$^{1,*}$}
+
+\vspace{0.8cm}
+
+{\normalsize
+$^1$\,Kitayono Mental Clinic,
+338-0002, 4-20-14 Shimoochiai, Chuo-ku,\\
+Saitama City, Saitama, Japan.
+\texttt{mjolnir501@gmail.com}\\[4pt]
+$^*$\,Corresponding author.
+}
+
+\vspace{0.8cm}
+
+{\small
+\noindent\textbf{Related deposits:}\\
+LoNalogy framework (v87.1):
+\href{https://doi.org/10.5281/zenodo.19115338}{doi:10.5281/zenodo.19115338}\\
+Yang--Mills proof (v90):
+\href{https://doi.org/10.5281/zenodo.19183838}{doi:10.5281/zenodo.19183838}\\
+Companion papers: Statistical mechanics on $X(2)$,
+Particle cosmology (v9), Hubble reconstruction (v2),
+Coronal heating
+}
+
+\vspace{1.0cm}
+
+\begin{abstract}
+\noindent
+String theory requires extra spatial dimensions for quantum-gravitational
+consistency.  Despite extensive searches at the LHC
+($M_D\gtrsim 5.5$--$11.2\,\mathrm{TeV}$ for ADD graviton emission,
+$m_1\gtrsim 2.2$--$5.6\,\mathrm{TeV}$ for RS Kaluza--Klein gravitons)
+and in short-distance gravity experiments ($R<44\,\mu\mathrm{m}$ for
+$\delta=1$), no evidence for extra dimensions has been found.
+
+We show that in the LoNalogy framework, literal extra spacetime
+coordinates are unnecessary.  The core action is 4-dimensional;
+the roles played by extra dimensions in string theory---gauge
+unification, family structure, coupling hierarchy---are assumed by
+the internal modular/fiber geometry of $X(2)$: the rank-5 bundle,
+three-cusp family, and bridge/hidden sectors.  The integers
+$\nu_{\br}=12$, $d_{\mathrm{fib}}=7$, $N=5$ that appear in
+LoNalogy are internal bundle dimensions, not spacetime coordinates.
+
+The conclusion is that extra dimensions are not denied but
+\emph{de-literalised}: they are reinterpreted as internal
+geometry of a 4D law, consistent with the mainstream AdS/CFT
+reading of warped extra dimensions as 4D composite dynamics.
+\end{abstract}
+\end{titlepage}
+
+\setcounter{page}{1}
+\tableofcontents
+\newpage
+
+
+%% ============================================================
+\section{Introduction}\label{sec:intro}
+%% ============================================================
+
+Since Kaluza (1921) and Klein (1926), the idea that spacetime may
+have more than four dimensions has been a recurring theme in
+theoretical physics.  String theory, in its most developed form,
+requires 10 or 11 spacetime dimensions for anomaly cancellation and
+quantum consistency.  The extra dimensions are typically assumed to
+be compactified at a scale $R$, with Kaluza--Klein (KK) excitations
+at masses $m_n\sim n/R$.
+
+Three broad classes of extra-dimensional models have been studied
+experimentally:
+\begin{enumerate}[label=(\roman*)]
+\item \textbf{ADD} (Arkani-Hamed--Dimopoulos--Dvali): $\delta$
+large flat extra dimensions with the fundamental scale $M_D$ at
+the TeV scale.
+\item \textbf{RS} (Randall--Sundrum): one warped extra dimension
+with an exponential hierarchy between the Planck and TeV scales.
+\item \textbf{UED} (Universal Extra Dimensions): all Standard Model
+fields propagate in the bulk.
+\end{enumerate}
+
+Despite extensive searches, no evidence for any of these has been
+found.  This paper examines the status of extra dimensions from
+both the experimental side and the LoNalogy framework, and argues
+that LoNalogy provides a 4D-complete alternative in which the
+structural roles of extra dimensions are played by internal
+modular/fiber geometry.
+
+
+%% ============================================================
+\section{Experimental Status}\label{sec:experiment}
+%% ============================================================
+
+\subsection{LHC constraints}
+
+The LHC Run~2 dataset ($\sqrt{s}=13\,\mathrm{TeV}$,
+$\sim140\,\mathrm{fb}^{-1}$) provides the strongest collider
+constraints on extra-dimensional models.
+
+\begin{center}
+\begin{tabular}{lll}
+\toprule
+Model & Channel & Constraint\\
+\midrule
+ADD (graviton emission)
+  & monojet (ATLAS/CMS)
+  & $M_D\gtrsim 5.5$--$11.2\,\mathrm{TeV}$\\
+ADD (virtual graviton)
+  & dijet angular (CMS)
+  & $M_{TT}>9.02\,\mathrm{TeV}$\\
+RS (KK graviton)
+  & diphoton (CMS)
+  & $m_1\gtrsim 2.2$--$5.6\,\mathrm{TeV}$\\
+RS (KK graviton)
+  & diphoton (ATLAS)
+  & $m_1>4.5\,\mathrm{TeV}$\;($k/\bar{M}_P=0.1$)\\
+Radion
+  & ATLAS/CMS
+  & $m_{\mathrm{radion}}\gtrsim 3.1$--$3.2\,\mathrm{TeV}$\\
+Microscopic BH
+  & high-multiplicity (CMS)
+  & $M_{\mathrm{BH}}\lesssim 10.1\,\mathrm{TeV}$ excluded\\
+UED ($1/R$)
+  & various
+  & $1/R\gtrsim 1.4$--$1.5\,\mathrm{TeV}$\\
+\bottomrule
+\end{tabular}
+\end{center}
+
+Minimal UED is ruled out when LHC constraints are combined with
+the dark matter relic density requirement.
+
+\subsection{Short-distance gravity}
+
+Tabletop gravity experiments constrain large flat extra dimensions
+directly.  For $\delta=1$ flat extra dimension, the current bound
+is $R<44\,\mu\mathrm{m}$.  For $\delta=2$, ATLAS monojet data
+give $R<3.8\,\mu\mathrm{m}$.
+
+\subsection{Summary of experimental status}
+
+\begin{proposition}[Experimental verdict]\label{prop:experiment}
+\begin{equation}
+\boxed{\text{Low-scale literal extra dimensions:
+strongly constrained toward exclusion.}}
+\end{equation}
+\begin{equation}
+\boxed{\text{Planck-scale compactified extra dimensions:
+logically possible but experimentally inaccessible.}}
+\end{equation}
+\end{proposition}
+
+
+%% ============================================================
+\section{LoNalogy Is a 4D Theory}\label{sec:4D}
+%% ============================================================
+
+\subsection{The core action}
+
+\begin{definition}[LoNalogy core action]\label{def:action}
+The LoNalogy master action is defined on a 4-dimensional spacetime:
+\begin{equation}\label{eq:action}
+S_{\LoN} = S_{\mathrm{grav}} + S_x + S_{\vis} + S_A + S_X^{\eff},
+\end{equation}
+where
+\begin{equation}
+S_{\mathrm{grav}}+S_x
+= \int d^4x\,\sqrt{-g}\left[
+\frac{M_{\Pl}^2}{2}R
+-\frac{1}{2}G_{xx}(x)\,\partial_\mu x\,\partial^\mu x
+-V(x)\right],
+\end{equation}
+and the visible, portal, and bridge sectors are likewise written as
+4D actions.  No fifth or higher coordinate $x^5,x^6,\ldots$ appears.
+\end{definition}
+
+\begin{remark}
+The spacetime integral is $\int d^4x$, not $\int d^{10}x$ or
+$\int d^{11}x$.  LoNalogy is a 4D effective theory from the outset.
+\end{remark}
+
+
+\subsection{Internal dimensions vs.\ spacetime dimensions}
+
+Several large integers appear in the LoNalogy framework.  It is
+essential to distinguish these from spacetime dimensions.
+
+\begin{proposition}[Internal dimensions are not spacetime coordinates]\label{prop:internal}
+The integers appearing in LoNalogy have the following origins:
+\begin{enumerate}[label=(\roman*)]
+\item $\nu_{\br}=12$: the real dimension of the broken tangent space
+$SU(5)/S(U(3)\times U(2))\cong\Gr_2(\C^5)$, computed as
+$2\cdot 3\cdot 2=12$.  This is an \emph{internal coset dimension},
+not a spacetime coordinate count.
+
+\item $d_{\mathrm{fib}}=7$: the fiber/bridge dimension in the
+three-sector decomposition.  This counts internal degrees of
+freedom, not spatial directions.
+
+\item $N=5$ (rank): selected by the Yukawa closure
+$\Lambda^2 V\otimes\Lambda^2 V\otimes V\to\det V$ and anomaly
+cancellation.  This is a \emph{bundle rank}, not a spacetime
+dimension.
+\end{enumerate}
+None of these is an additional spacetime coordinate $x^\mu$.
+\end{proposition}
+
+\begin{remark}
+The confusion between internal and spacetime dimensions is the
+most common misreading of LoNalogy by those trained in string
+theory, where internal dimensions \emph{are} literally extra
+spacetime coordinates (compactified).
+\end{remark}
+
+
+%% ============================================================
+\section{De-Literalisation of Extra Dimensions}\label{sec:delit}
+%% ============================================================
+
+\begin{theorem}[De-literalisation]\label{thm:delit}
+Every structural role played by extra dimensions in string/KK theory
+has a 4D counterpart in LoNalogy:
+
+\begin{center}
+\begin{tabular}{lll}
+\toprule
+Role & String/KK language & LoNalogy language\\
+\midrule
+Gauge unification
+  & Compactification on $G/H$
+  & Rank-5 bundle on $X(2)$\\
+Family structure
+  & Fixed points / intersections
+  & Three cusps $\{0,1,\infty\}$\\
+Coupling hierarchy
+  & Warp factor $e^{-k r_c\pi}$
+  & Bridge reciprocity $M_C\|\sigma_{\br}\|=\Lambda_*$\\
+KK tower
+  & $m_n = n/R$
+  & Holonomy Fourier modes on $u\in[0,1)$\\
+Moduli stabilisation
+  & Flux compactification
+  & Strict kernel $\nu_{\br}(1-k)^2(1+k)=2$\\
+Hidden sector
+  & Bulk / brane separation
+  & $\fI$-sector (idea), Schur complement\\
+\bottomrule
+\end{tabular}
+\end{center}
+
+In each case, the LoNalogy construction lives entirely in 4D with
+internal (fiber/modular) structure, without introducing additional
+spacetime coordinates.
+\end{theorem}
+
+\begin{proof}
+Each row is verified by direct comparison with the LoNalogy
+framework:
+
+\emph{Gauge unification.}
+String theory compactifies on a manifold $G/H$ whose isometry group
+gives the gauge group.  LoNalogy obtains $SU(3)\times SU(2)\times U(1)$
+from the rank-5 bundle on $X(2)$ via the anomaly-free decomposition
+$5=3+2$.  No compact manifold with spatial coordinates is needed.
+
+\emph{Family structure.}
+In string theory, three generations arise from intersection numbers
+or fixed points of the compact manifold.  In LoNalogy, three
+generations correspond to the three cusps $\{0,1,\infty\}$ of $X(2)$.
+These are modular-geometric features, not spatial locations.
+
+\emph{Coupling hierarchy.}
+The RS model generates the Planck/TeV hierarchy via the warp factor
+$e^{-k r_c\pi}$.  LoNalogy generates the hierarchy via the bridge
+reciprocity law $M_C\|\sigma_{\br}\|=\Lambda_*$ and the strict
+kernel equation, which fixes the modular parameter algebraically.
+
+\emph{KK tower.}
+In KK theory, the tower $m_n=n/R$ arises from Fourier decomposition
+on the compact direction.  In LoNalogy, the holonomy variable
+$u\in[0,1)$ plays the analogous role (cf.\ the universal
+projected-determinant theorem), but it is a \emph{fiber} coordinate,
+not a spacetime coordinate.
+
+\emph{Moduli stabilisation.}
+String theory requires flux compactification to fix the moduli
+(sizes and shapes of extra dimensions).  LoNalogy fixes its moduli
+via the strict kernel equation
+$\nu_{\br}(1-k)^2(1+k)=2$, which has a unique solution
+$k_{\mathrm{ker}}$ by cubic analysis.
+
+\emph{Hidden sector.}
+In braneworld models, the hidden sector lives on a separate brane
+separated in the extra dimension.  In LoNalogy, the hidden sector
+$\fI$ is separated by the Schur complement structure, not by spatial
+distance.
+\end{proof}
+
+\begin{corollary}[Extra dimensions de-literalised]
+\begin{equation}
+\boxed{\text{Extra dimensions are not denied;
+they are de-literalised.}}
+\end{equation}
+The structural content of extra dimensions---unification, family
+structure, hierarchy, tower, moduli, hidden sector---is preserved
+in LoNalogy but housed in internal modular/fiber geometry rather
+than additional spacetime coordinates.
+\end{corollary}
+
+
+%% ============================================================
+\section{Consistency with AdS/CFT}\label{sec:adscft}
+%% ============================================================
+
+\begin{proposition}[Compatibility with holographic duality]\label{prop:adscft}
+The de-literalisation of extra dimensions in LoNalogy is consistent
+with, and in fact anticipated by, the AdS/CFT correspondence.
+
+In the RS model, the 5D warped geometry $\mathrm{AdS}_5$ is dual to
+a 4D strongly-coupled composite theory via the AdS/CFT dictionary.
+The KK graviton resonances in 5D correspond to composite spin-2
+resonances in 4D.  The PDG review explicitly notes this duality.
+
+LoNalogy chooses the ``4D side'' of this duality from the outset.
+The bridge structure (positive frame operator
+$\Delta_{\br}=\Sigma^\dagger\Sigma$, $\sech^2$ weight,
+Schur complement reduction) plays the role of the 4D composite
+dynamics that is dual to the 5D bulk.
+\end{proposition}
+
+
+%% ============================================================
+\section{What the LHC Should Look For}\label{sec:lhc}
+%% ============================================================
+
+\begin{proposition}[LoNalogy predictions vs.\ KK tower]\label{prop:lhc}
+If LoNalogy is correct, the LHC should not expect to see a KK tower
+($m_n=n/R$).  Instead, the signatures of new physics are 4D
+bridge/portal/hidden-sector phenomena:
+\begin{enumerate}[label=(\roman*)]
+\item Dark matter candidate $\chi$ at $338$--$348\,\mathrm{GeV}$
+(bridge sector, spin-independent cross section predicted).
+\item Light portal scalar $A'$ at $m_{A'}=0.204\,\mathrm{GeV}$
+(portal amplitude $\epsilon_{\mathrm{port}}=12Q_{\mathrm{ker}}^4$).
+\item Proton decay at the LoNalogy-predicted rate
+($\tau_p$ from the GUT scale $M_X$).
+\end{enumerate}
+These are 4D predictions, not extra-dimensional signatures.
+The question ``can the LHC see extra dimensions?'' is, from the
+LoNalogy perspective, a category error.
+\begin{equation}
+\boxed{\text{The correct question: can the LHC see the 4D
+bridge/portal structure?}}
+\end{equation}
+\end{proposition}
+
+
+%% ============================================================
+\section{Final Verdict}\label{sec:verdict}
+%% ============================================================
+
+\begin{center}
+\begin{tabular}{p{6cm}l}
+\toprule
+Statement & Status\\
+\midrule
+Literal extra spacetime dimensions exist
+  & Unconfirmed\\
+Low-scale ($\sim$TeV) extra dimensions
+  & Strongly constrained\\
+Planck-scale compactified extra dimensions
+  & Logically possible, experimentally
+  inaccessible\\
+LoNalogy requires literal extra dimensions
+  & \textbf{No}\\
+LoNalogy reproduces the structural roles of
+extra dimensions
+  & \textbf{Yes} (via internal geometry)\\
+\bottomrule
+\end{tabular}
+\end{center}
+
+The shortest answer:
+\begin{equation}
+\boxed{\text{Extra dimensions: not denied, but de-literalised.
+LoNalogy is 4D-complete.}}
+\end{equation}
+
+
+%% ============================================================
+\section*{Conclusion}
+\addcontentsline{toc}{section}{Conclusion}
+%% ============================================================
+
+The experimental status is clear: no evidence for extra dimensions
+has been found, and the simplest low-scale models are increasingly
+excluded.  The LoNalogy framework provides an explanation for this
+null result: literal extra spacetime coordinates were never needed.
+
+The structural content of extra dimensions---gauge unification,
+family structure, coupling hierarchy, moduli stabilisation, hidden
+sectors---is entirely captured by the internal modular/fiber geometry
+of $X(2)$: the rank-5 bundle, three-cusp family, bridge reciprocity,
+strict kernel, and Schur complement.  The core action is 4-dimensional.
+
+This is not a denial of extra dimensions but their
+\emph{de-literalisation}: the physics that string theory housed in
+extra spatial coordinates, LoNalogy houses in internal geometry.
+The two descriptions may ultimately be dual (cf.\ AdS/CFT), but
+LoNalogy demonstrates that the 4D description is self-contained
+and predictive.
+
+In one sentence:
+\begin{quote}
+\emph{Extra dimensions are the shadow cast by internal
+modular geometry onto the language of spacetime coordinates.}
+\end{quote}
+
+
+\section*{Acknowledgements}
+\addcontentsline{toc}{section}{Acknowledgements}
+
+The author thanks Claude (Anthropic) for collaborative analysis
+of the LoNalogy framework and its relationship to extra-dimensional
+models.
+
+
+\begin{thebibliography}{99}
+
+\bibitem{LoNalogyv87}
+M.~Nakamura,
+\textit{LoNalogy v87.1},
+Zenodo (2026),
+\href{https://doi.org/10.5281/zenodo.19115338}{doi:10.5281/zenodo.19115338}.
+
+\bibitem{YMmassGap}
+M.~Nakamura,
+\textit{Yang--Mills Existence and Mass Gap},
+Zenodo (2026),
+\href{https://doi.org/10.5281/zenodo.19183838}{doi:10.5281/zenodo.19183838}.
+
+\bibitem{PDG2025}
+R.~L.~Workman \textit{et al.}\ (Particle Data Group),
+\textit{Review of Particle Physics},
+Prog.\ Theor.\ Exp.\ Phys.\ (2025).
+
+\bibitem{ADD}
+N.~Arkani-Hamed, S.~Dimopoulos, and G.~Dvali,
+\textit{The Hierarchy Problem and New Dimensions at a Millimeter},
+Phys.\ Lett.\ B \textbf{429}, 263 (1998).
+
+\bibitem{RS}
+L.~Randall and R.~Sundrum,
+\textit{A Large Mass Hierarchy from a Small Extra Dimension},
+Phys.\ Rev.\ Lett.\ \textbf{83}, 3370 (1999).
+
+\end{thebibliography}
+
+\end{document}

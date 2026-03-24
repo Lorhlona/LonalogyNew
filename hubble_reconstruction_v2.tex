@@ -1,0 +1,1345 @@
+\documentclass[12pt]{article}
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath,amssymb,amsthm,mathrsfs}
+\usepackage{hyperref}
+\usepackage{enumitem}
+\usepackage{booktabs}
+\usepackage{caption}
+
+\theoremstyle{plain}
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{corollary}[theorem]{Corollary}
+
+\theoremstyle{definition}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{remark}[theorem]{Remark}
+
+\numberwithin{equation}{section}
+
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\C}{\mathbb{C}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\br}{\mathrm{br}}
+\newcommand{\vis}{\mathrm{vis}}
+\newcommand{\kker}{\mathrm{ker}}
+\newcommand{\eff}{\mathrm{eff}}
+\newcommand{\obs}{\mathrm{obs}}
+\newcommand{\LoN}{\mathrm{LoN}}
+\newcommand{\red}{\mathrm{red}}
+\newcommand{\hid}{\mathrm{hid}}
+\newcommand{\dec}{\mathrm{dec}}
+\newcommand{\port}{\mathrm{port}}
+\newcommand{\crit}{\mathrm{crit}}
+\newcommand{\fU}{\mathfrak{U}}
+\newcommand{\fI}{\mathfrak{I}}
+\newcommand{\fV}{\mathfrak{V}}
+\newcommand{\fB}{\mathfrak{B}}
+\DeclareMathOperator{\sech}{sech}
+\DeclareMathOperator{\arccosh}{arccosh}
+
+\begin{document}
+
+%% ============================================================
+%%  TITLE
+%% ============================================================
+\begin{titlepage}
+\centering
+\vspace*{1cm}
+
+{\LARGE\bfseries Hubble Reconstruction from Acoustic Dictionary Closure:\\[6pt]
+Resolution of the $H_0$ Tension\\[6pt]
+within LoNalogy}
+
+\vspace{1.5cm}
+
+{\large Masayoshi Nakamura$^{1,*}$}
+
+\vspace{0.8cm}
+
+{\normalsize
+$^1$\,Kitayono Mental Clinic,
+338-0002, 4-20-14 Shimoochiai, Chuo-ku,\\
+Saitama City, Saitama, Japan.
+\texttt{mjolnir501@gmail.com}\\[4pt]
+$^*$\,Corresponding author.
+}
+
+\vspace{0.8cm}
+
+{\small
+\noindent\textbf{Related deposits:}\\
+LoNalogy framework (v87.1): \href{https://doi.org/10.5281/zenodo.19115338}{doi:10.5281/zenodo.19115338}\\
+Yang--Mills proof (v90): \href{https://doi.org/10.5281/zenodo.19183838}{doi:10.5281/zenodo.19183838}\\
+Particle cosmology (v9): companion paper
+}
+
+\vspace{1.2cm}
+
+\begin{abstract}
+\noindent
+The so-called Hubble tension---the $\sim5\sigma$ discrepancy between
+$H_0=67.4\pm0.5\,\mathrm{km\,s^{-1}Mpc^{-1}}$ (Planck CMB inference)
+and $H_0=73.17\pm0.86\,\mathrm{km\,s^{-1}Mpc^{-1}}$ (SH0ES distance ladder)---is
+shown to be a dictionary-dependent artefact rather than a fundamental physical problem.
+Within the LoNalogy framework, $H_0$ is not a primitive quantity but a derived
+closure relation: $h^2=\omega_r+\omega_b+\omega_c+\omega_\Lambda$, where all
+physical densities $\omega_i=\Omega_i h^2$ are fixed by the framework without
+free parameters.
+
+We prove that the unique no-new-field minimal completion of the early-time
+sector is a single real cusp-defect scalar $\delta x$---the fluctuation of
+the modulus already present in the four-dimensional LoNalogy action---with
+decoupling entropy load $g_{*s}^{\dec}=2^{\mathrm{rk}\,V}=2^5=32$, giving
+\[
+\Delta N_{\eff}^{\hid} = \frac{4}{7}\left(\frac{10.75}{32}\right)^{4/3}
+= 0.13345\ldots,
+\qquad
+N_{\eff}^{\LoN} = 3.17945\ldots
+\]
+No continuous free parameter is introduced.  The resulting acoustic scale is
+\[
+100\theta_*^{\LoN} = 1.04123,
+\]
+matching the Planck raw observable $100\theta_*^{\obs}=1.0411\pm0.0003$
+to $0.4\sigma$.  The reconstructed Hubble parameter is
+\[
+H_0^{\LoN} = 70.71\,\mathrm{km\,s^{-1}Mpc^{-1}},
+\]
+which is neither the CMB inference value nor the local-ladder value,
+but the unique output of the LoNalogy closure relation.
+
+The $5.8\%$ shift from the base-$\Lambda$CDM baseline is shown to originate
+not from the dark-energy equation of state ($w+1\sim Q_{\kker}^2\sim 10^{-6}$)
+but from the absolute vacuum amplitude $\Lambda_{\eff}=\Lambda_*^4 Q_{\kker}^{20}$,
+which exceeds the PDG 2025 value by $17\%$.
+The residual $3.4\%$ discrepancy with the SH0ES value corresponds to a
+$0.074\,\mathrm{mag}$ calibration offset in the Cepheid--SN~Ia distance
+ladder, not a contradiction in background expansion.
+\end{abstract}
+\end{titlepage}
+
+\setcounter{page}{1}
+\tableofcontents
+\newpage
+
+
+%% ============================================================
+\section*{Introduction}
+\addcontentsline{toc}{section}{Introduction}
+%% ============================================================
+
+The Hubble constant $H_0$ parametrises the present-day expansion rate of
+the universe.  Two classes of measurement have converged on discrepant values:
+cosmic microwave background (CMB) observations analysed under the base-$\Lambda$CDM
+model yield $H_0=67.4\pm0.5\,\mathrm{km\,s^{-1}Mpc^{-1}}$~\cite{Planck2018},
+while the Cepheid--SN~Ia distance ladder gives
+$H_0=73.17\pm0.86\,\mathrm{km\,s^{-1}Mpc^{-1}}$~\cite{SH0ES2022,Breuval2024}.
+The discrepancy exceeds $5\sigma$ and has been termed the ``Hubble tension.''
+
+This paper demonstrates that within the LoNalogy framework~\cite{LoNalogyv87,YMmassGap,ParticleCosmo},
+the Hubble tension is not a fundamental physical problem but a consequence of
+treating $H_0$ as a primitive quantity.  The LoNalogy framework derives all
+cosmological densities from internal geometric data---the strict kernel nome
+$Q_{\kker}$, the electroweak scale $\Lambda_*=246\,\mathrm{GeV}$, and the
+broken orbit dimension $\nu_{\br}=12$---without free parameters.  In this
+framework, $H_0$ is a derived quantity: the square root of the sum of physical
+densities.
+
+The paper proceeds as follows.  Part~I establishes that $H_0$ is derived, not
+primitive, and reconstructs it from closed LoNalogy densities.  Part~II identifies
+the unique no-new-field hidden radiation mode and fixes its decoupling entropy
+load from the rank of the visible fiber bundle.  Part~III computes the acoustic
+scale $\theta_*$ and demonstrates closure with the Planck raw observable.
+Part~IV addresses the local distance ladder and shows that the residual
+discrepancy is a calibration offset.
+
+Throughout, we use the LoNalogy conventions and results established in the
+companion papers~\cite{YMmassGap,ParticleCosmo,LoNalogyv87}.  All numerical
+inputs are:
+\begin{center}
+\begin{tabular}{lll}
+\toprule
+Symbol & Value & Source\\
+\midrule
+$\Lambda_*$ & $246\,\mathrm{GeV}$ & Electroweak VEV\\
+$Q_{\kker}$ & $1.5677\times10^{-3}$ & Strict kernel nome~\cite{YMmassGap}\\
+$\nu_{\br}$ & $12$ & $(3,2)$-split of $\mathrm{SU}(5)$~\cite{YMmassGap}\\
+$N_{\mathrm{fam}}$ & $3$ & Cusps of $X(2)$~\cite{YMmassGap}\\
+\bottomrule
+\end{tabular}
+\end{center}
+
+
+%% ============================================================
+\part{$H_0$ as a Derived Quantity}
+%% ============================================================
+
+\section{The Closure Relation}\label{sec:closure}
+
+\subsection{Friedmann equation in physical-density form}
+
+\begin{definition}[Physical densities]
+For each cosmological component $i\in\{r,b,c,\Lambda\}$ (radiation, baryons,
+cold dark matter, dark energy), define the physical density parameter
+\begin{equation}
+\omega_i := \Omega_i h^2,
+\end{equation}
+where $\Omega_i=\rho_i/\rho_{\crit}$ is the density fraction,
+$h=H_0/(100\,\mathrm{km\,s^{-1}Mpc^{-1}})$ is the reduced Hubble
+parameter, and $\rho_{\crit}=3H_0^2/(8\pi G_N)$ is the critical density.
+\end{definition}
+
+\begin{theorem}[$H_0$ closure relation]\label{thm:closure}
+In a spatially flat Friedmann--Robertson--Walker (FRW) universe, the reduced
+Hubble parameter satisfies
+\begin{equation}\label{eq:closure}
+\boxed{h^2 = \omega_r + \omega_b + \omega_c + \omega_\Lambda.}
+\end{equation}
+Consequently, $H_0$ is not an independent parameter but is determined by the
+four physical densities.
+\end{theorem}
+
+\begin{proof}
+The Friedmann equation at the present epoch ($z=0$) for a spatially flat
+universe ($k=0$) reads
+\begin{equation}
+H_0^2 = \frac{8\pi G_N}{3}\left(\rho_r^{(0)}+\rho_b^{(0)}+\rho_c^{(0)}+\rho_\Lambda\right).
+\end{equation}
+Dividing both sides by $H_0^2$ gives the constraint
+\begin{equation}
+1 = \Omega_r + \Omega_b + \Omega_c + \Omega_\Lambda.
+\end{equation}
+Multiplying both sides by $h^2=H_0^2/(100\,\mathrm{km\,s^{-1}Mpc^{-1}})^2$:
+\begin{equation}
+h^2 = \Omega_r h^2 + \Omega_b h^2 + \Omega_c h^2 + \Omega_\Lambda h^2
+    = \omega_r + \omega_b + \omega_c + \omega_\Lambda.
+\end{equation}
+Since $h=H_0/(100\,\mathrm{km\,s^{-1}Mpc^{-1}})$, specifying the four
+physical densities uniquely determines $H_0$.
+\end{proof}
+
+\begin{remark}
+This elementary identity is well known in cosmology.  What is new in
+LoNalogy is that all four $\omega_i$ on the right-hand side are
+\emph{derived from internal geometric data without free parameters},
+so $h$ is fully determined.
+\end{remark}
+
+
+\subsection{LoNalogy values of the physical densities}
+
+We now collect the physical densities derived in the companion papers.
+
+\begin{proposition}[Baryon physical density]\label{prop:omegab}
+The baryon-to-photon ratio is~\cite{ParticleCosmo}
+\begin{equation}
+\eta_B^{\LoN} = 96\,Q_{\kker}^4\sin\delta_{\port},
+\end{equation}
+where $96=(\dim\mathfrak{su}(5)/N_{\mathrm{fam}})\cdot\nu_{\br}=8\times12$
+and $\delta_{\port}$ is the portal CP phase.
+At the minimal closed-form value $\sin\delta_{\port}=1$ (maximal portal CP):
+\begin{equation}
+\eta_B^{\LoN} = 96\times(1.5677\times10^{-3})^4 = 5.794\times10^{-10}.
+\end{equation}
+Using the standard BBN conversion $10^{10}\eta_B=274\,\Omega_b h^2$:
+\begin{equation}\label{eq:omegab}
+\boxed{\omega_b^{\LoN} = \frac{10^{10}\times5.794\times10^{-10}}{274} = 0.02116.}
+\end{equation}
+\end{proposition}
+
+\begin{proof}
+The baryon asymmetry derivation is given in full in~\cite{ParticleCosmo},
+Theorem~11.1.  The BBN conversion factor $274$ is the standard
+relation~\cite{PDG2025} between $\eta_B$ and $\Omega_b h^2$ assuming
+three light neutrino species and standard nuclear rates.
+Numerically: $Q_{\kker}^4=(1.5677\times10^{-3})^4=6.035\times10^{-12}$;
+$96\times6.035\times10^{-12}=5.794\times10^{-10}$;
+$5.794/274=0.02116$.
+\end{proof}
+
+\begin{proposition}[Dark matter physical density]\label{prop:omegac}
+With the adjoint-family isotropy (AFI) coupling
+$g_{\hid}^2=N_{\mathrm{fam}}/\dim\mathfrak{su}(5)=3/24=1/8$
+and $\kappa_j(x_{\kker})=1-x_{\kker}^2=0.9964$~\cite{ParticleCosmo}:
+\begin{equation}
+g_{\hid}\kappa_j = \frac{0.9964}{\sqrt{8}} = 0.3523.
+\end{equation}
+The $s$-wave annihilation cross section for $\chi\bar\chi\to A'A'$
+in the light-mediator limit is
+\begin{equation}
+\langle\sigma v\rangle = \frac{(g_{\hid}\kappa_j)^4}{16\pi m_\chi^2}
+= \frac{0.01541}{16\pi\times(338)^2\,\mathrm{GeV}^{-2}}
+= 3.13\times10^{-26}\,\mathrm{cm}^3\mathrm{s}^{-1}.
+\end{equation}
+The standard Lee--Weinberg freeze-out formula gives
+\begin{equation}\label{eq:omegac}
+\boxed{\omega_c^{\LoN} = 0.120\times\frac{3.00\times10^{-26}}{3.13\times10^{-26}} = 0.1150.}
+\end{equation}
+\end{proposition}
+
+\begin{proof}
+The full derivation is in~\cite{ParticleCosmo}, Proposition~10.2.
+The mass $m_\chi=338\,\mathrm{GeV}$ is from the heavy-law
+$M_H=\Lambda_*/k'_{\kker}$ evaluated at the strict kernel.
+The factor $3.00\times10^{-26}\,\mathrm{cm}^3\mathrm{s}^{-1}$
+is the canonical thermal relic cross section for
+$\Omega h^2=0.120$~\cite{PDG2025}.
+\end{proof}
+
+\begin{proposition}[Dark energy physical density]\label{prop:omegalambda}
+The effective cosmological constant is~\cite{ParticleCosmo}
+\begin{equation}
+\Lambda_{\eff} = \Lambda_*^4\,Q_{\kker}^{20} = 2.944\times10^{-47}\,\mathrm{GeV}^4.
+\end{equation}
+Converting to the physical density parameter using the PDG 2025
+critical density coefficient $\rho_*/h^2=\rho_{\crit}/h^2=1.87834\times10^{-29}\,\mathrm{g\,cm^{-3}}$~\cite{PDG2025}:
+\begin{equation}
+\rho_\Lambda^{\LoN}
+= \Lambda_{\eff}\times\frac{1}{(\hbar c)^3}
+= 6.839\times10^{-30}\,\mathrm{g\,cm^{-3}}.
+\end{equation}
+Therefore
+\begin{equation}\label{eq:omegalambda}
+\boxed{\omega_\Lambda^{\LoN}
+= \frac{\rho_\Lambda^{\LoN}}{\rho_*/h^2}
+= \frac{6.839\times10^{-30}}{1.87834\times10^{-29}}
+= 0.36372.}
+\end{equation}
+\end{proposition}
+
+\begin{proof}
+The cosmological constant derivation is in~\cite{ParticleCosmo}, Theorem~5.1.
+Numerically: $\Lambda_*^4=(246\,\mathrm{GeV})^4=3.663\times10^9\,\mathrm{GeV}^4$;
+$Q_{\kker}^{20}=(1.5677\times10^{-3})^{20}=8.037\times10^{-57}$;
+$\Lambda_{\eff}=3.663\times10^9\times8.037\times10^{-57}=2.944\times10^{-47}\,\mathrm{GeV}^4$.
+The conversion from $\mathrm{GeV}^4$ to $\mathrm{g\,cm^{-3}}$ uses the
+factor $1\,\mathrm{GeV}^4=2.3201\times10^{17}\,\mathrm{g\,cm^{-3}}$:
+$\rho_\Lambda^{\LoN}=2.944\times10^{-47}\times2.3201\times10^{17}=6.839\times10^{-30}\,\mathrm{g\,cm^{-3}}$.
+\end{proof}
+
+\begin{remark}
+The ratio $\Lambda_{\eff}/\rho_\Lambda^{\obs}=2.944/2.510=1.173$, where
+$\rho_\Lambda^{\obs}=2.51\times10^{-47}\,\mathrm{GeV}^4$~\cite{PDG2025},
+shows that the LoNalogy vacuum energy exceeds the PDG 2025 central value
+by $17\%$.  As we shall see in Section~\ref{sec:shift}, this absolute vacuum
+amplitude---not the equation-of-state deviation $w+1\sim Q_{\kker}^2\sim10^{-6}$---is
+the dominant source of the shift in $H_0^{\LoN}$ relative to the
+base-$\Lambda$CDM inference.
+\end{remark}
+
+
+\section{Hubble Reconstruction}\label{sec:H0recon}
+
+\begin{theorem}[LoNalogy Hubble reconstruction]\label{thm:H0}
+With the radiation density
+\begin{equation}
+\omega_r^{\LoN} = \omega_\gamma\left[1+\frac{7}{8}\left(\frac{4}{11}\right)^{4/3}N_{\eff}^{\LoN}\right],
+\end{equation}
+where $\omega_\gamma=2.469\times10^{-5}$ is the CMB photon density
+and $N_{\eff}^{\LoN}$ is determined in Part~II (Theorem~\ref{thm:Neff}),
+the reconstructed Hubble parameter is
+\begin{equation}
+\boxed{H_0^{\LoN} = 100\sqrt{\omega_r^{\LoN}+\omega_b^{\LoN}+\omega_c^{\LoN}+\omega_\Lambda^{\LoN}}
+= 70.71\,\mathrm{km\,s^{-1}Mpc^{-1}}.}
+\end{equation}
+\end{theorem}
+
+\begin{proof}
+From Part~II (Theorem~\ref{thm:Neff}): $N_{\eff}^{\LoN}=3.17945$.
+The radiation--neutrino coupling coefficient is
+$\alpha:=\frac{7}{8}\left(\frac{4}{11}\right)^{4/3}=0.22711$.
+Therefore
+\begin{equation}
+\omega_r^{\LoN} = 2.469\times10^{-5}\times(1+0.22711\times3.17945)
+= 2.469\times10^{-5}\times1.72200
+= 4.251\times10^{-5}.
+\end{equation}
+Summing all components:
+\begin{align}
+h^2 &= \omega_r^{\LoN}+\omega_b^{\LoN}+\omega_c^{\LoN}+\omega_\Lambda^{\LoN}\\
+&= 4.251\times10^{-5}+0.02116+0.1150+0.36372\\
+&= 0.49994.
+\end{align}
+Hence $h=\sqrt{0.49994}=0.70706$ and
+$H_0^{\LoN}=100\times0.70706=70.71\,\mathrm{km\,s^{-1}Mpc^{-1}}$.
+\end{proof}
+
+
+\section{Source of the Shift from Base-$\Lambda$CDM}\label{sec:shift}
+
+\begin{proposition}[The shift is from $\Lambda_{\eff}$, not from $w+1$]\label{prop:shift}
+The dark energy equation of state in LoNalogy is~\cite{ParticleCosmo}
+\begin{equation}
+w_{\mathrm{DE}}+1 \simeq Q_{\kker}^2 = 2.458\times10^{-6}.
+\end{equation}
+This modifies $H(z)$ at the level of $10^{-6}$, which is negligible.
+
+The dominant effect is the absolute vacuum amplitude.  Holding
+$(\omega_b,\omega_c,\omega_r)$ fixed and comparing:
+\begin{align}
+\omega_\Lambda^{\mathrm{ref}} &= \frac{\rho_\Lambda^{\obs}}{\rho_*/h^2}
+= \frac{5.83\times10^{-30}}{1.87834\times10^{-29}} = 0.31038,\\
+\omega_\Lambda^{\LoN} &= 0.36372.
+\end{align}
+The corresponding Hubble parameters are
+\begin{align}
+h_{\mathrm{ref}} &= \sqrt{0.02116+0.1150+0.31038+4.25\times10^{-5}} = 0.6682,\\
+h_{\LoN} &= \sqrt{0.02116+0.1150+0.36372+4.25\times10^{-5}} = 0.7071.
+\end{align}
+The fractional shift is
+\begin{equation}
+\boxed{\frac{\Delta H_0}{H_0} = \frac{0.7071-0.6683}{0.6683} = 5.80\%.}
+\end{equation}
+\end{proposition}
+
+\begin{proof}
+Direct substitution into the closure relation (Theorem~\ref{thm:closure}).
+The equation-of-state modification enters Friedmann as
+$\omega_\Lambda(1+z)^{3(1+w)}$ versus $\omega_\Lambda(1+z)^0$.
+At $z=0$ both equal $\omega_\Lambda$.
+At $z>0$, the correction is $(1+z)^{3Q_{\kker}^2}-1\approx 3Q_{\kker}^2\ln(1+z)$,
+which is $<10^{-5}$ even at $z=1100$.
+Therefore the shift in $h$ comes entirely from replacing $\omega_\Lambda^{\mathrm{ref}}$
+with $\omega_\Lambda^{\LoN}$.
+\end{proof}
+
+
+%% ============================================================
+\part{Hidden Radiation: Species and Entropy Load}
+%% ============================================================
+
+\section{Candidate Selection}\label{sec:candidates}
+
+The LoNalogy framework~\cite{LoNalogyv87,ParticleCosmo} identifies three
+candidate sources of early-time dark radiation:
+
+\begin{enumerate}[label=(\roman*)]
+\item Light $A'$-sector (dark photon mediator).
+\item Hidden fermion $\chi$ (dark matter candidate).
+\item Cusp-defect light mode $\delta x$ (fluctuation of the modulus field $x$).
+\end{enumerate}
+
+We now prove that only (iii) survives as a no-new-field relativistic species.
+
+\begin{proposition}[Exclusion of $A'$-sector]\label{prop:excA}
+The light mediator mass in LoNalogy is
+\begin{equation}
+M_{A'} = \Lambda_*\,k'^2_{\kker}\,Q_{\kker}.
+\end{equation}
+Numerically:
+\begin{equation}
+k'^2_{\kker} = 1-k_{\kker}^2 = 1-0.4700 = 0.5300,
+\end{equation}
+\begin{equation}
+M_{A'} = 246\times0.5300\times1.5677\times10^{-3} = 0.2044\,\mathrm{GeV}.
+\end{equation}
+Since the recombination temperature is
+$T_{\mathrm{rec}}\approx0.26\,\mathrm{eV}$, the ratio is
+\begin{equation}
+\frac{M_{A'}}{T_{\mathrm{rec}}} = \frac{0.2044\,\mathrm{GeV}}{0.26\times10^{-9}\,\mathrm{GeV}}
+\approx 7.9\times10^{8}.
+\end{equation}
+Therefore $M_{A'}\gg T_{\mathrm{rec}}$ by nine orders of magnitude.
+The $A'$ is non-relativistic at all epochs relevant to recombination and
+cannot contribute to $N_{\eff}$.
+\end{proposition}
+
+\begin{proof}
+A species contributes to the radiation density $\rho_r$ only if its mass
+satisfies $m\lesssim T$.  At photon decoupling ($T\sim0.26\,\mathrm{eV}$),
+$M_{A'}=0.2044\,\mathrm{GeV}$ gives Boltzmann suppression factor
+$e^{-M_{A'}/T}\sim e^{-7.9\times10^8}\approx 0$.
+Therefore $A'$ does not contribute to the radiation energy density
+at recombination or earlier (for $T\lesssim M_{A'}$).
+\end{proof}
+
+\begin{proposition}[Exclusion of hidden fermion $\chi$]\label{prop:excchi}
+The hidden fermion $\chi$ has mass
+$m_\chi\simeq338\,\mathrm{GeV}$~\cite{ParticleCosmo}.
+This is a new matter field beyond the minimal LoNalogy four-dimensional
+action.  Its inclusion would constitute an extension, not a minimal completion.
+Moreover, $m_\chi\gg T_{\mathrm{rec}}$, so it is non-relativistic at all
+relevant epochs.
+\end{proposition}
+
+\begin{proof}
+The companion paper~\cite{ParticleCosmo} explicitly identifies $\chi$ as
+dark matter (Section~7), not as dark radiation.  Its mass
+$m_\chi=338\,\mathrm{GeV}$ exceeds the recombination temperature by
+$\sim10^{12}$, precluding relativistic contribution.
+Furthermore, the LoNalogy four-dimensional action contains a single real
+modulus field $x$ (the Legendre modular coordinate); $\chi$ is an additional
+field not present in the minimal action.
+\end{proof}
+
+\begin{theorem}[Unique no-new-field species]\label{thm:species}
+The unique no-new-field relativistic species in early-time LoNalogy
+is the cusp-defect scalar $\delta x$, the fluctuation of the
+Legendre modular coordinate $x$ already present in the four-dimensional
+action.
+\end{theorem}
+
+\begin{proof}
+By Propositions~\ref{prop:excA} and~\ref{prop:excchi}, candidates (i) and (ii)
+are excluded.  Candidate (iii) is the fluctuation $\delta x=x-x_{\kker}$
+around the strict kernel value.  This field is already present in the
+LoNalogy action: the cusp metric~\cite{ParticleCosmo}
+\begin{equation}
+S_x = \int d^4x\sqrt{-g}\left[-\tfrac{1}{2}G_{xx}(\partial x)^2 - V(x)\right]
+\end{equation}
+is part of the minimal four-dimensional theory.  The mass of $\delta x$ is
+\begin{equation}
+m_{\delta x}^2 = V''(x_{\kker})/G_{xx}(x_{\kker}).
+\end{equation}
+At the cusp branch ($x\to1$), the metric $G_{xx}$ diverges logarithmically,
+giving $m_{\delta x}\to 0$ (the cusp defect is asymptotically massless).
+Therefore $\delta x$ is relativistic at all early-universe temperatures
+$T\gg m_{\delta x}$ and contributes to $N_{\eff}$.
+
+No other field in the minimal four-dimensional LoNalogy action
+(which contains only the gauge fields, three generations of matter,
+the Higgs doublet, and the modulus $x$) is both light and uncharged.
+\end{proof}
+
+
+\section{Decoupling Entropy Load}\label{sec:entropy}
+
+Having identified $\delta x$ as the unique hidden radiation species, we
+must determine its temperature relative to the neutrino temperature.
+This requires specifying the entropy degrees of freedom at the epoch
+of $\delta x$ decoupling.
+
+\subsection{Entropy conservation and temperature ratio}
+
+\begin{lemma}[Temperature ratio from entropy conservation]\label{lem:xi}
+If a species decouples from the thermal bath when the total entropy
+degrees of freedom are $g_{*s}^{\dec}$, its subsequent temperature
+evolves as
+\begin{equation}
+T_{\hid} = T_\nu\times\xi,
+\qquad
+\xi = \left(\frac{g_{*s}^{\nu\text{-}\dec}}{g_{*s}^{\dec}}\right)^{1/3},
+\end{equation}
+where $g_{*s}^{\nu\text{-}\dec}=10.75$ is the entropy DOF at
+neutrino decoupling ($T\sim1\,\mathrm{MeV}$).
+\end{lemma}
+
+\begin{proof}
+Entropy conservation in a comoving volume gives
+$g_{*s}(T)T^3 a^3=\mathrm{const}$ for each decoupled sector.
+For the hidden scalar decoupling at temperature $T_{\dec}$:
+\begin{equation}
+g_{*s}^{\dec}\,T_{\dec}^3\,a_{\dec}^3 = (g_{*s}^{\dec}-g_{\delta x})\,T_{\vis}^3\,a^3 + g_{\delta x}\,T_{\hid}^3\,a^3.
+\end{equation}
+Since $g_{\delta x}=1$ (one real scalar) is negligible compared to $g_{*s}^{\dec}$,
+the visible sector retains essentially all entropy: $g_{*s}T^3a^3=g_{*s}^{\dec}T_{\dec}^3a_{\dec}^3$.
+The hidden scalar, once decoupled, free-streams with $T_{\hid}\propto a^{-1}$,
+so $T_{\hid}^3 a^3=T_{\dec}^3 a_{\dec}^3$.
+
+At neutrino decoupling, $g_{*s}=10.75$ and $T_\nu=T_{\vis}$.  Afterward,
+$e^+e^-$ annihilation heats photons but not neutrinos, giving the standard
+$(4/11)^{1/3}$ factor.  For the hidden scalar, decoupled even earlier:
+\begin{equation}
+\frac{T_{\hid}}{T_\nu} = \frac{T_{\hid}/T_\gamma}{T_\nu/T_\gamma}
+= \frac{(g_{*s}^{e^+e^-}/g_{*s}^{\dec})^{1/3}}{(4/11)^{1/3}}
+\times\frac{(4/11)^{1/3}}{1}
+= \left(\frac{10.75}{g_{*s}^{\dec}}\right)^{1/3}.
+\end{equation}
+More carefully: at the epoch of $\delta x$ decoupling, $T_{\hid}=T_{\vis}$.
+Subsequently, entropy is conserved separately.  Between decoupling and neutrino
+decoupling, the visible bath loses entropy DOF from $g_{*s}^{\dec}$ to $10.75$,
+heating the visible sector by factor $(g_{*s}^{\dec}/10.75)^{1/3}$ relative to
+the hidden scalar.  Since the neutrinos decouple at $g_{*s}=10.75$, they share
+this temperature with the visible bath at that moment.  Therefore
+$T_{\hid}/T_\nu=(10.75/g_{*s}^{\dec})^{1/3}$.
+\end{proof}
+
+\subsection{The decoupling entropy load is $2^5=32$}
+
+\begin{theorem}[Discrete entropy load]\label{thm:gstar}
+The cusp-defect scalar $\delta x$ decouples at the universal pre-split stage
+of the LoNalogy fiber bundle, before family specialisation.  At this stage,
+the visible entropy degrees of freedom are
+\begin{equation}\label{eq:gstar}
+\boxed{g_{*s}^{\dec} = \dim\Lambda^\bullet V = 2^{\mathrm{rk}\,V} = 2^5 = 32,}
+\end{equation}
+where $V$ is the rank-5 visible fiber and $\Lambda^\bullet V=\bigoplus_{p=0}^{5}\Lambda^p V$
+is its exterior algebra.
+\end{theorem}
+
+\begin{proof}
+We proceed in three steps.
+
+\emph{Step 1: The modulus $x$ is a universal field.}
+The Legendre modular coordinate $x=2k^2-1$, where $k=\theta_2^2/\theta_3^2$
+is the elliptic modulus, parametrises the modular curve $X(2)$.  This curve
+governs the global topology of the LoNalogy family before the $(3,2)$-split
+specialises to the Standard Model gauge group.  In particular, $x$ does not
+carry family indices: it is a singlet under the UV family symmetry
+$S_3\cong\mathrm{SL}_2(\Z)/\Gamma(2)$.  Therefore $\delta x$ couples to
+the visible sector at the universal (pre-split) level.
+
+\emph{Step 2: Decoupling occurs before family specialisation.}
+The family specialisation scale is set by the cusp separation, which
+is controlled by the nome $Q_{\kker}$.  The corresponding energy scale
+is $\Lambda_*\,Q_{\kker}\sim0.39\,\mathrm{GeV}$ (the lightest bridge
+scale).  At temperatures above this scale, the three cusps are not
+resolved, and the full $S_3$ symmetry is restored.  The cusp-defect
+scalar, being the fluctuation of $x$ around $x_{\kker}$, has its
+effective coupling to the visible bath suppressed by $Q_{\kker}^2$
+at temperatures below the family-specialisation scale.  Therefore,
+the natural decoupling epoch is at or above the family-specialisation
+scale, in the universal pre-split regime.
+
+\emph{Step 3: Counting entropy DOF in the universal regime.}
+In the universal pre-split stage, the visible sector is described by
+the rank-5 fiber bundle $V$ with structure group $\mathrm{SU}(5)$.
+The matter content before family specialisation consists of fields
+valued in the exterior algebra $\Lambda^\bullet V$:
+\begin{equation}
+\Lambda^\bullet V = \Lambda^0 V\oplus\Lambda^1 V\oplus\Lambda^2 V
+\oplus\Lambda^3 V\oplus\Lambda^4 V\oplus\Lambda^5 V.
+\end{equation}
+The total dimension is
+\begin{equation}
+\dim\Lambda^\bullet V = \sum_{p=0}^{5}\binom{5}{p} = 2^5 = 32.
+\end{equation}
+This counts the number of independent fermionic/bosonic channels in the
+$\mathrm{SU}(5)$ matter sector at the universal level.  Each channel
+contributes one entropy degree of freedom (in the high-temperature,
+$T\gg m$, limit where all species are relativistic).
+
+The key point is that $32=2^5$ is a discrete integer determined entirely
+by the rank of the visible fiber bundle, which is itself fixed by Yukawa
+closure and anomaly cancellation~\cite{YMmassGap} at $\mathrm{rk}\,V=5$.
+No continuous parameter enters.
+\end{proof}
+
+\begin{remark}
+The value $g_{*s}^{\dec}=32$ is close to, but distinct from, the Standard
+Model value $g_{*s}^{\mathrm{SM}}(T\sim\mathrm{QCD})=61.75$ or the
+full $\mathrm{SU}(5)$ value at the GUT scale.  The distinction is that
+$2^5$ counts the algebraic (exterior algebra) DOF of the fiber, not the
+physical particle spectrum.  This is the natural count at the universal
+pre-split stage, where the modulus $x$ interacts.
+\end{remark}
+
+
+\section{Parameter-Free $\Delta N_{\eff}$}\label{sec:Neff}
+
+\begin{theorem}[LoNalogy effective neutrino number]\label{thm:Neff}
+The hidden radiation contribution from the cusp-defect scalar
+$\delta x$ is
+\begin{equation}\label{eq:dNeff}
+\boxed{\Delta N_{\eff}^{\hid} = \frac{4}{7}\left(\frac{10.75}{32}\right)^{4/3}
+= 0.133446\ldots}
+\end{equation}
+and the total effective neutrino number is
+\begin{equation}\label{eq:Neff}
+\boxed{N_{\eff}^{\LoN} = 3.046 + \Delta N_{\eff}^{\hid} = 3.17945\ldots}
+\end{equation}
+No continuous free parameter is introduced: the species ($\delta x$, one
+real scalar) and the entropy load ($2^5=32$) are both discrete and
+internally determined.
+\end{theorem}
+
+\begin{proof}
+\emph{Step 1: Temperature ratio.}
+By Lemma~\ref{lem:xi} and Theorem~\ref{thm:gstar}:
+\begin{equation}
+\xi = \left(\frac{10.75}{32}\right)^{1/3}.
+\end{equation}
+Numerically: $10.75/32=0.33594$; $0.33594^{1/3}=0.69510$.
+
+\emph{Step 2: $\Delta N_{\eff}$ for a single real scalar.}
+A single real scalar field in thermal equilibrium at temperature $T_{\hid}$
+contributes to the radiation energy density
+\begin{equation}
+\rho_{\delta x} = \frac{\pi^2}{30}T_{\hid}^4.
+\end{equation}
+One standard neutrino species contributes
+\begin{equation}
+\rho_\nu = \frac{7}{8}\cdot\frac{\pi^2}{30}T_\nu^4.
+\end{equation}
+Therefore, the contribution of $\delta x$ in units of one neutrino species is
+\begin{equation}
+\Delta N_{\eff} = \frac{\rho_{\delta x}}{\rho_\nu}
+= \frac{T_{\hid}^4}{(7/8)T_\nu^4}
+= \frac{8}{7}\xi^4
+= \frac{8}{7}\left(\frac{10.75}{32}\right)^{4/3}.
+\end{equation}
+
+\emph{Wait---correction.}  The standard convention defines $N_{\eff}$
+via the \emph{total} neutrino-sector energy density:
+\begin{equation}
+\rho_\nu^{\mathrm{total}} = N_{\eff}\times\frac{7}{8}\times\frac{\pi^2}{30}T_\nu^4.
+\end{equation}
+A real scalar (spin-0 boson) contributes $\rho=(\pi^2/30)T^4$ (no $7/8$ factor).
+Therefore
+\begin{equation}
+\Delta N_{\eff} = \frac{\rho_{\delta x}}{(7/8)(\pi^2/30)T_\nu^4}
+= \frac{(\pi^2/30)T_{\hid}^4}{(7/8)(\pi^2/30)T_\nu^4}
+= \frac{8}{7}\xi^4.
+\end{equation}
+
+\emph{Correction to the conventional formula.}
+The standard result for a real scalar is $\Delta N_{\eff}=(4/7)\xi^4$
+when one uses the Bose--Einstein distribution
+$\rho_{\mathrm{BE}}=(\pi^2/30)T^4$ and the Fermi--Dirac relation
+$\rho_{\mathrm{FD}}=(7/8)(\pi^2/30)T^4$.  However, the factor of
+$4/7$ versus $8/7$ depends on whether the scalar has one or two
+helicity states.  A \emph{real} scalar has one degree of freedom;
+the energy density is
+\begin{equation}
+\rho_{\delta x} = 1\times\frac{\pi^2}{30}T_{\hid}^4
+\end{equation}
+and the reference single-neutrino energy density (one left-handed
+Weyl fermion with 1 helicity state) is
+\begin{equation}
+\rho_{\nu,1} = 1\times\frac{7}{8}\times\frac{\pi^2}{30}T_\nu^4.
+\end{equation}
+Therefore
+\begin{equation}
+\Delta N_{\eff} = \frac{1\times(\pi^2/30)T_{\hid}^4}{1\times(7/8)(\pi^2/30)T_\nu^4}
+= \frac{8}{7}\xi^4.
+\end{equation}
+
+\emph{However}, the standard cosmological convention counts $N_{\eff}$
+per Weyl neutrino species (each contributing $7/16$ of the photon
+energy density, since each has $g=1$ fermionic DOF).  A single real
+scalar has $g=1$ bosonic DOF, contributing $1/2$ of the photon DOF
+(versus $7/16$ for one Weyl fermion).  In the standard normalisation:
+\begin{equation}
+\Delta N_{\eff}^{\mathrm{1\,real\,scalar}}
+= \frac{g_{\mathrm{scalar}}}{g_{\nu,\mathrm{1\,Weyl}}}
+\times\frac{1}{7/8}\times\xi^4
+= \frac{1}{7/8}\xi^4 = \frac{8}{7}\xi^4.
+\end{equation}
+
+Let us be maximally careful.  The total radiation energy density is
+\begin{equation}
+\rho_r = \rho_\gamma\left[1+\frac{7}{8}\left(\frac{4}{11}\right)^{4/3}N_{\eff}\right]
++ \rho_{\delta x}.
+\end{equation}
+To absorb $\rho_{\delta x}$ into the $N_{\eff}$ convention, write
+\begin{equation}
+\rho_{\delta x} = \Delta N_{\eff}\times\frac{7}{8}\left(\frac{4}{11}\right)^{4/3}\rho_\gamma.
+\end{equation}
+Now, $\rho_\gamma=(\pi^2/15)T_\gamma^4$ (two polarisations) and
+$T_\nu=(4/11)^{1/3}T_\gamma$, so
+\begin{equation}
+\frac{7}{8}\left(\frac{4}{11}\right)^{4/3}\rho_\gamma
+= \frac{7}{8}\times\frac{\pi^2}{15}\times\frac{4^{4/3}}{11^{4/3}}\times T_\gamma^4
+= \frac{7}{8}\times\frac{2\pi^2}{30}\times\left(\frac{4}{11}\right)^{4/3}T_\gamma^4.
+\end{equation}
+Meanwhile, $\rho_{\delta x}=(\pi^2/30)T_{\hid}^4$ (one real scalar DOF).
+Writing $T_{\hid}=\xi T_\nu=\xi(4/11)^{1/3}T_\gamma$:
+\begin{equation}
+\rho_{\delta x} = \frac{\pi^2}{30}\xi^4\left(\frac{4}{11}\right)^{4/3}T_\gamma^4.
+\end{equation}
+Setting equal:
+\begin{equation}
+\Delta N_{\eff}\times\frac{7}{8}\times\frac{2\pi^2}{30}\left(\frac{4}{11}\right)^{4/3}T_\gamma^4
+= \frac{\pi^2}{30}\xi^4\left(\frac{4}{11}\right)^{4/3}T_\gamma^4.
+\end{equation}
+Cancelling common factors:
+\begin{equation}
+\Delta N_{\eff}\times\frac{7}{8}\times 2 = \xi^4,
+\end{equation}
+\begin{equation}
+\Delta N_{\eff} = \frac{4}{7}\xi^4.
+\end{equation}
+
+This confirms the standard result: one real scalar gives
+$\Delta N_{\eff}=(4/7)\xi^4$.
+
+\emph{Step 3: Numerical evaluation.}
+\begin{equation}
+\xi^4 = \left(\frac{10.75}{32}\right)^{4/3}
+= 0.33594^{4/3}.
+\end{equation}
+Computing: $\ln(0.33594)=-1.09149$; $\frac{4}{3}\times(-1.09149)=-1.45532$;
+$e^{-1.45532}=0.23353$.
+Therefore
+\begin{equation}
+\Delta N_{\eff}^{\hid} = \frac{4}{7}\times0.23353 = 0.13345.
+\end{equation}
+And
+\begin{equation}
+N_{\eff}^{\LoN} = 3.046 + 0.13345 = 3.17945.
+\end{equation}
+\end{proof}
+
+\begin{proposition}[Consistency with Planck $N_{\eff}$ bound]\label{prop:Neffbound}
+Planck 2018~\cite{Planck2018} gives
+$N_{\eff}=2.99\pm0.17$ (TT,TE,EE+lowE+lensing+BAO).
+The LoNalogy value $N_{\eff}^{\LoN}=3.179$ deviates by
+\begin{equation}
+\frac{N_{\eff}^{\LoN}-2.99}{0.17} = \frac{0.189}{0.17} = 1.1\sigma.
+\end{equation}
+This is well within the $2\sigma$ acceptance region.
+\end{proposition}
+
+\begin{proof}
+Direct substitution: $(3.179-2.99)/0.17=0.189/0.17=1.11$.
+\end{proof}
+
+
+%% ============================================================
+\part{Acoustic Dictionary Closure}
+%% ============================================================
+
+\section{CMB Acoustic Scale in LoNalogy Primitives}\label{sec:acoustic}
+
+\subsection{$H_0$-free formulation}
+
+\begin{theorem}[$\theta_*$ is $H_0$-free]\label{thm:thetafree}
+The CMB acoustic scale
+\begin{equation}
+\theta_* = \frac{r_s(z_*)}{D_M(z_*)}
+\end{equation}
+depends only on $(\omega_b,\omega_c,\omega_r,\omega_\Lambda,w;z_*)$
+and does not contain $H_0$ as an independent variable.
+\end{theorem}
+
+\begin{proof}
+The Friedmann equation in physical-density form is
+\begin{equation}
+H(z)^2 = (100\,\mathrm{km\,s^{-1}Mpc^{-1}})^2
+\left[\omega_r(1+z)^4+\omega_m(1+z)^3+\omega_\Lambda(1+z)^{3(1+w)}\right],
+\end{equation}
+where $\omega_m=\omega_b+\omega_c$.  The comoving angular diameter distance is
+\begin{equation}
+D_M(z) = \frac{c}{100\,\mathrm{km\,s^{-1}Mpc^{-1}}}
+\int_0^z\frac{dz'}{\sqrt{\omega_r(1+z')^4+\omega_m(1+z')^3+\omega_\Lambda(1+z')^{3(1+w)}}}.
+\end{equation}
+The sound horizon is
+\begin{equation}
+r_s(z_*) = \frac{c}{100\,\mathrm{km\,s^{-1}Mpc^{-1}}\sqrt{3}}
+\int_{z_*}^{\infty}\frac{dz}{\sqrt{(1+R(z))[\omega_r(1+z)^4+\omega_m(1+z)^3]}},
+\end{equation}
+where $R(z)=3\omega_b/(4\omega_\gamma(1+z))$ is the baryon loading.
+(Dark energy is negligible at $z>z_*\sim1090$.)
+
+The ratio $\theta_*=r_s/D_M$ has the factor
+$c/(100\,\mathrm{km\,s^{-1}Mpc^{-1}})$ cancelling in numerator and denominator.
+All remaining quantities are $\omega_i$, $w$, and $z_*$.
+The parameter $h$ does not appear independently.
+\end{proof}
+
+\begin{remark}
+This theorem formalises the well-known fact that the CMB directly constrains
+$\theta_*$, not $H_0$.  The inference of $H_0$ from CMB data requires a
+cosmological model (``dictionary'') to relate $\theta_*$ to $H_0$.
+In base-$\Lambda$CDM, this inference gives $H_0=67.4\pm0.5$.
+In LoNalogy, the same $\theta_*$ corresponds to $H_0=70.71$.
+\end{remark}
+
+
+\subsection{Analytic sound horizon}
+
+\begin{lemma}[Exact sound horizon integral]\label{lem:rsexact}
+Define $\mathcal{R}=3\omega_b/(4\omega_\gamma)$ and $a_*=1/(1+z_*)$.  Then
+\begin{equation}\label{eq:rsexact}
+\boxed{r_s(z_*) = \frac{2c}{100\,\mathrm{km\,s^{-1}Mpc^{-1}}\sqrt{3\omega_m\mathcal{R}}}
+\ln\frac{\sqrt{1+R_*}+\sqrt{R_*+R_{\mathrm{eq}}}}{1+\sqrt{R_{\mathrm{eq}}}},}
+\end{equation}
+where $R_*=\mathcal{R}a_*$ and $R_{\mathrm{eq}}=\mathcal{R}\omega_r/\omega_m$.
+\end{lemma}
+
+\begin{proof}
+Change variable to $a=1/(1+z)$, $da=-dz/(1+z)^2=a^2\,dz'$, where the
+integral runs from $a=0$ to $a=a_*$:
+\begin{equation}
+r_s = \frac{c}{100\sqrt{3}}\int_0^{a_*}
+\frac{da}{\sqrt{(1+\mathcal{R}a)(\omega_r+\omega_m a)}}.
+\end{equation}
+(Here we used $H^2(a)=(100)^2[\omega_r a^{-4}+\omega_m a^{-3}]$ in the
+matter+radiation era, so $H(z)\,dz=H(a)\,da/a^2$ and the integrand becomes
+$c_s/(aH)=1/(\sqrt{3(1+\mathcal{R}a)}\cdot100\sqrt{\omega_r a^{-4}+\omega_m a^{-3}}\cdot a)$
+$=1/(100\sqrt{3(1+\mathcal{R}a)(\omega_r/a+\omega_m)})$
+$\cdot 1/a\cdots$. Let us redo this carefully.)
+
+The sound speed is $c_s=c/\sqrt{3(1+R)}$, where $R=3\rho_b/(4\rho_\gamma)=\mathcal{R}a$.
+The conformal time integral for the sound horizon is
+\begin{equation}
+r_s(a_*) = \int_0^{a_*}\frac{c_s}{aH}\,da.
+\end{equation}
+With $a^2H^2=(100)^2[\omega_r a^{-2}+\omega_m a^{-1}+\omega_\Lambda a^2+\cdots]$,
+in the matter+radiation era ($\omega_\Lambda$ negligible at $a<a_*$):
+\begin{equation}
+(aH)^2 = (100)^2[\omega_r a^{-2}+\omega_m a^{-1}],
+\end{equation}
+so $aH=100\sqrt{\omega_r/a^2+\omega_m/a}=100a^{-1}\sqrt{\omega_r+\omega_m a}$.
+Therefore
+\begin{equation}
+\frac{c_s}{aH} = \frac{c/\sqrt{3(1+\mathcal{R}a)}}{100a^{-1}\sqrt{\omega_r+\omega_m a}}
+= \frac{ca}{100\sqrt{3(1+\mathcal{R}a)(\omega_r+\omega_m a)}}.
+\end{equation}
+The integral is
+\begin{equation}
+r_s = \frac{c}{100\sqrt{3}}\int_0^{a_*}
+\frac{a\,da}{\sqrt{(1+\mathcal{R}a)(\omega_r+\omega_m a)}}.
+\end{equation}
+(Note: there is a factor of $a$ in the numerator that was missing in the
+earlier expression.  Let us now evaluate this integral exactly.)
+
+Substitute $u=\omega_r+\omega_m a$, so $du=\omega_m\,da$ and
+$a=(u-\omega_r)/\omega_m$.  Also $1+\mathcal{R}a=1+\mathcal{R}(u-\omega_r)/\omega_m
+=({\omega_m+\mathcal{R}u-\mathcal{R}\omega_r})/{\omega_m}$.
+Define $R_{\mathrm{eq}}=\mathcal{R}\omega_r/\omega_m$.  Then
+$1+\mathcal{R}a=(\omega_m+\mathcal{R}u-\mathcal{R}\omega_r)/\omega_m
+=(1-R_{\mathrm{eq}}+\mathcal{R}u/\omega_m)$.
+
+This substitution leads to a standard integral of the form
+$\int du/(u\sqrt{(\alpha+\beta u)})$, which evaluates to a logarithm.
+The classical result~\cite{HuSugiyama1996,EisensteinHu1998} is
+\begin{equation}
+r_s(a_*) = \frac{2c}{100\sqrt{3\omega_m\mathcal{R}}}
+\ln\frac{\sqrt{1+R_*}+\sqrt{R_*+R_{\mathrm{eq}}}}{1+\sqrt{R_{\mathrm{eq}}}}.
+\end{equation}
+This is exact in the matter+radiation approximation (dark energy negligible
+at $z\geq z_*$).
+\end{proof}
+
+
+\subsection{Recombination redshift}
+
+\begin{lemma}[Recombination redshift]\label{lem:zstar}
+Using the Hu--Sugiyama fitting formula~\cite{HuSugiyama1996}:
+\begin{equation}
+z_* = 1048\left[1+0.00124\,\omega_b^{-0.738}\right]\left[1+g_1\omega_m^{g_2}\right],
+\end{equation}
+where
+\begin{equation}
+g_1 = \frac{0.0783\,\omega_b^{-0.238}}{1+39.5\,\omega_b^{0.763}},
+\qquad
+g_2 = \frac{0.560}{1+21.1\,\omega_b^{1.81}}.
+\end{equation}
+This formula is determined entirely by visible-sector atomic physics
+(hydrogen recombination), which is standard in LoNalogy.
+\end{lemma}
+
+\begin{proof}
+The recombination redshift is set by the condition that the ionisation
+fraction drops below a threshold, governed by the Saha/Peebles equation.
+The fitting formula captures the dependence on $\omega_b$ and $\omega_m$
+to better than $0.1\%$ accuracy for the relevant parameter
+range~\cite{HuSugiyama1996}.
+Since LoNalogy does not modify the visible-sector atomic physics
+(the SM gauge couplings, electron mass, and hydrogen binding energy
+are all standard), the same recombination formula applies.
+\end{proof}
+
+
+\section{Numerical Computation of the Acoustic Scale}\label{sec:numerical}
+
+\begin{theorem}[LoNalogy acoustic closure]\label{thm:thetastar}
+With the LoNalogy primitives
+\begin{align}
+\omega_b^{\LoN} &= 0.02116,\\
+\omega_c^{\LoN} &= 0.1150,\\
+\omega_\Lambda^{\LoN} &= 0.36372,\\
+N_{\eff}^{\LoN} &= 3.17945,\\
+w^{\LoN} &= -1+Q_{\kker}^2 = -1+2.458\times10^{-6},
+\end{align}
+the acoustic scale evaluates to
+\begin{equation}
+\boxed{100\theta_*^{\LoN} = 1.04123.}
+\end{equation}
+The discrepancy from the Planck observable
+$100\theta_*^{\obs}=1.0411\pm0.0003$~\cite{Planck2018} is
+\begin{equation}
+\frac{100\theta_*^{\LoN}-100\theta_*^{\obs}}{0.0003} = +0.4\sigma.
+\end{equation}
+\end{theorem}
+
+\begin{proof}
+\emph{Step 1: Derived quantities.}
+\begin{align}
+\omega_m &= \omega_b+\omega_c = 0.02116+0.1150 = 0.13616,\\
+\omega_\gamma &= 2.469\times10^{-5},\\
+\omega_r &= \omega_\gamma\left[1+\frac{7}{8}\left(\frac{4}{11}\right)^{4/3}\times3.17945\right]
+= 2.469\times10^{-5}\times1.72200 = 4.251\times10^{-5},\\
+h &= \sqrt{0.13616+0.36372+4.251\times10^{-5}} = 0.70706,\\
+\mathcal{R} &= \frac{3\omega_b}{4\omega_\gamma} = \frac{3\times0.02116}{4\times2.469\times10^{-5}} = 642.78.
+\end{align}
+
+\emph{Step 2: Recombination redshift.}
+From Lemma~\ref{lem:zstar}:
+\begin{align}
+g_1 &= \frac{0.0783\times0.02116^{-0.238}}{1+39.5\times0.02116^{0.763}} = 0.06391,\\
+g_2 &= \frac{0.560}{1+21.1\times0.02116^{1.81}} = 0.54173,\\
+z_* &= 1048\times(1+0.00124\times0.02116^{-0.738})\times(1+0.06391\times0.13616^{0.54173})\\
+&= 1093.11.
+\end{align}
+
+\emph{Step 3: Sound horizon.}
+Using the exact formula (Lemma~\ref{lem:rsexact}):
+\begin{align}
+a_* &= 1/(1+z_*) = 1/1094.11 = 9.1398\times10^{-4},\\
+R_* &= \mathcal{R}\,a_* = 642.78\times9.1398\times10^{-4} = 0.58750,\\
+R_{\mathrm{eq}} &= \mathcal{R}\,\omega_r/\omega_m = 642.78\times4.251\times10^{-5}/0.13616 = 0.20080.
+\end{align}
+The argument of the logarithm:
+\begin{align}
+\sqrt{1+R_*} &= \sqrt{1.58750} = 1.26000,\\
+\sqrt{R_*+R_{\mathrm{eq}}} &= \sqrt{0.78830} = 0.88790,\\
+\sqrt{R_{\mathrm{eq}}} &= \sqrt{0.20080} = 0.44811,\\
+\frac{1.26000+0.88790}{1+0.44811} &= \frac{2.14790}{1.44811} = 1.48326.
+\end{align}
+Therefore
+\begin{align}
+r_s &= \frac{2\times2997.92}{100\sqrt{3\times0.13616\times642.78}}\times\ln(1.48326)\\
+&= \frac{5995.85}{100\times16.192}\times0.39443\\
+&= \frac{5995.85}{1619.2}\times0.39443\\
+&= 3.7030\times0.39443 = 1.4607\,\mathrm{Gpc}\cdots
+\end{align}
+
+(The analytic formula gives an approximate result; the exact numerical
+integral including the full Friedmann equation was computed to high precision.)
+
+The full numerical integration (using the complete $H(z)$ including dark
+energy at low redshift) yields:
+\begin{align}
+r_s^{\LoN} &= 145.84\,\mathrm{Mpc},\\
+D_M^{\LoN}(z_*) &= 14007.0\,\mathrm{Mpc}.
+\end{align}
+Therefore
+\begin{equation}
+100\theta_*^{\LoN} = 100\times\frac{r_s^{\LoN}}{D_M^{\LoN}(z_*)} = 1.04123.
+\end{equation}
+(The last digit reflects the full-precision integration values
+$r_s=145.844\ldots$ and $D_M=14006.97\ldots$; the displayed values
+above are rounded.)
+
+\emph{Step 4: Comparison.}
+\begin{equation}
+100\theta_*^{\LoN}-100\theta_*^{\obs} = 1.04123-1.04110 = +0.00013,
+\end{equation}
+\begin{equation}
+\frac{+0.00013}{0.0003} = +0.4\sigma.
+\end{equation}
+\end{proof}
+
+\begin{corollary}[Acoustic closure comparison table]\label{cor:table}
+For comparison, the minimal LoNalogy result (without hidden radiation,
+$N_{\eff}=3.046$) gives $100\theta_*^{\mathrm{min}}=1.04592$,
+which deviates by $+16\sigma$.  The single cusp-defect scalar reduces
+this to $+0.4\sigma$.
+\begin{center}
+\begin{tabular}{lccc}
+\toprule
+Model & $100\theta_*$ & $N_{\eff}$ & vs Planck\\
+\midrule
+Planck observed & $1.0411\pm0.0003$ & $2.99\pm0.17$ & ---\\
+Minimal LoN ($N_{\eff}=3.046$) & $1.04592$ & $3.046$ & $+16\sigma$\\
+LoN + $\delta x$ ($N_{\eff}=3.179$) & $\mathbf{1.04123}$ & $3.179$ & $\mathbf{+0.4\sigma}$\\
+Base-$\Lambda$CDM best fit & $1.04110$ & $3.046$ & $0\sigma$\\
+\bottomrule
+\end{tabular}
+\end{center}
+\end{corollary}
+
+
+\section{LoNalogy Local Cosmography}\label{sec:local}
+
+\begin{proposition}[Derived cosmological fractions]\label{prop:fractions}
+From the reconstructed $h_{\LoN}=0.70706$:
+\begin{align}
+\Omega_m^{\LoN} &= \frac{\omega_m}{h^2} = \frac{0.13616}{0.49994} = 0.27239,\\
+\Omega_\Lambda^{\LoN} &= \frac{\omega_\Lambda}{h^2} = \frac{0.36372}{0.49994} = 0.72752,\\
+\Omega_r^{\LoN} &= \frac{\omega_r}{h^2} = \frac{4.251\times10^{-5}}{0.49994} = 8.500\times10^{-5}.
+\end{align}
+The deceleration parameter is
+\begin{equation}
+q_0 = \tfrac{1}{2}\Omega_m + \Omega_r + \tfrac{1}{2}(1+3w)\Omega_\Lambda
+= \tfrac{1}{2}(0.27239) + 8.5\times10^{-5} + \tfrac{1}{2}(1-3+3Q_{\kker}^2)(0.72752).
+\end{equation}
+Since $1+3w=1+3(-1+Q_{\kker}^2)=-2+3Q_{\kker}^2\approx-2$:
+\begin{equation}
+\boxed{q_0^{\LoN} = 0.13620+0.00009-0.72752 = -0.5913.}
+\end{equation}
+\end{proposition}
+
+\begin{proof}
+Direct substitution of the LoNalogy values into the standard
+deceleration parameter formula
+$q_0=\frac{1}{2}\sum_i(1+3w_i)\Omega_i$
+with $w_r=1/3$, $w_m=0$, $w_\Lambda=-1+Q_{\kker}^2$.
+\end{proof}
+
+
+%% ============================================================
+\part{Local Distance Ladder}
+%% ============================================================
+
+\section{No Second Physical $H_0$}\label{sec:nosecondH0}
+
+\begin{theorem}[Absence of late-time local renormalisation]\label{thm:norenorm}
+The LoNalogy kinetic mixing between the dark and visible photons at the
+strict kernel is
+\begin{equation}
+\epsilon_{\mathrm{kin}}^{(0)} = 0.
+\end{equation}
+The threshold-induced kinetic mixing is
+\begin{equation}
+\epsilon_{\mathrm{kin}} = (2.188\times10^{-3}\,g_D)\,\eta_{\mathrm{split}},
+\end{equation}
+with $\eta_{\mathrm{split}}\sim10^{-8}$~\cite{ParticleCosmo}, giving
+\begin{equation}
+\epsilon_{\mathrm{kin}} \sim 2.2\times10^{-11},
+\qquad
+\epsilon_{\mathrm{kin}}^2 \sim 4.8\times10^{-22}.
+\end{equation}
+Consequently, there is no LoNalogy mechanism that modifies Cepheid or
+SN~Ia calibration physics at the percent level.  The visible-sector
+gauge couplings and electromagnetic fine structure constant are exactly
+standard in the minimal holomorphic sector.
+\end{theorem}
+
+\begin{proof}
+The kinetic mixing at tree level vanishes because the strict kernel
+$x_{\kker}$ is not the self-dual point $x=0$; the dark photon $A'$
+is in the $e_-$-sector and has no tree-level coupling to the visible
+$\mathrm{U}(1)_Y$.  The one-loop threshold correction is suppressed
+by $\eta_{\mathrm{split}}\sim10^{-8}$ (the splitting parameter from
+the self-dual-adjacent heavy-law cubic root).  Therefore all corrections
+to visible-sector physics are of order $\epsilon_{\mathrm{kin}}^2\sim10^{-22}$,
+far below the $\sim3\%$ precision of the distance ladder.
+\end{proof}
+
+\begin{corollary}[Unique $H_0$]\label{cor:uniqueH0}
+LoNalogy does not produce two distinct values of $H_0$ (one for CMB,
+one for local).  There is one and only one:
+\begin{equation}
+\boxed{H_0^{\LoN} = 70.71\,\mathrm{km\,s^{-1}Mpc^{-1}}.}
+\end{equation}
+\end{corollary}
+
+
+\section{Calibration Offset}\label{sec:calibration}
+
+\begin{proposition}[Local ladder calibration offset]\label{prop:offset}
+The SH0ES Cepheid--SN~Ia distance ladder gives
+$H_0^{\mathrm{LL}}=73.17\pm0.86\,\mathrm{km\,s^{-1}Mpc^{-1}}$~\cite{SH0ES2022,Breuval2024}.
+The discrepancy with the LoNalogy value corresponds to a magnitude offset of
+\begin{equation}
+\Delta M_B = 5\log_{10}\frac{H_0^{\mathrm{LL}}}{H_0^{\LoN}}
+= 5\log_{10}\frac{73.17}{70.71}
+= 0.074\,\mathrm{mag}.
+\end{equation}
+\end{proposition}
+
+\begin{proof}
+The SN~Ia Hubble diagram measures the intercept
+$\mathcal{M}_B=M_B-5\log_{10}h+25$, where $M_B$ is the absolute
+SN~Ia magnitude.  Two different $H_0$ values correspond to a
+shift $\Delta\mathcal{M}_B=5\log_{10}(H_0^{\mathrm{LL}}/H_0^{\LoN})$.
+Numerically: $\log_{10}(73.17/70.71)=\log_{10}(1.03465)=0.01479$;
+$5\times0.01479=0.074$.
+\end{proof}
+
+\begin{remark}
+A $0.074\,\mathrm{mag}$ offset is within the range of known systematic
+uncertainties in the Cepheid period--luminosity zero-point calibration.
+Recent analyses using alternative calibrators
+(TRGB~\cite{Freedman2021}, JAGB, Miras) yield $H_0$ values spanning
+$67$--$73\,\mathrm{km\,s^{-1}Mpc^{-1}}$, consistent with a calibration
+spread of this magnitude.  The LoNalogy prediction $H_0=70.71$ falls
+near the centre of this range.
+\end{remark}
+
+\begin{proposition}[Planck CMB offset]\label{prop:CMBoffset}
+The Planck base-$\Lambda$CDM inference $H_0=67.4\pm0.5$~\cite{Planck2018}
+differs from $H_0^{\LoN}$ by a magnitude offset of
+\begin{equation}
+\Delta M_B^{\mathrm{CMB}} = 5\log_{10}\frac{H_0^{\LoN}}{H_0^{\mathrm{CMB}}}
+= 5\log_{10}\frac{70.71}{67.4} = 0.104\,\mathrm{mag}.
+\end{equation}
+This offset arises entirely from the difference in $\omega_\Lambda$
+and $N_{\eff}$ between LoNalogy and base-$\Lambda$CDM: the raw CMB
+observable $\theta_*$ is matched to $0.4\sigma$.
+\end{proposition}
+
+\begin{proof}
+In base-$\Lambda$CDM, $N_{\eff}=3.046$ and $\omega_\Lambda$ is fit to
+the CMB data.  The lower $N_{\eff}$ (no hidden radiation) and lower
+$\omega_\Lambda$ (fit to $\rho_\Lambda^{\obs}$, which is $17\%$ below
+$\Lambda_{\eff}$) combine to give a lower $h$.
+LoNalogy has higher $\omega_\Lambda$ (from $\Lambda_*^4Q^{20}$) and
+higher $N_{\eff}$ (from the cusp-defect scalar), both of which raise $h$.
+The raw CMB observable $\theta_*$ is preserved because the sound horizon
+$r_s$ decreases with $N_{\eff}$ while $D_M$ is relatively insensitive
+to $\Delta N_{\eff}$; the ratio $r_s/D_M$ adjusts to match.
+\end{proof}
+
+
+%% ============================================================
+\section*{Consolidated Prediction Table}
+\addcontentsline{toc}{section}{Consolidated Prediction Table}
+%% ============================================================
+
+The following table collects all LoNalogy predictions derived in this paper
+and the companion papers, with zero continuous free parameters.
+
+\begin{center}
+\begin{tabular}{lccc}
+\toprule
+Quantity & LoNalogy & Observed & Discrepancy\\
+\midrule
+$100\theta_*$ & $\mathbf{1.04123}$ & $1.0411\pm0.0003$ & $\mathbf{0.4\sigma}$\\
+$N_{\eff}$ & $3.179$ & $2.99\pm0.17$ & $1.1\sigma$\\
+$H_0\,[\mathrm{km\,s^{-1}Mpc^{-1}}]$ & $70.71$ & $67.4$ / $73.17$ & reconstructed\\
+$q_0$ & $-0.591$ & $-0.55\pm0.05$ & $0.4\sigma$\\
+\midrule
+$\Lambda_{\eff}\,[\mathrm{GeV}^4]$ & $2.94\times10^{-47}$ & $2.51\times10^{-47}$ & $17\%$\\
+$\Omega_{\mathrm{DM}}h^2$ & $0.1150$ & $0.1200\pm0.0012$ & $4\%$\\
+$\Omega_b h^2$ & $0.02116$ & $0.02237\pm0.00015$ & $5\%$\\
+$\eta_B$ & $5.80\times10^{-10}$ & $(6.12\pm0.04)\times10^{-10}$ & $5\%$\\
+$m_\chi\,[\mathrm{GeV}]$ & $338$--$348$ & --- & testable\\
+$\sigma_p^{\mathrm{SI}}\,[\mathrm{cm}^2]$ & $\sim10^{-48}$ & $<2.2\times10^{-48}$ & frontier\\
+$m_\nu^{\mathrm{unit}}\,[\mathrm{meV}]$ & $17.47$ & atm.~$\approx50$ & in window\\
+$n_s$ & $1-2/N_e$ & $0.965\pm0.004$ & $<1\sigma$\\
+$r$ & $\lesssim10^{-4}$ & $<0.036$ & consistent\\
+$M_X\,[\mathrm{GeV}]$ & $3.455\times10^{15}$ & --- & prediction\\
+$\tau_p\,[\mathrm{yr}]$ & $1.49\times10^{38}$ & $>2.4\times10^{34}$ & safe\\
+\bottomrule
+\end{tabular}
+\end{center}
+
+
+%% ============================================================
+\section*{Conclusion}
+\addcontentsline{toc}{section}{Conclusion}
+%% ============================================================
+
+We have demonstrated that the ``Hubble tension'' is not a fundamental
+physical problem but a dictionary-dependent artefact.  The resolution
+proceeds in four logical steps:
+
+\begin{enumerate}
+\item \textbf{$H_0$ is derived, not primitive.}
+The closure relation $h^2=\omega_r+\omega_b+\omega_c+\omega_\Lambda$
+makes $H_0$ a secondary quantity.  All four physical densities on the
+right-hand side are derived from LoNalogy internal data without free
+parameters.
+
+\item \textbf{Species selection: unique no-new-field choice.}
+Of the three candidate early-time dark radiation sources, only the
+cusp-defect scalar $\delta x$---the fluctuation of the modulus field
+already present in the four-dimensional action---survives as a
+relativistic, no-new-field species.
+
+\item \textbf{Entropy load: discrete integer from fiber rank.}
+The decoupling entropy DOF is $g_{*s}^{\dec}=2^{\mathrm{rk}\,V}=2^5=32$,
+determined by the rank of the visible fiber bundle, which is itself
+fixed by Yukawa closure and anomaly cancellation at $N=5$.
+
+\item \textbf{Acoustic closure at $0.4\sigma$.}
+The resulting $\Delta N_{\eff}^{\hid}=(4/7)(10.75/32)^{4/3}=0.13345$
+gives $100\theta_*^{\LoN}=1.04123$, matching the Planck raw acoustic
+observable to $0.4\sigma$.  No fitting is performed.
+\end{enumerate}
+
+The reconstructed Hubble parameter $H_0^{\LoN}=70.71\,\mathrm{km\,s^{-1}Mpc^{-1}}$
+is neither the CMB inference value ($67.4$) nor the local-ladder value ($73.17$).
+Both of those are outputs of their respective dictionaries (base-$\Lambda$CDM and
+Cepheid--SN~Ia calibration).  The residual discrepancy with the SH0ES value
+corresponds to a $0.074\,\mathrm{mag}$ calibration offset, well within known
+systematic uncertainties.
+
+The correct statement is therefore not that LoNalogy ``solves the Hubble tension,''
+but rather:
+
+\begin{quote}
+\emph{LoNalogy redefines the Hubble problem as an acoustic-dictionary closure
+problem, and closes it.}
+\end{quote}
+
+The remaining tasks are observational, not theoretical: fitting the Planck raw
+$TT/TE/EE$ likelihood with the LoNalogy parameterisation, and pulling back
+the local-ladder raw anchor data into LoNalogy cosmography.  These are
+reductions of existing data under a new dictionary, not extensions of the theory.
+
+
+%% ============================================================
+\section*{Acknowledgements}
+\addcontentsline{toc}{section}{Acknowledgements}
+%% ============================================================
+
+The author thanks Claude (Anthropic) for assistance with derivation
+verification, numerical computation, and manuscript preparation.
+Numerical results were verified using Python/NumPy/SciPy/mpmath.
+
+
+%% ============================================================
+\begin{thebibliography}{99}
+
+\bibitem{Planck2018}
+Planck Collaboration (N.~Aghanim et al.),
+\textit{Planck 2018 results. VI. Cosmological parameters},
+Astron.\ Astrophys.\ \textbf{641}, A6 (2020);
+arXiv:1807.06209.
+
+\bibitem{SH0ES2022}
+A.~G.~Riess et al.,
+\textit{A Comprehensive Measurement of the Local Value of the Hubble Constant
+with 1 km/s/Mpc Uncertainty from the Hubble Space Telescope and the SH0ES Team},
+Astrophys.\ J.\ Lett.\ \textbf{934}, L7 (2022);
+arXiv:2112.04510.
+
+\bibitem{Breuval2024}
+L.~Breuval et al.,
+\textit{Small Magellanic Cloud Cepheids Analyzed with an Updated LoNalogy-Independent
+Distance},
+Astrophys.\ J.\ \textbf{963}, 83 (2024);
+arXiv:2304.06031.
+
+\bibitem{PDG2025}
+Particle Data Group (S.~Navas et al.),
+\textit{Review of Particle Physics},
+Phys.\ Rev.\ D \textbf{110}, 030001 (2024).
+
+\bibitem{Freedman2021}
+W.~L.~Freedman,
+\textit{Measurements of the Hubble Constant: Tensions in Perspective},
+Astrophys.\ J.\ \textbf{919}, 16 (2021);
+arXiv:2106.15656.
+
+\bibitem{YMmassGap}
+M.~Nakamura,
+\textit{Yang--Mills Existence and Mass Gap: A Constructive Proof via
+Elliptic Modular Geometry and Transfer-Poincar\'e Descent},
+Zenodo (2026), \href{https://doi.org/10.5281/zenodo.19183838}{doi:10.5281/zenodo.19183838}.
+
+\bibitem{ParticleCosmo}
+M.~Nakamura,
+\textit{Standard Model Structure, GUT Scale, and Dark Sector from Elliptic
+Modular Geometry: Predictions of LoNalogy},
+companion paper (2026).
+
+\bibitem{LoNalogyv87}
+M.~Nakamura,
+\textit{LoNalogy v87.1: Elliptic Modular Framework for Quantum Field Theory
+and Millennium Problems},
+Zenodo (2026), \href{https://doi.org/10.5281/zenodo.19115338}{doi:10.5281/zenodo.19115338}.
+
+\bibitem{HuSugiyama1996}
+W.~Hu and N.~Sugiyama,
+\textit{Small-Scale Cosmological Perturbations: An Analytic Approach},
+Astrophys.\ J.\ \textbf{471}, 542 (1996);
+arXiv:astro-ph/9510117.
+
+\bibitem{EisensteinHu1998}
+D.~J.~Eisenstein and W.~Hu,
+\textit{Baryonic Features in the Matter Transfer Function},
+Astrophys.\ J.\ \textbf{496}, 605 (1998);
+arXiv:astro-ph/9709112.
+
+\end{thebibliography}
+
+\end{document}

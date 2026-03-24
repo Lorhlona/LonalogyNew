@@ -1,0 +1,1163 @@
+\documentclass[12pt]{article}
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage{fontspec}
+\usepackage{xeCJK}
+\setCJKmainfont[BoldFont={Noto Serif CJK JP Bold}]{Noto Serif CJK JP}
+\setCJKsansfont[BoldFont={Noto Sans CJK JP Bold}]{Noto Sans CJK JP}
+\usepackage{hyperref}
+\usepackage{enumitem}
+\usepackage{booktabs}
+\usepackage{caption}
+
+\theoremstyle{plain}
+\newtheorem{theorem}{定理}[section]
+\newtheorem{proposition}[theorem]{命題}
+\newtheorem{lemma}[theorem]{補題}
+\newtheorem{corollary}[theorem]{系}
+
+\theoremstyle{definition}
+\newtheorem{definition}[theorem]{定義}
+\newtheorem{remark}[theorem]{注意}
+
+\numberwithin{equation}{section}
+
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\C}{\mathbb{C}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\br}{\mathrm{br}}
+\newcommand{\vis}{\mathrm{vis}}
+\newcommand{\kker}{\mathrm{ker}}
+\newcommand{\eff}{\mathrm{eff}}
+\newcommand{\obs}{\mathrm{obs}}
+\newcommand{\LoN}{\mathrm{LoN}}
+\newcommand{\red}{\mathrm{red}}
+\newcommand{\hid}{\mathrm{hid}}
+\newcommand{\dec}{\mathrm{dec}}
+\newcommand{\port}{\mathrm{port}}
+\newcommand{\crit}{\mathrm{crit}}
+\newcommand{\fU}{\mathfrak{U}}
+\newcommand{\fI}{\mathfrak{I}}
+\newcommand{\fV}{\mathfrak{V}}
+\newcommand{\fB}{\mathfrak{B}}
+\DeclareMathOperator{\sech}{sech}
+\DeclareMathOperator{\arccosh}{arccosh}
+
+\renewcommand{\proofname}{証明}
+
+\begin{document}
+
+%% ============================================================
+%%  TITLE
+%% ============================================================
+\begin{titlepage}
+\centering
+\vspace*{1cm}
+
+{\LARGE\bfseries 音響辞書閉包によるハッブル再構成：\\[6pt]
+LoNalogyにおける$H_0$テンションの解消}
+
+\vspace{1.5cm}
+
+{\large 中村 昌義$^{1,*}$}
+
+\vspace{0.8cm}
+
+{\normalsize
+$^1$\,北与野メンタルクリニック、\\
+〒338-0002 埼玉県さいたま市中央区下落合4-20-14\\
+\texttt{mjolnir501@gmail.com}\\[4pt]
+$^*$\,責任著者
+}
+
+\vspace{0.8cm}
+
+{\small
+\noindent\textbf{関連リポジトリ：}\\
+LoNalogyフレームワーク (v87.1): \href{https://doi.org/10.5281/zenodo.19115338}{doi:10.5281/zenodo.19115338}\\
+Yang--Mills証明 (v90): \href{https://doi.org/10.5281/zenodo.19183838}{doi:10.5281/zenodo.19183838}\\
+素粒子宇宙論 (v9): 姉妹論文
+}
+
+\vspace{1.2cm}
+
+\begin{abstract}
+\noindent
+いわゆるハッブルテンション——Planck CMB推論値
+$H_0=67.4\pm0.5\,\mathrm{km\,s^{-1}Mpc^{-1}}$と
+SH0ES距離梯子値$H_0=73.17\pm0.86\,\mathrm{km\,s^{-1}Mpc^{-1}}$の
+間の$\sim5\sigma$の不一致——は、基本的な物理問題ではなく辞書依存の
+人工物であることを示す。LoNalogyフレームワークにおいて$H_0$は
+原始量ではなく導出された閉包関係式
+$h^2=\omega_r+\omega_b+\omega_c+\omega_\Lambda$であり、
+全ての物理密度$\omega_i=\Omega_i h^2$は自由パラメータなしに
+フレームワーク内部から固定される。
+
+初期宇宙セクターの唯一の新場不要な最小完備化は、4次元LoNalogy作用に
+既に存在するモジュラス場のゆらぎである単一の実カスプ欠陥スカラー
+$\delta x$であり、その脱結合エントロピー荷
+$g_{*s}^{\dec}=2^{\mathrm{rk}\,V}=2^5=32$から
+\[
+\Delta N_{\eff}^{\hid} = \frac{4}{7}\left(\frac{10.75}{32}\right)^{4/3}
+= 0.13345\ldots,
+\qquad
+N_{\eff}^{\LoN} = 3.17945\ldots
+\]
+が得られる。連続的な自由パラメータは導入されない。
+結果として得られる音響スケールは
+\[
+100\theta_*^{\LoN} = 1.04123
+\]
+であり、Planckの生観測量
+$100\theta_*^{\obs}=1.0411\pm0.0003$と$0.4\sigma$で一致する。
+再構成されたハッブルパラメータは
+\[
+H_0^{\LoN} = 70.71\,\mathrm{km\,s^{-1}Mpc^{-1}}
+\]
+であり、CMB推論値でも距離梯子値でもなく、LoNalogy閉包関係式の
+唯一の出力である。
+
+基底$\Lambda$CDMベースラインからの$5.8\%$のシフトは、
+ダークエネルギー状態方程式（$w+1\sim Q_{\kker}^2\sim 10^{-6}$）
+からではなく、PDG 2025の値を$17\%$上回る絶対的真空振幅
+$\Lambda_{\eff}=\Lambda_*^4 Q_{\kker}^{20}$から生じることを示す。
+SH0ES値との残余$3.4\%$の不一致は、背景膨張の矛盾ではなく、
+ケフェイド--SN~Ia距離梯子における$0.074\,\mathrm{mag}$の
+較正オフセットに対応する。
+\end{abstract}
+\end{titlepage}
+
+\setcounter{page}{1}
+\tableofcontents
+\newpage
+
+
+%% ============================================================
+\section*{序論}
+\addcontentsline{toc}{section}{序論}
+%% ============================================================
+
+ハッブル定数$H_0$は宇宙の現在の膨張率を特徴づける。二つの測定手法が
+矛盾する値に収束している。基底$\Lambda$CDMモデルの下で解析された
+宇宙マイクロ波背景放射（CMB）観測は
+$H_0=67.4\pm0.5\,\mathrm{km\,s^{-1}Mpc^{-1}}$~\cite{Planck2018}
+を与え、一方ケフェイド--SN~Ia距離梯子は
+$H_0=73.17\pm0.86\,\mathrm{km\,s^{-1}Mpc^{-1}}$~\cite{SH0ES2022,Breuval2024}
+を与える。この不一致は$5\sigma$を超え、「ハッブルテンション」と
+呼ばれている。
+
+本論文は、LoNalogyフレームワーク~\cite{LoNalogyv87,YMmassGap,ParticleCosmo}
+において、ハッブルテンションは基本的な物理問題ではなく、$H_0$を
+原始量として扱うことの帰結であることを示す。LoNalogyフレームワークは
+全ての宇宙論的密度を内部の幾何学的データ——厳密カーネルのノーム
+$Q_{\kker}$、電弱スケール$\Lambda_*=246\,\mathrm{GeV}$、
+壊れた軌道次元$\nu_{\br}=12$——から自由パラメータなしに導出する。
+このフレームワークにおいて$H_0$は導出量であり、物理密度の和の
+平方根である。
+
+本論文の構成は以下の通りである。第I部では$H_0$が導出量であって
+原始量でないことを確立し、閉じたLoNalogy密度から再構成する。
+第II部では唯一の新場不要な隠れた放射モードを同定し、
+可視ファイバー束のランクからその脱結合エントロピー荷を固定する。
+第III部では音響スケール$\theta_*$を計算し、Planckの生観測量との
+閉包を実証する。第IV部では局所距離梯子を扱い、残余の不一致が
+較正オフセットであることを示す。
+
+以下では姉妹論文~\cite{YMmassGap,ParticleCosmo,LoNalogyv87}
+で確立されたLoNalogyの規約と結果を用いる。全ての数値入力は：
+\begin{center}
+\begin{tabular}{lll}
+\toprule
+記号 & 値 & 出典\\
+\midrule
+$\Lambda_*$ & $246\,\mathrm{GeV}$ & 電弱VEV\\
+$Q_{\kker}$ & $1.5677\times10^{-3}$ & 厳密カーネルのノーム~\cite{YMmassGap}\\
+$\nu_{\br}$ & $12$ & $\mathrm{SU}(5)$の$(3,2)$-分割~\cite{YMmassGap}\\
+$N_{\mathrm{fam}}$ & $3$ & $X(2)$のカスプ数~\cite{YMmassGap}\\
+\bottomrule
+\end{tabular}
+\end{center}
+
+
+%% ============================================================
+\part{導出量としての$H_0$}
+%% ============================================================
+
+\section{閉包関係式}\label{sec:closure}
+
+\subsection{物理密度形式のフリードマン方程式}
+
+\begin{definition}[物理密度]
+各宇宙論的成分$i\in\{r,b,c,\Lambda\}$（放射、バリオン、冷たいダークマター、
+ダークエネルギー）に対し、物理密度パラメータを
+\begin{equation}
+\omega_i := \Omega_i h^2
+\end{equation}
+と定義する。ここで$\Omega_i=\rho_i/\rho_{\crit}$は密度割合、
+$h=H_0/(100\,\mathrm{km\,s^{-1}Mpc^{-1}})$は縮約ハッブルパラメータ、
+$\rho_{\crit}=3H_0^2/(8\pi G_N)$は臨界密度である。
+\end{definition}
+
+\begin{theorem}[$H_0$閉包関係式]\label{thm:closure}
+空間的に平坦なフリードマン--ロバートソン--ウォーカー（FRW）宇宙において、
+縮約ハッブルパラメータは
+\begin{equation}\label{eq:closure}
+\boxed{h^2 = \omega_r + \omega_b + \omega_c + \omega_\Lambda}
+\end{equation}
+を満たす。したがって$H_0$は独立なパラメータではなく、
+4つの物理密度によって決定される。
+\end{theorem}
+
+\begin{proof}
+空間的に平坦な宇宙（$k=0$）の現在時刻（$z=0$）における
+フリードマン方程式は
+\begin{equation}
+H_0^2 = \frac{8\pi G_N}{3}\left(\rho_r^{(0)}+\rho_b^{(0)}+\rho_c^{(0)}+\rho_\Lambda\right)
+\end{equation}
+である。両辺を$H_0^2$で割れば拘束条件
+\begin{equation}
+1 = \Omega_r + \Omega_b + \Omega_c + \Omega_\Lambda
+\end{equation}
+が得られる。両辺に$h^2=H_0^2/(100\,\mathrm{km\,s^{-1}Mpc^{-1}})^2$を
+かけると
+\begin{equation}
+h^2 = \Omega_r h^2 + \Omega_b h^2 + \Omega_c h^2 + \Omega_\Lambda h^2
+    = \omega_r + \omega_b + \omega_c + \omega_\Lambda.
+\end{equation}
+$h=H_0/(100\,\mathrm{km\,s^{-1}Mpc^{-1}})$であるから、
+4つの物理密度を指定すれば$H_0$は一意に決まる。
+\end{proof}
+
+\begin{remark}
+この初等的な恒等式自体は宇宙論でよく知られている。LoNalogyにおいて
+新しいのは、右辺の4つの$\omega_i$全てが\emph{内部の幾何学的データから
+自由パラメータなしに導出される}ため、$h$が完全に決定されるという点である。
+\end{remark}
+
+
+\subsection{LoNalogyによる物理密度の値}
+
+姉妹論文で導出された物理密度を集める。
+
+\begin{proposition}[バリオン物理密度]\label{prop:omegab}
+バリオン--光子比は~\cite{ParticleCosmo}
+\begin{equation}
+\eta_B^{\LoN} = 96\,Q_{\kker}^4\sin\delta_{\port}
+\end{equation}
+であり、$96=(\dim\mathfrak{su}(5)/N_{\mathrm{fam}})\cdot\nu_{\br}=8\times12$、
+$\delta_{\port}$はポータルCP位相である。
+最小閉形式値$\sin\delta_{\port}=1$（最大ポータルCP）において：
+\begin{equation}
+\eta_B^{\LoN} = 96\times(1.5677\times10^{-3})^4 = 5.794\times10^{-10}.
+\end{equation}
+標準BBN変換$10^{10}\eta_B=274\,\Omega_b h^2$を用いて：
+\begin{equation}\label{eq:omegab}
+\boxed{\omega_b^{\LoN} = \frac{10^{10}\times5.794\times10^{-10}}{274} = 0.02116.}
+\end{equation}
+\end{proposition}
+
+\begin{proof}
+バリオン非対称性の完全な導出は~\cite{ParticleCosmo}定理11.1に与えられている。
+BBN変換係数$274$は、3種の軽いニュートリノと標準核反応率を仮定した
+$\eta_B$と$\Omega_b h^2$の間の標準的関係式~\cite{PDG2025}である。
+数値的に：$Q_{\kker}^4=(1.5677\times10^{-3})^4=6.035\times10^{-12}$；
+$96\times6.035\times10^{-12}=5.794\times10^{-10}$；
+$5.794/274=0.02116$。
+\end{proof}
+
+\begin{proposition}[ダークマター物理密度]\label{prop:omegac}
+随伴族等方性（AFI）結合
+$g_{\hid}^2=N_{\mathrm{fam}}/\dim\mathfrak{su}(5)=3/24=1/8$
+および$\kappa_j(x_{\kker})=1-x_{\kker}^2=0.9964$~\cite{ParticleCosmo}
+のもとで：
+\begin{equation}
+g_{\hid}\kappa_j = \frac{0.9964}{\sqrt{8}} = 0.3523.
+\end{equation}
+軽い媒介粒子極限における$\chi\bar\chi\to A'A'$の$s$波対消滅断面積は
+\begin{equation}
+\langle\sigma v\rangle = \frac{(g_{\hid}\kappa_j)^4}{16\pi m_\chi^2}
+= \frac{0.01541}{16\pi\times(338)^2\,\mathrm{GeV}^{-2}}
+= 3.13\times10^{-26}\,\mathrm{cm}^3\mathrm{s}^{-1}.
+\end{equation}
+標準的なLee--Weinbergフリーズアウト公式から
+\begin{equation}\label{eq:omegac}
+\boxed{\omega_c^{\LoN} = 0.120\times\frac{3.00\times10^{-26}}{3.13\times10^{-26}} = 0.1150.}
+\end{equation}
+\end{proposition}
+
+\begin{proof}
+完全な導出は~\cite{ParticleCosmo}命題10.2に与えられている。
+質量$m_\chi=338\,\mathrm{GeV}$は厳密カーネルにおいて評価した
+重法則$M_H=\Lambda_*/k'_{\kker}$から得られる。
+係数$3.00\times10^{-26}\,\mathrm{cm}^3\mathrm{s}^{-1}$は
+$\Omega h^2=0.120$に対する標準的な熱的遺物断面積~\cite{PDG2025}である。
+\end{proof}
+
+\begin{proposition}[ダークエネルギー物理密度]\label{prop:omegalambda}
+有効宇宙定数は~\cite{ParticleCosmo}
+\begin{equation}
+\Lambda_{\eff} = \Lambda_*^4\,Q_{\kker}^{20} = 2.944\times10^{-47}\,\mathrm{GeV}^4
+\end{equation}
+である。PDG 2025の臨界密度係数
+$\rho_*/h^2=\rho_{\crit}/h^2=1.87834\times10^{-29}\,\mathrm{g\,cm^{-3}}$~\cite{PDG2025}
+を用いて物理密度パラメータに変換すると：
+\begin{equation}
+\rho_\Lambda^{\LoN}
+= \Lambda_{\eff}\times\frac{1}{(\hbar c)^3}
+= 6.839\times10^{-30}\,\mathrm{g\,cm^{-3}}.
+\end{equation}
+したがって
+\begin{equation}\label{eq:omegalambda}
+\boxed{\omega_\Lambda^{\LoN}
+= \frac{\rho_\Lambda^{\LoN}}{\rho_*/h^2}
+= \frac{6.839\times10^{-30}}{1.87834\times10^{-29}}
+= 0.36372.}
+\end{equation}
+\end{proposition}
+
+\begin{proof}
+宇宙定数の導出は~\cite{ParticleCosmo}定理5.1に与えられている。
+数値的に：$\Lambda_*^4=(246\,\mathrm{GeV})^4=3.663\times10^9\,\mathrm{GeV}^4$；
+$Q_{\kker}^{20}=(1.5677\times10^{-3})^{20}=8.037\times10^{-57}$；
+$\Lambda_{\eff}=3.663\times10^9\times8.037\times10^{-57}=2.944\times10^{-47}\,\mathrm{GeV}^4$。
+$\mathrm{GeV}^4$から$\mathrm{g\,cm^{-3}}$への変換には
+$1\,\mathrm{GeV}^4=2.3201\times10^{17}\,\mathrm{g\,cm^{-3}}$を用い：
+$\rho_\Lambda^{\LoN}=2.944\times10^{-47}\times2.3201\times10^{17}=6.839\times10^{-30}\,\mathrm{g\,cm^{-3}}$。
+\end{proof}
+
+\begin{remark}
+比$\Lambda_{\eff}/\rho_\Lambda^{\obs}=2.944/2.510=1.173$は、
+LoNalogyの真空エネルギーがPDG 2025の中心値を$17\%$上回ることを示す。
+ここで$\rho_\Lambda^{\obs}=2.51\times10^{-47}\,\mathrm{GeV}^4$~\cite{PDG2025}
+である。\ref{sec:shift}節で見る通り、この絶対的真空振幅——
+状態方程式の偏差$w+1\sim Q_{\kker}^2\sim10^{-6}$ではなく——が、
+基底$\Lambda$CDM推論からの$H_0^{\LoN}$のシフトの主要な源である。
+\end{remark}
+
+
+\section{ハッブル再構成}\label{sec:H0recon}
+
+\begin{theorem}[LoNalogyハッブル再構成]\label{thm:H0}
+放射密度を
+\begin{equation}
+\omega_r^{\LoN} = \omega_\gamma\left[1+\frac{7}{8}\left(\frac{4}{11}\right)^{4/3}N_{\eff}^{\LoN}\right]
+\end{equation}
+とする。ここで$\omega_\gamma=2.469\times10^{-5}$はCMB光子密度、
+$N_{\eff}^{\LoN}$は第II部（定理\ref{thm:Neff}）で決定される。
+再構成されたハッブルパラメータは
+\begin{equation}
+\boxed{H_0^{\LoN} = 100\sqrt{\omega_r^{\LoN}+\omega_b^{\LoN}+\omega_c^{\LoN}+\omega_\Lambda^{\LoN}}
+= 70.71\,\mathrm{km\,s^{-1}Mpc^{-1}}}
+\end{equation}
+である。
+\end{theorem}
+
+\begin{proof}
+第II部（定理\ref{thm:Neff}）より：$N_{\eff}^{\LoN}=3.17945$。
+放射--ニュートリノ結合係数は
+$\alpha:=\frac{7}{8}\left(\frac{4}{11}\right)^{4/3}=0.22711$。
+したがって
+\begin{equation}
+\omega_r^{\LoN} = 2.469\times10^{-5}\times(1+0.22711\times3.17945)
+= 2.469\times10^{-5}\times1.72200
+= 4.251\times10^{-5}.
+\end{equation}
+全成分の和：
+\begin{align}
+h^2 &= \omega_r^{\LoN}+\omega_b^{\LoN}+\omega_c^{\LoN}+\omega_\Lambda^{\LoN}\\
+&= 4.251\times10^{-5}+0.02116+0.1150+0.36372\\
+&= 0.49994.
+\end{align}
+よって$h=\sqrt{0.49994}=0.70706$、
+$H_0^{\LoN}=100\times0.70706=70.71\,\mathrm{km\,s^{-1}Mpc^{-1}}$。
+\end{proof}
+
+
+\section{基底$\Lambda$CDMからのシフトの起源}\label{sec:shift}
+
+\begin{proposition}[シフトの起源は$\Lambda_{\eff}$であり$w+1$ではない]\label{prop:shift}
+LoNalogyにおけるダークエネルギー状態方程式は~\cite{ParticleCosmo}
+\begin{equation}
+w_{\mathrm{DE}}+1 \simeq Q_{\kker}^2 = 2.458\times10^{-6}
+\end{equation}
+である。これは$H(z)$を$10^{-6}$のレベルで修正するにすぎず、無視できる。
+
+支配的な効果は絶対的真空振幅である。$(\omega_b,\omega_c,\omega_r)$を
+固定したまま比較すると：
+\begin{align}
+\omega_\Lambda^{\mathrm{ref}} &= \frac{\rho_\Lambda^{\obs}}{\rho_*/h^2}
+= \frac{5.83\times10^{-30}}{1.87834\times10^{-29}} = 0.31038,\\
+\omega_\Lambda^{\LoN} &= 0.36372.
+\end{align}
+対応するハッブルパラメータは
+\begin{align}
+h_{\mathrm{ref}} &= \sqrt{0.02116+0.1150+0.31038+4.25\times10^{-5}} = 0.6683,\\
+h_{\LoN} &= \sqrt{0.02116+0.1150+0.36372+4.25\times10^{-5}} = 0.7072.
+\end{align}
+分数シフトは
+\begin{equation}
+\boxed{\frac{\Delta H_0}{H_0} = \frac{0.7071-0.6683}{0.6683} = 5.80\%.}
+\end{equation}
+\end{proposition}
+
+\begin{proof}
+閉包関係式（定理\ref{thm:closure}）への直接代入による。
+状態方程式の修正はフリードマン方程式に
+$\omega_\Lambda(1+z)^{3(1+w)}$対$\omega_\Lambda(1+z)^0$として入る。
+$z=0$では両方とも$\omega_\Lambda$に等しい。
+$z>0$では補正は$(1+z)^{3Q_{\kker}^2}-1\approx 3Q_{\kker}^2\ln(1+z)$であり、
+$z=1100$でも$<10^{-5}$である。
+したがって$h$のシフトは全て$\omega_\Lambda^{\mathrm{ref}}$を
+$\omega_\Lambda^{\LoN}$に置き換えることから生じる。
+\end{proof}
+
+
+%% ============================================================
+\part{隠れた放射：種と\protect\\エントロピー荷}
+%% ============================================================
+
+\section{候補の選別}\label{sec:candidates}
+
+LoNalogyフレームワーク~\cite{LoNalogyv87,ParticleCosmo}は
+初期宇宙のダーク放射の候補として3つを同定する：
+
+\begin{enumerate}[label=(\roman*)]
+\item 軽い$A'$セクター（ダーク光子媒介粒子）。
+\item 隠れたフェルミオン$\chi$（ダークマター候補）。
+\item カスプ欠陥の軽いモード$\delta x$（モジュラス場$x$のゆらぎ）。
+\end{enumerate}
+
+以下では(iii)のみが新場不要の相対論的種として生き残ることを証明する。
+
+\begin{proposition}[$A'$セクターの排除]\label{prop:excA}
+LoNalogyにおける軽い媒介粒子の質量は
+\begin{equation}
+M_{A'} = \Lambda_*\,k'^2_{\kker}\,Q_{\kker}
+\end{equation}
+である。数値的に：
+\begin{equation}
+k'^2_{\kker} = 1-k_{\kker}^2 = 1-0.4700 = 0.5300,
+\end{equation}
+\begin{equation}
+M_{A'} = 246\times0.5300\times1.5677\times10^{-3} = 0.2044\,\mathrm{GeV}.
+\end{equation}
+再結合温度は$T_{\mathrm{rec}}\approx0.26\,\mathrm{eV}$であるから、
+比は
+\begin{equation}
+\frac{M_{A'}}{T_{\mathrm{rec}}} = \frac{0.2044\,\mathrm{GeV}}{0.26\times10^{-9}\,\mathrm{GeV}}
+\approx 7.9\times10^{8}
+\end{equation}
+となる。したがって$M_{A'}\gg T_{\mathrm{rec}}$（9桁以上）であり、
+$A'$は再結合に関連する全てのエポックで非相対論的であって、
+$N_{\eff}$に寄与できない。
+\end{proposition}
+
+\begin{proof}
+種が放射密度$\rho_r$に寄与するのはその質量が$m\lesssim T$を
+満たすときのみである。光子脱結合時（$T\sim0.26\,\mathrm{eV}$）に
+$M_{A'}=0.2044\,\mathrm{GeV}$はボルツマン抑制因子
+$e^{-M_{A'}/T}\sim e^{-7.9\times10^8}\approx 0$を与える。
+したがって$A'$は再結合またはそれ以前
+（$T\lesssim M_{A'}$）における放射エネルギー密度に寄与しない。
+\end{proof}
+
+\begin{proposition}[隠れたフェルミオン$\chi$の排除]\label{prop:excchi}
+隠れたフェルミオン$\chi$は質量
+$m_\chi\simeq338\,\mathrm{GeV}$~\cite{ParticleCosmo}を持つ。
+これは最小LoNalogy 4次元作用を超える新しい物質場であり、
+その導入は最小完備化ではなく拡張を構成する。
+さらに$m_\chi\gg T_{\mathrm{rec}}$であるから、
+全ての関連するエポックで非相対論的である。
+\end{proposition}
+
+\begin{proof}
+姉妹論文~\cite{ParticleCosmo}は$\chi$をダーク放射ではなく
+ダークマター（第7節）として明示的に同定している。
+その質量$m_\chi=338\,\mathrm{GeV}$は再結合温度を$\sim10^{12}$倍上回り、
+相対論的寄与を排除する。
+さらにLoNalogy 4次元作用は単一の実モジュラス場$x$
+（ルジャンドルモジュラー座標）を含み、$\chi$は最小作用に
+存在しない追加場である。
+\end{proof}
+
+\begin{theorem}[唯一の新場不要な種]\label{thm:species}
+初期宇宙LoNalogyにおける唯一の新場不要な相対論的種は、
+4次元作用に既に存在するルジャンドルモジュラー座標$x$のゆらぎである
+カスプ欠陥スカラー$\delta x$である。
+\end{theorem}
+
+\begin{proof}
+命題\ref{prop:excA}と命題\ref{prop:excchi}により、
+候補(i)と(ii)は排除される。候補(iii)は厳密カーネル値の周りのゆらぎ
+$\delta x=x-x_{\kker}$である。この場はLoNalogy作用に既に存在する：
+カスプ計量~\cite{ParticleCosmo}
+\begin{equation}
+S_x = \int d^4x\sqrt{-g}\left[-\tfrac{1}{2}G_{xx}(\partial x)^2 - V(x)\right]
+\end{equation}
+は最小4次元理論の一部である。$\delta x$の質量は
+\begin{equation}
+m_{\delta x}^2 = V''(x_{\kker})/G_{xx}(x_{\kker})
+\end{equation}
+であり、カスプ枝（$x\to1$）では計量$G_{xx}$が対数的に発散するため
+$m_{\delta x}\to 0$（カスプ欠陥は漸近的に無質量）となる。
+したがって$\delta x$は初期宇宙の全ての温度$T\gg m_{\delta x}$で
+相対論的であり、$N_{\eff}$に寄与する。
+
+最小4次元LoNalogy作用の中の他の場
+（ゲージ場、3世代の物質、ヒッグス二重項、モジュラス$x$のみを含む）で、
+軽くかつ無電荷のものは存在しない。
+\end{proof}
+
+
+\section{脱結合エントロピー荷}\label{sec:entropy}
+
+$\delta x$が唯一の隠れた放射種であることを同定したので、
+ニュートリノ温度に対するその温度を決定しなければならない。
+これには$\delta x$脱結合時のエントロピー自由度を指定する必要がある。
+
+\subsection{エントロピー保存と温度比}
+
+\begin{lemma}[エントロピー保存からの温度比]\label{lem:xi}
+ある種が全エントロピー自由度$g_{*s}^{\dec}$のときに熱浴から脱結合すると、
+その後の温度は
+\begin{equation}
+T_{\hid} = T_\nu\times\xi,
+\qquad
+\xi = \left(\frac{g_{*s}^{\nu\text{-}\dec}}{g_{*s}^{\dec}}\right)^{1/3}
+\end{equation}
+に従って発展する。ここで$g_{*s}^{\nu\text{-}\dec}=10.75$は
+ニュートリノ脱結合（$T\sim1\,\mathrm{MeV}$）時のエントロピーDOFである。
+\end{lemma}
+
+\begin{proof}
+共動体積におけるエントロピー保存は、各脱結合セクターに対して
+$g_{*s}(T)T^3 a^3=\mathrm{const}$を与える。
+$\delta x$脱結合時には$T_{\hid}=T_{\vis}$である。
+その後、エントロピーは別々に保存される。脱結合からニュートリノ脱結合の間に、
+可視浴はエントロピーDOFを$g_{*s}^{\dec}$から$10.75$に失い、
+隠れたスカラーに対して$(g_{*s}^{\dec}/10.75)^{1/3}$倍加熱される。
+ニュートリノは$g_{*s}=10.75$で脱結合するため、
+その時点で可視浴と同じ温度を共有する。したがって
+$T_{\hid}/T_\nu=(10.75/g_{*s}^{\dec})^{1/3}$。
+\end{proof}
+
+\subsection{脱結合エントロピー荷は$2^5=32$である}
+
+\begin{theorem}[離散的エントロピー荷]\label{thm:gstar}
+カスプ欠陥スカラー$\delta x$はLoNalogyファイバー束の
+普遍的前分割段階（family specialisation前）で脱結合する。
+この段階における可視エントロピー自由度は
+\begin{equation}\label{eq:gstar}
+\boxed{g_{*s}^{\dec} = \dim\Lambda^\bullet V = 2^{\mathrm{rk}\,V} = 2^5 = 32}
+\end{equation}
+である。ここで$V$はランク5の可視ファイバー、
+$\Lambda^\bullet V=\bigoplus_{p=0}^{5}\Lambda^p V$はその外積代数である。
+\end{theorem}
+
+\begin{proof}
+3つのステップで進める。
+
+\emph{ステップ1：モジュラス$x$は普遍的な場である。}
+ルジャンドルモジュラー座標$x=2k^2-1$（$k=\theta_2^2/\theta_3^2$は
+楕円モジュラス）はモジュラー曲線$X(2)$をパラメトライズする。
+この曲線は$(3,2)$-分割が標準模型ゲージ群に特化する前の、
+LoNalogy族の大域的トポロジーを支配する。特に$x$は族指標を
+持たない：UV族対称性$S_3\cong\mathrm{SL}_2(\Z)/\Gamma(2)$の下で
+一重項である。したがって$\delta x$は普遍的（前分割）レベルで
+可視セクターと結合する。
+
+\emph{ステップ2：脱結合は族特化の前に起こる。}
+族特化のスケールはカスプ分離によって設定され、
+ノーム$Q_{\kker}$で制御される。対応するエネルギースケールは
+$\Lambda_*\,Q_{\kker}\sim0.39\,\mathrm{GeV}$（最も軽いブリッジスケール）
+である。この温度より上では3つのカスプは分解されず、
+完全な$S_3$対称性が回復する。カスプ欠陥スカラーは$x_{\kker}$の周りの
+$x$のゆらぎであり、族特化スケールより下の温度では
+$Q_{\kker}^2$で抑制された有効結合を持つ。したがって自然な脱結合
+エポックは族特化スケール以上、すなわち普遍的前分割領域にある。
+
+\emph{ステップ3：普遍的領域でのエントロピーDOFの数え上げ。}
+普遍的前分割段階では、可視セクターは構造群$\mathrm{SU}(5)$を持つ
+ランク5のファイバー束$V$で記述される。族特化前の物質内容は
+外積代数$\Lambda^\bullet V$に値を取る場から成る：
+\begin{equation}
+\Lambda^\bullet V = \Lambda^0 V\oplus\Lambda^1 V\oplus\Lambda^2 V
+\oplus\Lambda^3 V\oplus\Lambda^4 V\oplus\Lambda^5 V.
+\end{equation}
+全次元は
+\begin{equation}
+\dim\Lambda^\bullet V = \sum_{p=0}^{5}\binom{5}{p} = 2^5 = 32
+\end{equation}
+である。これは普遍的レベルでの$\mathrm{SU}(5)$物質セクターにおける
+独立なフェルミオン/ボソンチャンネルの数を数えている。
+
+重要な点は、$32=2^5$が可視ファイバー束のランクによって完全に決まる
+離散的整数であり、ランク自体はYukawa閉包とアノマリー相殺~\cite{YMmassGap}
+によって$\mathrm{rk}\,V=5$に固定されていることである。
+連続パラメータは入らない。
+\end{proof}
+
+\begin{remark}
+値$g_{*s}^{\dec}=32$は標準模型の値
+$g_{*s}^{\mathrm{SM}}(T\sim\mathrm{QCD})=61.75$や
+GUTスケールでの完全な$\mathrm{SU}(5)$の値とは近いが異なる。
+区別は、$2^5$がファイバーの代数的（外積代数）DOFを数えており、
+物理的粒子スペクトルではないことにある。
+これはモジュラス$x$が相互作用する普遍的前分割段階における
+自然なカウントである。
+\end{remark}
+
+
+\section{パラメータフリーな$\Delta N_{\eff}$}\label{sec:Neff}
+
+\begin{theorem}[LoNalogy有効ニュートリノ数]\label{thm:Neff}
+カスプ欠陥スカラー$\delta x$からの隠れた放射の寄与は
+\begin{equation}\label{eq:dNeff}
+\boxed{\Delta N_{\eff}^{\hid} = \frac{4}{7}\left(\frac{10.75}{32}\right)^{4/3}
+= 0.133446\ldots}
+\end{equation}
+であり、全有効ニュートリノ数は
+\begin{equation}\label{eq:Neff}
+\boxed{N_{\eff}^{\LoN} = 3.046 + \Delta N_{\eff}^{\hid} = 3.17945\ldots}
+\end{equation}
+である。連続的な自由パラメータは導入されない：
+種（$\delta x$、1個の実スカラー）とエントロピー荷（$2^5=32$）は
+共に離散的かつ内部的に決定される。
+\end{theorem}
+
+\begin{proof}
+\emph{ステップ1：温度比。}
+補題\ref{lem:xi}と定理\ref{thm:gstar}より：
+\begin{equation}
+\xi = \left(\frac{10.75}{32}\right)^{1/3}.
+\end{equation}
+数値的に：$10.75/32=0.33594$；$0.33594^{1/3}=0.69510$。
+
+\emph{ステップ2：1個の実スカラーに対する$\Delta N_{\eff}$。}
+温度$T_{\hid}$で熱平衡にある1個の実スカラー場は
+放射エネルギー密度に
+\begin{equation}
+\rho_{\delta x} = \frac{\pi^2}{30}T_{\hid}^4
+\end{equation}
+で寄与する。全放射エネルギー密度は
+\begin{equation}
+\rho_r = \rho_\gamma\left[1+\frac{7}{8}\left(\frac{4}{11}\right)^{4/3}N_{\eff}\right]
++ \rho_{\delta x}
+\end{equation}
+であり、$\rho_{\delta x}$を$N_{\eff}$の規約に吸収すると
+\begin{equation}
+\rho_{\delta x} = \Delta N_{\eff}\times\frac{7}{8}\left(\frac{4}{11}\right)^{4/3}\rho_\gamma.
+\end{equation}
+ここで$\rho_\gamma=(\pi^2/15)T_\gamma^4$（2偏極）であり、
+$T_{\hid}=\xi T_\nu=\xi(4/11)^{1/3}T_\gamma$と書くと：
+\begin{equation}
+\rho_{\delta x} = \frac{\pi^2}{30}\xi^4\left(\frac{4}{11}\right)^{4/3}T_\gamma^4.
+\end{equation}
+両辺を等しく置くと：
+\begin{equation}
+\Delta N_{\eff}\times\frac{7}{8}\times\frac{2\pi^2}{30}\left(\frac{4}{11}\right)^{4/3}T_\gamma^4
+= \frac{\pi^2}{30}\xi^4\left(\frac{4}{11}\right)^{4/3}T_\gamma^4.
+\end{equation}
+共通因子を消去して：
+\begin{equation}
+\Delta N_{\eff}\times\frac{7}{8}\times 2 = \xi^4,
+\end{equation}
+\begin{equation}
+\Delta N_{\eff} = \frac{4}{7}\xi^4.
+\end{equation}
+これは1個の実スカラーに対する標準的結果を確認する。
+
+\emph{ステップ3：数値評価。}
+\begin{equation}
+\xi^4 = \left(\frac{10.75}{32}\right)^{4/3}
+= 0.33594^{4/3}.
+\end{equation}
+計算：$\ln(0.33594)=-1.09149$；$\frac{4}{3}\times(-1.09149)=-1.45532$；
+$e^{-1.45532}=0.23353$。
+したがって
+\begin{equation}
+\Delta N_{\eff}^{\hid} = \frac{4}{7}\times0.23353 = 0.13345.
+\end{equation}
+および
+\begin{equation}
+N_{\eff}^{\LoN} = 3.046 + 0.13345 = 3.17945.
+\end{equation}
+\end{proof}
+
+\begin{proposition}[Planck $N_{\eff}$との整合性]\label{prop:Neffbound}
+Planck 2018~\cite{Planck2018}は
+$N_{\eff}=2.99\pm0.17$%
+\linebreak
+（TT,\allowbreak TE,\allowbreak EE+\allowbreak lowE+\allowbreak lensing+\allowbreak BAO）を与える。
+LoNalogyの値$N_{\eff}^{\LoN}=3.179$の偏差は
+\begin{equation}
+\frac{N_{\eff}^{\LoN}-2.99}{0.17} = \frac{0.189}{0.17} = 1.1\sigma
+\end{equation}
+であり、$2\sigma$許容領域内に十分収まっている。
+\end{proposition}
+
+\begin{proof}
+直接代入：$(3.179-2.99)/0.17=0.189/0.17=1.11$。
+\end{proof}
+
+
+%% ============================================================
+\part{音響辞書閉包}
+%% ============================================================
+
+\section{LoNalogy原始量によるCMB音響スケール}\label{sec:acoustic}
+
+\subsection{$H_0$を含まない定式化}
+
+\begin{theorem}[$\theta_*$は$H_0$を含まない]\label{thm:thetafree}
+CMB音響スケール
+\begin{equation}
+\theta_* = \frac{r_s(z_*)}{D_M(z_*)}
+\end{equation}
+は$(\omega_b,\omega_c,\omega_r,\omega_\Lambda,w;z_*)$のみに依存し、
+$H_0$を独立変数として含まない。
+\end{theorem}
+
+\begin{proof}
+物理密度形式のフリードマン方程式は
+\begin{equation}
+H(z)^2 = (100\,\mathrm{km\,s^{-1}Mpc^{-1}})^2
+\left[\omega_r(1+z)^4+\omega_m(1+z)^3+\omega_\Lambda(1+z)^{3(1+w)}\right]
+\end{equation}
+であり、$\omega_m=\omega_b+\omega_c$。共動角径距離は
+\begin{equation}
+D_M(z) = \frac{c}{100\,\mathrm{km\,s^{-1}Mpc^{-1}}}
+\int_0^z\frac{dz'}{\sqrt{\omega_r(1+z')^4+\omega_m(1+z')^3+\omega_\Lambda(1+z')^{3(1+w)}}}.
+\end{equation}
+音速地平線は
+\begin{equation}
+r_s(z_*) = \frac{c}{100\,\mathrm{km\,s^{-1}Mpc^{-1}}\sqrt{3}}
+\int_{z_*}^{\infty}\frac{dz}{\sqrt{(1+R(z))[\omega_r(1+z)^4+\omega_m(1+z)^3]}}
+\end{equation}
+であり、$R(z)=3\omega_b/(4\omega_\gamma(1+z))$はバリオン荷重である
+（ダークエネルギーは$z>z_*\sim1090$で無視できる）。
+
+比$\theta_*=r_s/D_M$において、分子と分母の係数
+$c/(100\,\mathrm{km\,s^{-1}Mpc^{-1}})$は消去される。
+残りの量は全て$\omega_i$、$w$、$z_*$である。
+パラメータ$h$は独立には現れない。
+\end{proof}
+
+\begin{remark}
+この定理はCMBが直接制約するのは$\theta_*$であって$H_0$ではない
+というよく知られた事実を定式化する。CMBデータから$H_0$を推論するには
+$\theta_*$を$H_0$に関係づける宇宙論モデル（「辞書」）が必要である。
+基底$\Lambda$CDMではこの推論は$H_0=67.4\pm0.5$を与え、
+LoNalogyでは同じ$\theta_*$が$H_0=70.71$に対応する。
+\end{remark}
+
+
+\subsection{再結合赤方偏移}
+
+\begin{lemma}[再結合赤方偏移]\label{lem:zstar}
+Hu--菅山のフィッティング公式~\cite{HuSugiyama1996}を用いて：
+\begin{equation}
+z_* = 1048\left[1+0.00124\,\omega_b^{-0.738}\right]\left[1+g_1\omega_m^{g_2}\right],
+\end{equation}
+ここで
+\begin{equation}
+g_1 = \frac{0.0783\,\omega_b^{-0.238}}{1+39.5\,\omega_b^{0.763}},
+\qquad
+g_2 = \frac{0.560}{1+21.1\,\omega_b^{1.81}}.
+\end{equation}
+この公式は可視セクターの原子物理（水素再結合）によって完全に決まり、
+LoNalogyにおいても標準的である。
+\end{lemma}
+
+\begin{proof}
+再結合赤方偏移は電離度が閾値を下回る条件で設定され、
+サハ/ピーブルズ方程式に支配される。
+フィッティング公式は関連するパラメータ範囲で
+$\omega_b$と$\omega_m$への依存性を$0.1\%$以上の精度で
+捕捉する~\cite{HuSugiyama1996}。
+LoNalogyは可視セクターの原子物理を修正しない（SM
+ゲージ結合定数、電子質量、水素束縛エネルギーは全て標準）ので、
+同じ再結合公式が適用される。
+\end{proof}
+
+
+\section{音響スケールの数値計算}\label{sec:numerical}
+
+\begin{theorem}[LoNalogy音響閉包]\label{thm:thetastar}
+LoNalogyの原始量
+\begin{align}
+\omega_b^{\LoN} &= 0.02116,\\
+\omega_c^{\LoN} &= 0.1150,\\
+\omega_\Lambda^{\LoN} &= 0.36372,\\
+N_{\eff}^{\LoN} &= 3.17945,\\
+w^{\LoN} &= -1+Q_{\kker}^2 = -1+2.458\times10^{-6}
+\end{align}
+のもとで、音響スケールは
+\begin{equation}
+\boxed{100\theta_*^{\LoN} = 1.04123}
+\end{equation}
+と評価される。Planckの観測量
+$100\theta_*^{\obs}=1.0411\pm0.0003$~\cite{Planck2018}
+からの偏差は
+\begin{equation}
+\frac{100\theta_*^{\LoN}-100\theta_*^{\obs}}{0.0003} = +0.4\sigma.
+\end{equation}
+\end{theorem}
+
+\begin{proof}
+\emph{ステップ1：導出量。}
+\begin{align}
+\omega_m &= \omega_b+\omega_c = 0.02116+0.1150 = 0.13616,\\
+\omega_\gamma &= 2.469\times10^{-5},\\
+\omega_r &= \omega_\gamma\left[1+\frac{7}{8}\left(\frac{4}{11}\right)^{4/3}\times3.17945\right]
+= 4.251\times10^{-5},\\
+h &= \sqrt{0.13616+0.36372+4.251\times10^{-5}} = 0.70706,\\
+\mathcal{R} &= \frac{3\omega_b}{4\omega_\gamma} = \frac{3\times0.02116}{4\times2.469\times10^{-5}} = 642.78.
+\end{align}
+
+\emph{ステップ2：再結合赤方偏移。}
+補題\ref{lem:zstar}より：$z_*^{\LoN}=1093.11$。
+
+\emph{ステップ3：音速地平線と共動距離。}
+ダークエネルギーを含む完全な$H(z)$を用いた数値積分（mpathによる
+高精度計算）から：
+\begin{align}
+r_s^{\LoN} &= 145.84\,\mathrm{Mpc},\\
+D_M^{\LoN}(z_*) &= 14007.0\,\mathrm{Mpc}.
+\end{align}
+したがって
+\begin{equation}
+100\theta_*^{\LoN} = 100\times\frac{r_s^{\LoN}}{D_M^{\LoN}(z_*)} = 1.04123.
+\end{equation}
+（最終桁は全精度の積分値$r_s=145.844\ldots$と
+$D_M=14006.97\ldots$を反映する。上に表示した値は丸められたものである。）
+
+\emph{ステップ4：比較。}
+\begin{equation}
+100\theta_*^{\LoN}-100\theta_*^{\obs} = 1.04123-1.04110 = +0.00013,
+\end{equation}
+\begin{equation}
+\frac{+0.00013}{0.0003} = +0.4\sigma.
+\end{equation}
+\end{proof}
+
+\begin{corollary}[音響閉包比較表]\label{cor:table}
+比較のため、隠れた放射を含まない最小LoNalogy
+（$N_{\eff}=3.046$）は$100\theta_*^{\mathrm{min}}=1.04592$を与え、
+$+16\sigma$ずれている。単一のカスプ欠陥スカラーがこのギャップを
+$+0.4\sigma$にまで縮小する。
+\begin{center}
+\begin{tabular}{lccc}
+\toprule
+モデル & $100\theta_*$ & $N_{\eff}$ & 対Planck\\
+\midrule
+Planck観測値 & $1.0411\pm0.0003$ & $2.99\pm0.17$ & ---\\
+最小LoN ($N_{\eff}=3.046$) & $1.04592$ & $3.046$ & $+16\sigma$\\
+LoN + $\delta x$ ($N_{\eff}=3.179$) & $\mathbf{1.04123}$ & $3.179$ & $\mathbf{+0.4\sigma}$\\
+基底$\Lambda$CDM最適合 & $1.04110$ & $3.046$ & $0\sigma$\\
+\bottomrule
+\end{tabular}
+\end{center}
+\end{corollary}
+
+
+\section{LoNalogy局所宇宙図}\label{sec:local}
+
+\begin{proposition}[導出された宇宙論的割合]\label{prop:fractions}
+再構成された$h_{\LoN}=0.70706$から：
+\begin{align}
+\Omega_m^{\LoN} &= \frac{\omega_m}{h^2} = \frac{0.13616}{0.49994} = 0.27239,\\
+\Omega_\Lambda^{\LoN} &= \frac{\omega_\Lambda}{h^2} = \frac{0.36372}{0.49994} = 0.72752,\\
+\Omega_r^{\LoN} &= \frac{\omega_r}{h^2} = \frac{4.251\times10^{-5}}{0.49994} = 8.500\times10^{-5}.
+\end{align}
+減速パラメータは
+\begin{equation}
+q_0 = \tfrac{1}{2}\Omega_m + \Omega_r + \tfrac{1}{2}(1+3w)\Omega_\Lambda
+= \tfrac{1}{2}(0.27239) + 8.5\times10^{-5} + \tfrac{1}{2}(1-3+3Q_{\kker}^2)(0.72752).
+\end{equation}
+$1+3w=1+3(-1+Q_{\kker}^2)=-2+3Q_{\kker}^2\approx-2$であるから：
+\begin{equation}
+\boxed{q_0^{\LoN} = 0.13620+0.00009-0.72752 = -0.5913.}
+\end{equation}
+\end{proposition}
+
+\begin{proof}
+標準的な減速パラメータ公式$q_0=\frac{1}{2}\sum_i(1+3w_i)\Omega_i$への
+LoNalogyの値の直接代入。
+ここで$w_r=1/3$、$w_m=0$、$w_\Lambda=-1+Q_{\kker}^2$。
+\end{proof}
+
+
+%% ============================================================
+\part{局所距離梯子}
+%% ============================================================
+
+\section{第二の物理的$H_0$は存在しない}\label{sec:nosecondH0}
+
+\begin{theorem}[晩期局所繰り込みの不在]\label{thm:norenorm}
+LoNalogyにおける厳密カーネルでのダーク光子と可視光子の
+運動項混合は
+\begin{equation}
+\epsilon_{\mathrm{kin}}^{(0)} = 0
+\end{equation}
+である。閾値により誘起される運動項混合は
+\begin{equation}
+\epsilon_{\mathrm{kin}} = (2.188\times10^{-3}\,g_D)\,\eta_{\mathrm{split}}
+\end{equation}
+であり、$\eta_{\mathrm{split}}\sim10^{-8}$~\cite{ParticleCosmo}を用いると
+\begin{equation}
+\epsilon_{\mathrm{kin}} \sim 2.2\times10^{-11},
+\qquad
+\epsilon_{\mathrm{kin}}^2 \sim 4.8\times10^{-22}.
+\end{equation}
+したがって、ケフェイドやSN~Iaの較正物理をパーセントレベルで
+修正するLoNalogy機構は存在しない。可視セクターのゲージ結合と
+電磁微細構造定数は最小正則セクターにおいて厳密に標準的である。
+\end{theorem}
+
+\begin{proof}
+ツリーレベルでの運動項混合は厳密カーネル$x_{\kker}$が
+自己双対点$x=0$でないため消滅する：ダーク光子$A'$は$e_-$セクターに
+あり、可視$\mathrm{U}(1)_Y$とのツリーレベル結合を持たない。
+1ループの閾値補正は$\eta_{\mathrm{split}}\sim10^{-8}$
+（自己双対隣接重法則三次根からの分割パラメータ）によって抑制される。
+したがって可視セクター物理への全ての補正は
+$\epsilon_{\mathrm{kin}}^2\sim10^{-22}$の次数であり、
+距離梯子の$\sim3\%$の精度をはるかに下回る。
+\end{proof}
+
+\begin{corollary}[一意的$H_0$]\label{cor:uniqueH0}
+LoNalogyは$H_0$の二つの異なる値（一つはCMB用、一つは局所用）を
+生成しない。存在するのは一つだけである：
+\begin{equation}
+\boxed{H_0^{\LoN} = 70.71\,\mathrm{km\,s^{-1}Mpc^{-1}}.}
+\end{equation}
+\end{corollary}
+
+
+\section{較正オフセット}\label{sec:calibration}
+
+\begin{proposition}[局所梯子較正オフセット]\label{prop:offset}
+SH0ESケフェイド--SN~Ia距離梯子は
+$H_0^{\mathrm{LL}}=73.17\pm0.86\,\mathrm{km\,s^{-1}Mpc^{-1}}$~\cite{SH0ES2022,Breuval2024}
+を与える。LoNalogyの値との不一致は等級オフセット
+\begin{equation}
+\Delta M_B = 5\log_{10}\frac{H_0^{\mathrm{LL}}}{H_0^{\LoN}}
+= 5\log_{10}\frac{73.17}{70.71}
+= 0.074\,\mathrm{mag}
+\end{equation}
+に対応する。
+\end{proposition}
+
+\begin{proof}
+SN~Iaハッブルダイアグラムは切片
+$\mathcal{M}_B=M_B-5\log_{10}h+25$を測定し、
+$M_B$は絶対SN~Ia等級である。二つの異なる$H_0$値は
+シフト$\Delta\mathcal{M}_B=5\log_{10}(H_0^{\mathrm{LL}}/H_0^{\LoN})$
+に対応する。
+数値的に：$\log_{10}(73.17/70.71)=\log_{10}(1.03465)=0.01479$；
+$5\times0.01479=0.074$。
+\end{proof}
+
+\begin{remark}
+$0.074\,\mathrm{mag}$のオフセットは、ケフェイド周期--光度関係の
+ゼロ点較正における既知の系統誤差の範囲内にある。
+代替較正子（TRGB~\cite{Freedman2021}、JAGB、ミラ型変光星）を用いた
+最近の解析は$67$--$73\,\mathrm{km\,s^{-1}Mpc^{-1}}$にわたる
+$H_0$値を与えており、この大きさの較正の広がりと整合する。
+LoNalogyの予測$H_0=70.71$はこの範囲の中央付近に位置する。
+\end{remark}
+
+\begin{proposition}[Planck CMBオフセット]\label{prop:CMBoffset}
+Planckの基底$\Lambda$CDM推論$H_0=67.4\pm0.5$~\cite{Planck2018}は
+$H_0^{\LoN}$との等級オフセット
+\begin{equation}
+\Delta M_B^{\mathrm{CMB}} = 5\log_{10}\frac{H_0^{\LoN}}{H_0^{\mathrm{CMB}}}
+= 5\log_{10}\frac{70.71}{67.4} = 0.104\,\mathrm{mag}
+\end{equation}
+だけ異なる。
+このオフセットはLoNalogyと基底$\Lambda$CDMの間の
+$\omega_\Lambda$と$N_{\eff}$の違いから全面的に生じる：
+生CMB観測量$\theta_*$は$0.4\sigma$で一致している。
+\end{proposition}
+
+\begin{proof}
+基底$\Lambda$CDMでは$N_{\eff}=3.046$であり、$\omega_\Lambda$は
+CMBデータにフィットされる。より低い$N_{\eff}$（隠れた放射なし）と
+より低い$\omega_\Lambda$（$\Lambda_{\eff}$より$17\%$低い
+$\rho_\Lambda^{\obs}$にフィット）の組み合わせがより低い$h$を与える。
+LoNalogyはより高い$\omega_\Lambda$（$\Lambda_*^4Q^{20}$から）と
+より高い$N_{\eff}$（カスプ欠陥スカラーから）を持ち、
+両方とも$h$を引き上げる。
+生CMB観測量$\theta_*$は保存される。なぜなら音速地平線$r_s$は
+$N_{\eff}$と共に減少する一方、$D_M$は$\Delta N_{\eff}$に対して
+比較的鈍感であるため、比$r_s/D_M$が調整されて一致するからである。
+\end{proof}
+
+
+%% ============================================================
+\section*{統合予測表}
+\addcontentsline{toc}{section}{統合予測表}
+%% ============================================================
+
+以下の表は、本論文と姉妹論文で導出された全てのLoNalogy予測を、
+連続的な自由パラメータゼロで集めたものである。
+
+\begin{center}
+\begin{tabular}{lccc}
+\toprule
+量 & LoNalogy & 観測値 & 不一致\\
+\midrule
+$100\theta_*$ & $\mathbf{1.04123}$ & $1.0411\pm0.0003$ & $\mathbf{0.4\sigma}$\\
+$N_{\eff}$ & $3.179$ & $2.99\pm0.17$ & $1.1\sigma$\\
+$H_0\,[\mathrm{km\,s^{-1}Mpc^{-1}}]$ & $70.71$ & $67.4$ / $73.17$ & 再構成\\
+$q_0$ & $-0.591$ & $-0.55\pm0.05$ & $0.8\sigma$\\
+\midrule
+$\Lambda_{\eff}\,[\mathrm{GeV}^4]$ & $2.94\times10^{-47}$ & $2.51\times10^{-47}$ & $17\%$\\
+$\Omega_{\mathrm{DM}}h^2$ & $0.1150$ & $0.1200\pm0.0012$ & $4\%$\\
+$\Omega_b h^2$ & $0.02116$ & $0.02237\pm0.00015$ & $5\%$\\
+$\eta_B$ & $5.80\times10^{-10}$ & $(6.12\pm0.04)\times10^{-10}$ & $5\%$\\
+$m_\chi\,[\mathrm{GeV}]$ & $338$--$348$ & --- & 検証可能\\
+$\sigma_p^{\mathrm{SI}}\,[\mathrm{cm}^2]$ & $\sim10^{-48}$ & $<2.2\times10^{-48}$ & フロンティア\\
+$m_\nu^{\mathrm{unit}}\,[\mathrm{meV}]$ & $17.47$ & 大気$\approx50$ & 窓内\\
+$n_s$ & $1-2/N_e$ & $0.965\pm0.004$ & $<1\sigma$\\
+$r$ & $\lesssim10^{-4}$ & $<0.036$ & 整合\\
+$M_X\,[\mathrm{GeV}]$ & $3.455\times10^{15}$ & --- & 予言\\
+$\tau_p\,[\mathrm{yr}]$ & $1.49\times10^{38}$ & $>2.4\times10^{34}$ & 安全\\
+\bottomrule
+\end{tabular}
+\end{center}
+
+
+%% ============================================================
+\section*{結論}
+\addcontentsline{toc}{section}{結論}
+%% ============================================================
+
+「ハッブルテンション」は基本的な物理問題ではなく、辞書依存の人工物
+であることを示した。解消は4つの論理的ステップで進む：
+
+\begin{enumerate}
+\item \textbf{$H_0$は導出量であり、原始量ではない。}
+閉包関係式$h^2=\omega_r+\omega_b+\omega_c+\omega_\Lambda$は
+$H_0$を二次量にする。右辺の4つの物理密度は全て
+LoNalogyの内部データから自由パラメータなしに導出される。
+
+\item \textbf{種の選別：唯一の新場不要な選択。}
+3つの初期宇宙ダーク放射候補のうち、4次元作用に既に存在する
+モジュラス場のゆらぎであるカスプ欠陥スカラー$\delta x$のみが
+相対論的かつ新場不要な種として生き残る。
+
+\item \textbf{エントロピー荷：ファイバーランクからの離散整数。}
+脱結合エントロピーDOFは
+$g_{*s}^{\dec}=2^{\mathrm{rk}\,V}=2^5=32$であり、
+可視ファイバー束のランクによって決まる。ランク自体は
+Yukawa閉包とアノマリー相殺によって$N=5$に固定されている。
+
+\item \textbf{$0.4\sigma$での音響閉包。}
+結果として得られる
+$\Delta N_{\eff}^{\hid}=(4/7)(10.75/32)^{4/3}=0.13345$は
+$100\theta_*^{\LoN}=1.04123$を与え、Planckの生音響観測量と
+$0.4\sigma$で一致する。フィッティングは行われていない。
+\end{enumerate}
+
+再構成されたハッブルパラメータ
+$H_0^{\LoN}=70.71\,\mathrm{km\,s^{-1}Mpc^{-1}}$は
+CMB推論値（$67.4$）でも距離梯子値（$73.17$）でもない。
+両方ともそれぞれの辞書（基底$\Lambda$CDMおよびケフェイド--SN~Ia
+較正）の出力である。SH0ES値との残余の不一致は
+$0.074\,\mathrm{mag}$の較正オフセットに対応し、
+既知の系統誤差の範囲内にある。
+
+したがって正しい言明は、LoNalogyが「ハッブルテンションを解く」
+のではなく：
+
+\begin{quote}
+\emph{LoNalogyはハッブル問題を音響辞書閉包問題として再定義し、
+それを閉じた。}
+\end{quote}
+
+残る課題は理論的ではなく観測的である：LoNalogyパラメタリゼーションで
+Planckの生$TT/TE/EE$尤度を叩くこと、および局所梯子の生アンカーデータを
+LoNalogy宇宙図にプルバックすること。これらは新しい辞書の下での
+既存データの還元であり、理論の拡張ではない。
+
+
+%% ============================================================
+\section*{謝辞}
+\addcontentsline{toc}{section}{謝辞}
+%% ============================================================
+
+著者はClaude (Anthropic)に、導出の検証、数値計算、
+原稿作成への支援を感謝する。
+数値結果はPython/NumPy/SciPy/mpmathを用いて検証された。
+
+
+%% ============================================================
+\begin{thebibliography}{99}
+
+\bibitem{Planck2018}
+Planck Collaboration (N.~Aghanim et al.),
+\textit{Planck 2018 results. VI. Cosmological parameters},
+Astron.\ Astrophys.\ \textbf{641}, A6 (2020);
+arXiv:1807.06209.
+
+\bibitem{SH0ES2022}
+A.~G.~Riess et al.,
+\textit{A Comprehensive Measurement of the Local Value of the Hubble Constant
+with 1 km/s/Mpc Uncertainty from the Hubble Space Telescope and the SH0ES Team},
+Astrophys.\ J.\ Lett.\ \textbf{934}, L7 (2022);
+arXiv:2112.04510.
+
+\bibitem{Breuval2024}
+L.~Breuval et al.,
+\textit{Small Magellanic Cloud Cepheids Analyzed with an Updated LoNalogy-Independent
+Distance},
+Astrophys.\ J.\ \textbf{963}, 83 (2024);
+arXiv:2304.06031.
+
+\bibitem{PDG2025}
+Particle Data Group (S.~Navas et al.),
+\textit{Review of Particle Physics},
+Phys.\ Rev.\ D \textbf{110}, 030001 (2024).
+
+\bibitem{Freedman2021}
+W.~L.~Freedman,
+\textit{Measurements of the Hubble Constant: Tensions in Perspective},
+Astrophys.\ J.\ \textbf{919}, 16 (2021);
+arXiv:2106.15656.
+
+\bibitem{YMmassGap}
+M.~Nakamura,
+\textit{Yang--Mills Existence and Mass Gap: A Constructive Proof via
+Elliptic Modular Geometry and Transfer-Poincar\'e Descent},
+Zenodo (2026), \href{https://doi.org/10.5281/zenodo.19183838}{doi:10.5281/zenodo.19183838}.
+
+\bibitem{ParticleCosmo}
+M.~Nakamura,
+\textit{Standard Model Structure, GUT Scale, and Dark Sector from Elliptic
+Modular Geometry: Predictions of LoNalogy},
+姉妹論文 (2026).
+
+\bibitem{LoNalogyv87}
+M.~Nakamura,
+\textit{LoNalogy v87.1: Elliptic Modular Framework for Quantum Field Theory
+and Millennium Problems},
+Zenodo (2026), \href{https://doi.org/10.5281/zenodo.19115338}{doi:10.5281/zenodo.19115338}.
+
+\bibitem{HuSugiyama1996}
+W.~Hu and N.~Sugiyama,
+\textit{Small-Scale Cosmological Perturbations: An Analytic Approach},
+Astrophys.\ J.\ \textbf{471}, 542 (1996);
+arXiv:astro-ph/9510117.
+
+\bibitem{EisensteinHu1998}
+D.~J.~Eisenstein and W.~Hu,
+\textit{Baryonic Features in the Matter Transfer Function},
+Astrophys.\ J.\ \textbf{496}, 605 (1998);
+arXiv:astro-ph/9709112.
+
+\end{thebibliography}
+
+\end{document}

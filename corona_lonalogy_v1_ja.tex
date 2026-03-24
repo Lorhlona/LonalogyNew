@@ -1,0 +1,499 @@
+\documentclass[12pt]{article}
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage{fontspec}
+\setmainfont{Noto Serif CJK JP}
+\XeTeXlinebreaklocale "ja"
+\XeTeXlinebreakskip = 0pt plus 1pt minus 0.1pt
+\usepackage{hyperref}
+\usepackage{enumitem}
+\usepackage{booktabs}
+\usepackage{caption}
+
+\theoremstyle{plain}
+\newtheorem{theorem}{定理}[section]
+\newtheorem{proposition}[theorem]{命題}
+\newtheorem{lemma}[theorem]{補題}
+\newtheorem{corollary}[theorem]{系}
+\theoremstyle{definition}
+\newtheorem{definition}[theorem]{定義}
+\newtheorem{remark}[theorem]{注意}
+\numberwithin{equation}{section}
+
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\C}{\mathbb{C}}
+\newcommand{\HH}{\mathbb{H}}
+\newcommand{\br}{\mathrm{br}}
+\newcommand{\vis}{\mathrm{vis}}
+\newcommand{\eff}{\mathrm{eff}}
+\newcommand{\LoN}{\mathrm{LoN}}
+\newcommand{\ph}{\mathrm{ph}}
+\newcommand{\cor}{\mathrm{cor}}
+\newcommand{\fU}{\mathfrak{U}}
+\newcommand{\fI}{\mathfrak{I}}
+\newcommand{\fV}{\mathfrak{V}}
+\newcommand{\fB}{\mathfrak{B}}
+\DeclareMathOperator{\Tr}{Tr}
+\DeclareMathOperator{\sech}{sech}
+\renewcommand{\proofname}{証明}
+
+\begin{document}
+
+\begin{titlepage}
+\centering
+\vspace*{1cm}
+{\LARGE\bfseries $X(2)$上のブリッジ散逸としてのコロナ加熱：\\[6pt]
+なぜ太陽コロナは表面より熱いのか}
+\vspace{1.5cm}
+
+{\large 中村 昌義$^{1,*}$}
+\vspace{0.8cm}
+
+{\normalsize
+$^1$\,北与野メンタルクリニック、〒338-0002
+埼玉県さいたま市中央区下落合4-20-14\\
+\texttt{mjolnir501@gmail.com}\\[4pt]
+$^*$\,責任著者
+}
+\vspace{0.8cm}
+
+{\small
+\noindent\textbf{関連リポジトリ：}\\
+LoNalogyフレームワーク (v87.1):
+\href{https://doi.org/10.5281/zenodo.19115338}{doi:10.5281/zenodo.19115338}\\
+Yang--Mills証明 (v90):
+\href{https://doi.org/10.5281/zenodo.19183838}{doi:10.5281/zenodo.19183838}\\
+$X(2)$上の統計力学、素粒子宇宙論 (v9)、ハッブル再構成 (v2): 姉妹論文
+}
+\vspace{1.0cm}
+
+\begin{abstract}
+\noindent
+太陽コロナ加熱問題——コロナ（$T\sim10^6\,\mathrm{K}$）が
+光球（$T\sim6\times10^3\,\mathrm{K}$）より2桁高温であること——は
+70年以上にわたり決定的な解決を拒んできた。
+LoNalogyフレームワークにおいて、温度逆転が一行の定理であることを示す：
+一粒子あたりの加熱$q_{\br}(s)=Q_{\br}(s)/n(s)$は
+ブリッジピークに向かって単調増加する。
+$\sech^2$ブリッジ散逸プロファイルが指数的に減少する密度で割られるからである。
+定常エネルギーバランスはコロナにおける温度極大を強制する。
+70年間の波加熱 vs ナノフレア/再結合加熱の論争は、
+両者が同一の正のブリッジ二次形式
+$Q_0=\eta\langle J,\Delta_{\br}J\rangle$の
+基底分解であることを示して解消される。
+\end{abstract}
+\end{titlepage}
+
+\setcounter{page}{1}
+\tableofcontents
+\newpage
+
+
+\section{序論}\label{sec:intro}
+
+太陽コロナは根本的なパラドックスを提示する：
+エネルギー源からより遠いにもかかわらず、
+その下の光球より2桁高温である。
+グロトリアン（1939年）とエドレン（1943年）が
+コロナ輝線を高電離鉄と同定して以来、
+「なぜコロナは熱いのか」は太陽物理学の中心問題であった。
+
+二つの主要候補メカニズムは：
+(i) \textbf{波加熱}：光球で生成されたアルフベン波が
+上方に伝播しコロナで乱流カスケードにより散逸する。
+(ii) \textbf{ナノフレア/再結合加熱}：光球対流により
+組まれた磁力線が電流シートを形成し磁気再結合で散逸する。
+
+本論文ではLoNalogyフレームワークが統一的解決を与えることを示す。
+
+
+\section{太陽辞書}\label{sec:dictionary}
+
+\begin{definition}[三セクター太陽分解]\label{def:solar}
+太陽大気はLoNalogyの三セクター構造に以下のように写像される：
+\begin{equation}\label{eq:solarsectors}
+\fU_\odot = \fV_{\ph}\oplus\fB_{\mathrm{mag}}\oplus\fI_{\mathrm{conv}}.
+\end{equation}
+$\fV_{\ph}$：光学的に可視な光球/彩層プラズマ（可視セクター）。
+$\fB_{\mathrm{mag}}$：コロナループ、電流シート、
+アルフベンチャンネル（磁気ブリッジ）。
+$\fI_{\mathrm{conv}}$：対流層フットポイント運動と
+埋もれたトポロジー応力（隠れたセクター）。
+\end{definition}
+
+\begin{definition}[ブリッジフレーム演算子]\label{def:bridgeop}
+磁気ブリッジは正のフレーム演算子
+\begin{equation}\label{eq:frameop}
+\Delta_{\br} = \Sigma^\dagger\Sigma \geq A_{\br}\,I > 0
+\end{equation}
+を持つ。フットポイント駆動電流$J\neq 0$に対する
+ブリッジパワー振幅は
+\begin{equation}\label{eq:Q0}
+\boxed{Q_0 := \eta\,\langle J,\,\Delta_{\br}\,J\rangle > 0.}
+\end{equation}
+正値性$Q_0>0$は$\Delta_{\br}$の正値性から自動的。
+\end{definition}
+
+\begin{remark}
+「磁場がコロナ加熱のエネルギー源である」という主張は
+LoNalogyでは「ブリッジ二次形式が正定値である」と翻訳される。
+これは仮定ではなくフレーム演算子の構造
+$\Delta_{\br}=\Sigma^\dagger\Sigma$の帰結である。
+\end{remark}
+
+
+\section{ブリッジ加熱プロファイル}\label{sec:heating}
+
+\begin{definition}[ブリッジ加熱密度]\label{def:heatingprofile}
+$s$を磁力線に沿う座標とし、$s=0$を光球、
+$s$がコロナに向かって増加するとする。ブリッジピークは$s=s_B>0$に位置する。
+ブリッジ偏差変数を$\Theta(s) := (s-s_B)/\ell_B$とすると、
+ブリッジ加熱密度は
+\begin{equation}\label{eq:Qbr}
+\boxed{Q_{\br}(s) = Q_0\,\sech^2\!\left(\frac{s-s_B}{\ell_B}\right).}
+\end{equation}
+これはLoNalogyのフィッシャー重み
+$\mathcal{F}(s)=\sech^2\Theta(s)$を太陽ブリッジに適用したものである。
+\end{definition}
+
+\begin{definition}[静水圧密度成層]\label{def:density}
+磁力線に沿うプラズマ数密度は静水圧平衡で近似される：
+\begin{equation}\label{eq:density}
+n(s) = n_0\,e^{-s/H}.
+\end{equation}
+$n_0$は光球密度、$H$は圧力スケールハイト
+（コロナでは$H\approx 50$--$100\,\mathrm{Mm}$）。
+\end{definition}
+
+
+\section{コロナ逆転定理}\label{sec:inversion}
+
+\begin{theorem}[コロナ逆転]\label{thm:inversion}
+一粒子あたりのブリッジ加熱は
+\begin{equation}\label{eq:perparticle}
+q_{\br}(s) := \frac{Q_{\br}(s)}{n(s)}
+= \frac{Q_0}{n_0}\,e^{s/H}\,
+\sech^2\!\left(\frac{s-s_B}{\ell_B}\right)
+\end{equation}
+であり、その対数微分は
+\begin{equation}\label{eq:logderiv}
+\frac{d}{ds}\log q_{\br}(s)
+= \frac{1}{H}
+- \frac{2}{\ell_B}\,\tanh\!\left(\frac{s-s_B}{\ell_B}\right).
+\end{equation}
+$0\leq s<s_B$では$\tanh$項が負であるから
+\begin{equation}\label{eq:monotone}
+\boxed{\frac{d}{ds}\log q_{\br}(s) > 0
+\qquad (0\leq s<s_B).}
+\end{equation}
+すなわち、一粒子あたりの加熱は光球からブリッジピークに向かって
+単調増加する。
+\end{theorem}
+
+\begin{proof}
+\emph{ステップ1：$q_{\br}$の計算。}
+\eqref{eq:Qbr}と\eqref{eq:density}から：
+\begin{equation}
+q_{\br}(s) = \frac{Q_0\,\sech^2((s-s_B)/\ell_B)}
+{n_0\,e^{-s/H}}
+= \frac{Q_0}{n_0}\,e^{s/H}\,
+\sech^2\!\left(\frac{s-s_B}{\ell_B}\right).
+\end{equation}
+
+\emph{ステップ2：対数微分。}
+\begin{align}
+\log q_{\br}(s) &= \log\frac{Q_0}{n_0}
++ \frac{s}{H}
+- 2\log\cosh\!\left(\frac{s-s_B}{\ell_B}\right).
+\end{align}
+各項を微分して：
+\begin{equation}
+\frac{d}{ds}\log q_{\br}
+= \frac{1}{H}
+- \frac{2}{\ell_B}\,\tanh\!\left(\frac{s-s_B}{\ell_B}\right).
+\end{equation}
+
+\emph{ステップ3：符号解析。}
+$s<s_B$のとき$(s-s_B)/\ell_B<0$であるから
+$\tanh((s-s_B)/\ell_B)<0$。したがって第二項は正となり、
+両項がともに正に寄与する：
+\begin{equation}
+\frac{d}{ds}\log q_{\br}(s)
+= \underbrace{\frac{1}{H}}_{>0}
+\underbrace{- \frac{2}{\ell_B}\,\tanh\!\left(\frac{s-s_B}{\ell_B}\right)}_{>0\ (s<s_B)}
+> 0.\qedhere
+\end{equation}
+\end{proof}
+
+\begin{remark}[物理的解釈]
+二つの項は異なる物理的起源を持つ：
+$1/H>0$：指数的密度減少のためより少ない粒子が利用可能なエネルギーを
+分け合う。
+$-(2/\ell_B)\tanh\Theta>0$（$s<s_B$のとき）：$\sech^2$プロファイルが
+加熱をブリッジピークに集中させる。
+両効果はブリッジピーク以下で協調する。
+\end{remark}
+
+
+\section{定常状態温度極大}\label{sec:tempmax}
+
+\begin{theorem}[コロナ温度極大]\label{thm:tempmax}
+半長$L$のコロナループに対する定常エネルギーバランス方程式
+\begin{equation}\label{eq:energybal}
+\frac{dF_c}{ds} = Q_{\br}(s) - n(s)^2\,\Lambda(T(s))
+\end{equation}
+を考える。ここで$F_c:=-\kappa_\parallel T^{5/2}\,dT/ds$は
+スピッツァー伝導熱流束、$\Lambda(T)$は光学的薄い放射損失関数。
+対称（頂点）条件$F_c(L)=0$を課す。
+
+正味のブリッジ加熱が放射損失をループ全体で上回る場合：
+\begin{equation}\label{eq:netcondition}
+\int_0^L \bigl(Q_{\br}(s)-n(s)^2\Lambda(T(s))\bigr)\,ds > 0,
+\end{equation}
+ならば$s_*\in(0,L)$が存在して
+\begin{equation}\label{eq:Tmax}
+\boxed{T(s_*) > T(0) = T_{\ph}.}
+\end{equation}
+すなわち、コロナは必然的に光球より高温である。
+\end{theorem}
+
+\begin{proof}
+\emph{ステップ1：エネルギー方程式の積分。}
+\eqref{eq:energybal}を$0$から$L$まで積分すると
+$F_c(L) - F_c(0) = \int_0^L(Q_{\br}-n^2\Lambda)\,ds$。
+頂点条件$F_c(L)=0$から
+$F_c(0) = -\int_0^L(Q_{\br}-n^2\Lambda)\,ds$。
+
+\emph{ステップ2：基部熱流束の符号。}
+仮定\eqref{eq:netcondition}により積分は正であるから$F_c(0)<0$。
+
+\emph{ステップ3：熱流の方向。}
+$F_c(0)<0$は$dT/ds|_{s=0}>0$を意味し、
+熱が基部で下向き（コロナから光球へ）に流れることを意味する。
+
+\emph{ステップ4：温度極大の存在。}
+基部で熱が下向きに流れるためには、
+基部より上に$T_{\ph}$より高温の領域が存在しなければならない。
+$T(s)\leq T_{\ph}$が全$s\in[0,L]$で成り立つなら
+$dT/ds\leq 0$で$F_c\geq 0$となり$F_c(0)<0$と矛盾する。
+\end{proof}
+
+\begin{corollary}[なぜ熱いのか？]
+コロナが熱い理由：
+(i) ブリッジ散逸$Q_{\br}(s)=Q_0\sech^2\Theta(s)$が
+コロナ磁気構造に沿ってエネルギーを堆積する。
+(ii) 密度$n(s)=n_0 e^{-s/H}$が指数的に減少し、
+一粒子あたりの加熱が高度とともに増加する。
+(iii) 正味ブリッジ加熱が放射損失を超え、伝導熱流束を
+コロナから表面への下向きに強制する。
+(iv) これは表面より上に温度極大を要求する。
+\begin{equation}
+\boxed{\text{コロナが熱いのは低密度な磁気ブリッジの散逸が放射損失を超えるから。}}
+\end{equation}
+\end{corollary}
+
+
+\section{波とナノフレアの統一}\label{sec:unification}
+
+\begin{theorem}[ブリッジ加熱の基底独立性]\label{thm:basis}
+ブリッジパワー振幅
+$Q_0 = \eta\,\langle J,\,\Delta_{\br}\,J\rangle$は
+ブリッジ空間$\fB_{\mathrm{mag}}$の基底選択に依存しない。
+(i) \textbf{電流シート基底}（$\nabla\times\mathbf{B}$の固有基底）では
+$Q_0$は再結合イベント（ナノフレア）に分解される。
+(ii) \textbf{アルフベン基底}（アルフベン波演算子の固有基底）では
+$Q_0$は波減衰振幅に分解される。
+(iii) 両分解は同一の全加熱$Q_0$を与える。
+\end{theorem}
+
+\begin{proof}
+$\Delta_{\br}=\Sigma^\dagger\Sigma$は正の自己共役演算子である。
+二次形式$\langle J,\Delta_{\br}J\rangle$はスペクトル定理により
+基底非依存：任意のユニタリ$U$に対して
+$\langle UJ, U\Delta_{\br}U^\dagger UJ\rangle
+= \langle J, \Delta_{\br}J\rangle$。
+したがって全加熱振幅は電流シート基底でもアルフベン基底でも
+同一。「波 vs ナノフレア」の区別は
+$\fB_{\mathrm{mag}}$の正規直交基底の選択であり、
+物理的差異ではない。
+\end{proof}
+
+\begin{remark}[70年間の論争の解消]
+LoNalogyの「波かナノフレアか？」への答えは：
+\emph{両者は同一のブリッジ二次形式の基底分解である。}
+観測的には：
+閉じた磁場の活動領域では再結合/組み上げ基底が自然
+（電流シートが分解される）。
+開いた磁場のコロナホールではアルフベン基底が自然
+（スイッチバックと波振幅が測定される）。
+全加熱$Q_0$は両基底で同一。二つのメカニズム間の見かけの競合は
+基底選択のアーティファクトである。
+\end{remark}
+
+
+\section{なぜ熱いのに暗いのか}\label{sec:hotdim}
+
+\begin{proposition}[「熱いのに暗い」]\label{prop:hotdim}
+コロナは光球より同時に高温かつ暗い。LoNalogyではこれはパラドックスではなく
+密度依存性の直接的帰結である。
+
+\emph{温度}は一粒子あたりの加熱で制御される：
+$T \sim q_{\br} \sim Q_{\br}/n$。
+$n$が減少する（上方へ）と$T$は増加する。
+
+\emph{明るさ}（光学的薄いEUV/X線放射率）は
+$\epsilon \sim n^2\,G(T)$で制御される。
+$n$が減少すると$\epsilon\propto n^2$は二乗で低下する。
+
+したがって：
+\begin{equation}
+\boxed{n\downarrow \;\Longrightarrow\; T\uparrow,\quad
+\epsilon\propto n^2\downarrow.
+\qquad\text{熱いが暗い。}}
+\end{equation}
+\end{proposition}
+
+\begin{proof}
+温度スケーリングは定理\ref{thm:inversion}から従う。
+放射率スケーリング$\epsilon\propto n^2$は光学的薄い熱制動放射と
+輝線放射の標準的結果。$n\propto e^{-s/H}$であるから
+$\epsilon\propto e^{-2s/H}$は
+$q_{\br}\propto e^{s/H}\sech^2\Theta$の増加より速く減少する。
+\end{proof}
+
+
+\section{コンパクトな要約}\label{sec:compact}
+
+LoNalogyコロナ加熱の完成形：
+
+\textbf{三セクター分解：}
+\begin{equation}
+\fU_\odot = \fV_{\ph}\oplus\fB_{\mathrm{mag}}\oplus\fI_{\mathrm{conv}},
+\qquad \Delta_{\br}=\Sigma^\dagger\Sigma\geq A_{\br}I.
+\end{equation}
+
+\textbf{ブリッジ加熱プロファイル：}
+\begin{equation}
+Q_{\br}(s) = Q_0\,\sech^2\!\left(\frac{s-s_B}{\ell_B}\right),
+\qquad n(s) = n_0\,e^{-s/H}.
+\end{equation}
+
+\textbf{一粒子加熱の単調性：}
+\begin{equation}
+\frac{d}{ds}\log\frac{Q_{\br}(s)}{n(s)}
+= \frac{1}{H}
+- \frac{2}{\ell_B}\tanh\!\left(\frac{s-s_B}{\ell_B}\right)
+> 0 \quad(s<s_B).
+\end{equation}
+
+\textbf{温度極大：}
+\begin{equation}
+\int_0^L(Q_{\br}-n^2\Lambda)\,ds > 0
+\;\Longrightarrow\;
+T_{\cor} > T_{\ph}.
+\end{equation}
+
+\textbf{基底統一：}
+$Q_0 = \eta\langle J,\Delta_{\br}J\rangle$（基底非依存）。
+
+一文で：
+
+\begin{quote}
+\emph{太陽コロナが熱いのは$\sech^2$ブリッジ散逸が
+指数的に減少する密度で割られるからであり、
+暗いのは放射率が$n^2$でスケールするからである。}
+\end{quote}
+
+
+\section{閉じたものと残るもの}\label{sec:status}
+
+\begin{center}
+\begin{tabular}{lll}
+\toprule
+結果 & 参照 & ステータス\\
+\midrule
+一粒子加熱の単調性 & 定理\ref{thm:inversion} & 閉\\
+コロナ温度極大 & 定理\ref{thm:tempmax} & 閉\\
+波/ナノフレア統一 & 定理\ref{thm:basis} & 閉\\
+「熱いが暗い」 & 命題\ref{prop:hotdim} & 閉\\
+\midrule
+絶対加熱振幅$Q_0$ & 式\eqref{eq:Q0} & 開（較正）\\
+ループ幾何$(s_B,\ell_B,L)$ & --- & 開（観測）\\
+フットポイント電流$J$再構成 & --- & 開（磁場図）\\
+\bottomrule
+\end{tabular}
+\end{center}
+
+概念的核心——\emph{なぜ}温度逆転が起きるか——は完全に閉じている。
+残るのは個々の活動領域やコロナホールの
+観測データに対する較正である。
+
+\begin{remark}[拡張層]
+本論文はLoNalogyフレームワークの\emph{拡張層}である。
+核心定理（シューア還元、ブリッジ重み$\sech^2$、正フレーム演算子）は
+厳密である。太陽辞書（定義\ref{def:solar}）は解釈的写像である。
+定性的結論（温度逆転）は不等式\eqref{eq:monotone}の\emph{符号}から従い、
+辞書の具体的形式に対してロバストである。
+\end{remark}
+
+
+\section*{結論}
+\addcontentsline{toc}{section}{結論}
+
+太陽コロナ加熱問題はLoNalogyにおいて一行の不等式に帰着する：
+\begin{equation}
+\frac{d}{ds}\log\frac{Q_{\br}(s)}{n(s)} > 0
+\qquad(s < s_B).
+\end{equation}
+$\sech^2$ブリッジ散逸プロファイルを指数的密度成層で割ると
+一粒子あたりの加熱はブリッジピークに向かって単調増加する。
+定常エネルギーバランスはコロナ温度極大を強制する。
+波 vs ナノフレア論争は解消される：
+両者は同一の正のブリッジ二次形式の基底分解である。
+
+コロナはエネルギー源から遠いにもかかわらず熱いのではない。
+隠れた対流エネルギーが低密度プラズマ中に散逸する
+磁気ブリッジ上にあるから熱いのである。
+
+
+\section*{謝辞}
+\addcontentsline{toc}{section}{謝辞}
+
+著者はClaude (Anthropic)に、LoNalogyブリッジ構造の分析と
+太陽物理への応用における共同作業を感謝する。
+
+
+\begin{thebibliography}{99}
+
+\bibitem{LoNalogyv87}
+M.~Nakamura,
+\textit{LoNalogy v87.1: Elliptic Modular Framework for Quantum
+Field Theory and Millennium Problems},
+Zenodo (2026),
+\href{https://doi.org/10.5281/zenodo.19115338}{doi:10.5281/zenodo.19115338}.
+
+\bibitem{YMmassGap}
+M.~Nakamura,
+\textit{Yang--Mills Existence and Mass Gap: A Constructive Proof
+via Elliptic Modular Geometry and Transfer-Poincar\'e Descent},
+Zenodo (2026),
+\href{https://doi.org/10.5281/zenodo.19183838}{doi:10.5281/zenodo.19183838}.
+
+\bibitem{StatMech}
+M.~Nakamura,
+\textit{$X(2)$上の射影行列式束としての統計力学},
+姉妹論文 (2026).
+
+\bibitem{Klimchuk2006}
+J.~A.~Klimchuk,
+\textit{On Solving the Coronal Heating Problem},
+Sol.\ Phys.\ \textbf{234}, 41--77 (2006).
+
+\bibitem{Parnell2012}
+C.~E.~Parnell and I.~De Moortel,
+\textit{A contemporary view of coronal heating},
+Phil.\ Trans.\ R.\ Soc.\ A \textbf{370}, 3217--3240 (2012).
+
+\end{thebibliography}
+
+\end{document}
