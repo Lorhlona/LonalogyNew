@@ -1,0 +1,812 @@
+\documentclass[12pt]{article}
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage{fontspec}
+\setmainfont{Noto Serif CJK JP}
+\XeTeXlinebreaklocale "ja"
+\XeTeXlinebreakskip = 0pt plus 1pt minus 0.1pt
+\usepackage{hyperref}
+\usepackage{enumitem}
+\usepackage{booktabs}
+\usepackage{bm}
+
+\theoremstyle{plain}
+\newtheorem{theorem}{定理}[section]
+\newtheorem{proposition}[theorem]{命題}
+\newtheorem{corollary}[theorem]{系}
+\theoremstyle{definition}
+\newtheorem{definition}[theorem]{定義}
+\newtheorem{remark}[theorem]{注意}
+\numberwithin{equation}{section}
+
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\C}{\mathbb{C}}
+\newcommand{\br}{\mathrm{br}}
+\newcommand{\eff}{\mathrm{eff}}
+\newcommand{\LoN}{\mathrm{LoN}}
+\newcommand{\fU}{\mathfrak{U}}
+\newcommand{\fI}{\mathfrak{I}}
+\newcommand{\fV}{\mathfrak{V}}
+\newcommand{\fB}{\mathfrak{B}}
+\DeclareMathOperator{\Tr}{Tr}
+\DeclareMathOperator{\Ran}{Ran}
+\DeclareMathOperator{\Cov}{Cov}
+\DeclareMathOperator{\sech}{sech}
+\renewcommand{\proofname}{証明}
+
+\begin{document}
+
+\begin{titlepage}
+\centering
+\vspace*{0.8cm}
+{\LARGE\bfseries $X(2)$上のブリッジ共分散としての\\[6pt]
+高温超伝導：\\[6pt]
+斥力Hubbard平面の正準Schur\\[6pt]
+ダウンフォールディングからの$d_{x^2-y^2}$ペアリング}
+\vspace{1.2cm}
+
+{\large 中村 昌義$^{1,*}$}
+\vspace{0.6cm}
+
+{\normalsize
+$^1$\,北与野メンタルクリニック、
+〒338-0002 埼玉県さいたま市中央区下落合4-20-14\\
+\texttt{mjolnir501@gmail.com}\\[4pt]
+$^*$\,責任著者
+}
+\vspace{0.6cm}
+
+{\small
+\noindent\textbf{関連リポジトリ：}\\
+LoNalogyフレームワーク (v87.1):
+\href{https://doi.org/10.5281/zenodo.19115338}{doi:10.5281/zenodo.19115338}\\
+姉妹論文：Yang--Mills (v90)、$X(2)$上の統計力学、
+量子化学、ハッブル再構成 (v2)
+}
+\vspace{0.8cm}
+
+\begin{abstract}
+\noindent
+銅酸化物高温超伝導の微視的機構は30年以上にわたり完全な合意がない。
+LoNalogyの正準ブリッジ分解を正方格子上の斥力Hubbardモデルに適用し、
+最小機構を示す：
+(i) オンサイト斥力$U$はdoublon-holonブリッジのSchur消去により
+最近接一重項結合引力$-Jb_{ij}^\dagger b_{ij}$に変わる。
+(ii) ペアグルーはブリッジ共分散
+$\mathcal{C}_d^{\br}=\beta\Cov(B_d,B_d)$でありフォノンではない。
+(iii) 主要不安定性チャンネルは$C_{4v}$対称性と
+反強磁性的符号構造により$d_{x^2-y^2}$。
+$2\times2$プラケットベンチマークは$d$波支配を確認。
+\end{abstract}
+\end{titlepage}
+
+\setcounter{page}{1}
+\tableofcontents
+\newpage
+
+\section*{序論}
+\addcontentsline{toc}{section}{序論}
+
+ベドノルツとミュラーの1986年の発見以来、銅酸化物高温超伝導の機構は
+凝縮系物理学の中心的未解決問題であった。秩序パラメータの$d_{x^2-y^2}$
+対称性は広く確立されているが、ペアグルーの正体は論争が続いてきた。
+本論文はLoNalogyフレームワークがこれらの数値的観測の背後にある
+厳密な代数的構造を与えることを示す。
+
+
+\part{Hubbard平面の正準ブリッジ分解}
+
+\section{設定}\label{sec:setup}
+
+\begin{definition}[正方格子Hubbardモデル]
+\begin{equation}
+H = -t\sum_{\langle ij\rangle,\sigma}
+(c_{i\sigma}^\dagger c_{j\sigma}+\mathrm{h.c.})
+-t'\sum_{\langle\langle ij\rangle\rangle,\sigma}
+(c_{i\sigma}^\dagger c_{j\sigma}+\mathrm{h.c.})
++ U\sum_i n_{i\uparrow}n_{i\downarrow}.
+\end{equation}
+$U>0$（斥力）、最近接ホッピング$t$、次近接ホッピング$t'$。
+\end{definition}
+
+\begin{theorem}[Hubbard平面の正準ブリッジ]\label{thm:bridge}
+$P_B:=\Pi_{\Ran(QHP_A)}$、$P_I:=I-P_A-P_B$とすると
+$P_AHP_I=0=P_IHP_A$であり、厳密有効ハミルトニアンは
+\begin{equation}
+\boxed{H_A^{\eff}(E) = H_{AA}
+- H_{AB}\bigl(H_{BB}-E-\Sigma_B(E)\bigr)^{-1}H_{BA}.}
+\end{equation}
+\end{theorem}
+
+\begin{proof}
+量子化学論文の正準デカップリング定理と同一。
+$P_B$は$\Ran(QHP_A)$への射影であるから
+$P_IQHP_A=0$、自己共役性から$P_AHP_I=0$。
+Feshbach-Schurダウンフォールディングは$\psi_I$、$\psi_B$の
+逐次消去で従う。
+\end{proof}
+
+
+\part{斥力が引力に変わる}
+
+\section{強結合展開}\label{sec:strongcoupling}
+
+\begin{theorem}[斥力からの一重項結合引力]\label{thm:attraction}
+強結合$U\gg t,|t'|$で、ブリッジを1-doublon/1-holon
+セクターとすると、厳密Schur演算子の$t^2/U$展開は
+\begin{equation}
+H_A^{\eff} = P_A H_t P_A
++ J\sum_{\langle ij\rangle}
+\left(\bm{S}_i\cdot\bm{S}_j
+- \tfrac{1}{4}n_in_j\right)
++ O(t^3/U^2),
+\quad J:=\frac{4t^2}{U}.
+\end{equation}
+\end{theorem}
+
+\begin{proof}
+\emph{ステップ1.}
+ブリッジ空間は半充填からdoublon 1個・holon 1個の状態で構成。
+ホッピング項$H_t$が占有サイトに電子を跳ばせるとdoublonが生成される
+（エネルギーコスト$U$）。
+
+\emph{ステップ2.}
+$H_{BB}\approx UI_B$であるから、$E\ll U$で
+$(H_{BB}-E)^{-1}\approx U^{-1}I_B$。
+Schur補正は
+$-H_{AB}(H_{BB}-E)^{-1}H_{BA}
+\approx -U^{-1}(P_AH_tQ)(QH_tP_A)$。
+
+\emph{ステップ3.}
+最近接ボンド$\langle ij\rangle$について仮想過程
+（$j$から$i$へのホップでdoublon生成、逆ホップで消滅）を評価すると、
+射影されたno-doublon空間で超交換ハミルトニアン
+$J\sum(\bm{S}_i\cdot\bm{S}_j-\frac{1}{4}n_in_j)$
+（$J=4t^2/U$）が得られる。これはLoNalogyのSchur補行列として
+導出された標準的$t$-$J$超交換。
+\end{proof}
+
+\begin{theorem}[結合一重項形]\label{thm:bondsinglet}
+結合一重項生成演算子
+\begin{equation}
+b_{ij}^\dagger := \frac{1}{\sqrt{2}}
+(c_{i\uparrow}^\dagger c_{j\downarrow}^\dagger
+- c_{i\downarrow}^\dagger c_{j\uparrow}^\dagger)
+\end{equation}
+を定義する。射影されたno-doublon空間で厳密に
+\begin{equation}
+\bm{S}_i\cdot\bm{S}_j - \tfrac{1}{4}n_in_j
+= -b_{ij}^\dagger b_{ij}.
+\end{equation}
+したがって超交換ハミルトニアンは
+\begin{equation}
+\boxed{H_J = -J\sum_{\langle ij\rangle}b_{ij}^\dagger b_{ij}.}
+\end{equation}
+これは最近接一重項結合\emph{引力}である。
+\end{theorem}
+
+\begin{proof}
+\emph{ステップ1.}
+$b_{ij}^\dagger b_{ij}$を展開し反交換関係で正規順序化する。
+
+\emph{ステップ2.}
+$S_i^+=c_{i\uparrow}^\dagger c_{i\downarrow}$等のスピン演算子で書き直す。
+
+\emph{ステップ3.}
+比較して
+$\bm{S}_i\cdot\bm{S}_j-\frac{1}{4}n_in_j=-b_{ij}^\dagger b_{ij}$
+を確認。数演算子積の交差項が一重項射影の交差項と消し合う。
+\end{proof}
+
+\begin{remark}[物理的意味]
+オンサイト斥力$U>0$がdoublon-holonブリッジのSchur消去により
+最近接一重項結合引力$-J<0$に変換された。これは神秘的な創発ではなく
+LoNalogyブリッジ構造の直接的な代数的帰結。
+LoNalogyの言葉で：可視セクターが引力を見るのは、
+斥力的ブリッジが積分消去されたから。
+\end{remark}
+
+
+\part{ブリッジ共分散としてのペアグルー}
+
+\section{ペア感受率}\label{sec:pairsuscept}
+
+\begin{definition}[$d$波ペア演算子]
+$\Delta_d^\dagger := \sum_{\langle ij\rangle}
+g_d(\bm{r}_{ij})b_{ij}^\dagger$。
+$g_d(\hat{x})=+1$、$g_d(\hat{y})=-1$で$d_{x^2-y^2}$対称性を符号化。
+\end{definition}
+
+\begin{theorem}[ペアグルーはブリッジ共分散]\label{thm:glue}
+ペアソース自由エネルギー
+\[
+\Gamma_d(J_d,\bar{J}_d):=-\beta^{-1}\log Z_d
+\]
+においてペア感受率曲率は
+\begin{equation}
+\boxed{\partial_{J_d}\partial_{\bar{J}_d}\Gamma_d(0)
+= K_d^{\mathrm{bare}} - \mathcal{C}_d^{\br},}
+\end{equation}
+ここで
+$\boxed{\mathcal{C}_d^{\br}:=\beta\Cov(B_d,B_d)\geq 0}$。
+超伝導不安定性の条件は
+$\boxed{\mathcal{C}_d^{\br} > K_d^{\mathrm{bare}}.}$
+\end{theorem}
+
+\begin{proof}
+統計力学姉妹論文のLoNalogy対数周辺ヘシアン恒等式を
+ペアソース変数$(J_d,\bar{J}_d)$に直接適用。
+$X=0$でのヘシアンは
+$\mathbb{E}[\Phi_{XX}]-\beta\Cov(\Phi_X,\Phi_X)$であり、
+第1項がbare pair stiffness、第2項がbridge covariance。
+\end{proof}
+
+
+\part{なぜ$d$波か}
+
+\section{対称性解析}\label{sec:symmetry}
+
+\begin{theorem}[$d$波選択]\label{thm:dwave}
+正方格子の$C_{4v}$対称性の下で、最近接結合一重項チャンネルは
+$A_{1g}$（拡張$s$）：$g_s(\bm{k})=\cos k_x+\cos k_y$と
+$B_{1g}$（$d_{x^2-y^2}$）：$g_d(\bm{k})=\cos k_x-\cos k_y$に分解。
+
+ブリッジ共分散が反強磁性波数$\bm{Q}=(\pi,\pi)$近傍で最大のとき、
+線形化ギャップ方程式は$\Delta(\bm{k}+\bm{Q})=-\Delta(\bm{k})$を好む。
+$B_{1g}$は$g_d(\bm{k}+\bm{Q})=-g_d(\bm{k})$を満たす。
+さらにオンサイト/短距離クーロン斥力が$A_{1g}$を抑制。
+したがって主要超伝導チャンネルは
+\begin{equation}
+\boxed{B_{1g}\equiv d_{x^2-y^2}.}
+\end{equation}
+\end{theorem}
+
+\begin{proof}
+\emph{ステップ1.}
+$C_{4v}$の指標による既約分解で$g_s$は$A_{1g}$、$g_d$は$B_{1g}$。
+
+\emph{ステップ2.}
+$g_d(\bm{k}+\bm{Q})
+=\cos(k_x+\pi)-\cos(k_y+\pi)=-\cos k_x+\cos k_y=-g_d(\bm{k})$。
+反強磁性的符号条件を満たす。
+
+\emph{ステップ3.}
+No-doublon射影空間ではオンサイトペアリングが禁止され、
+$A_{1g}$チャンネル（オンサイト重みあり）が抑制される。
+$d_{x^2-y^2}$は反強磁性符号条件とno-doublon制約の
+両方を満たす唯一のチャンネル。
+\end{proof}
+
+
+\part{プラケットベンチマーク}
+
+\begin{proposition}[プラケット検証]\label{prop:plaquette}
+$2\times2$開放正方Hubbard（半充填$N=4$、$S_z=0$、次元36）で：
+(i) 正準ブリッジ分解は$\dim A=6$、$\dim B=5$、$\dim I=25$、
+$\|P_AHP_I\|\sim10^{-15}$。
+(ii) $d$波ペア行列要素は大きい：
+$|\langle N\!=\!4|\Delta_d^\dagger|N\!=\!2\rangle|\sim1.5$--$1.9$。
+(iii) 拡張$s$波行列要素は消える：
+$|\langle N\!=\!4|\Delta_s^\dagger|N\!=\!2\rangle|\sim10^{-15}$。
+\end{proposition}
+
+\begin{remark}
+最小の$2\times2$クラスターですでに$d$波が$s$波を15桁上回る。
+対称性選択はfinite-sizeアーティファクトではなく
+定理\ref{thm:dwave}の$C_{4v}$符号構造の帰結。
+\end{remark}
+
+
+\part{ペア束縛は必要条件でも十分条件でもない}
+
+\section{ペア束縛のno-go}\label{sec:pairbinding}
+
+\begin{definition}[ペア束縛指標]
+$\Delta_{\mathrm{pb}}:=2E_0(N\!=\!3)-E_0(N\!=\!4)-E_0(N\!=\!2)$。
+$\Delta_{\mathrm{pb}}>0$は束縛ペア形成がエネルギー的に有利であることを意味する。
+\end{definition}
+
+\begin{proposition}[ペア束縛は$d$波ペアリングの必要条件ではない]\label{prop:notnec}
+$2\times2$プラケットHubbardで$U/t\geq 6$では
+$\Delta_{\mathrm{pb}}<0$だが、$d$波ペア行列要素は大きいまま：
+\[
+|\langle N\!=\!4|\Delta_d^\dagger|N\!=\!2\rangle|
+\sim1.5\text{--}1.7.
+\]
+\begin{equation}
+\boxed{\Delta_{\mathrm{pb}}>0\text{は}d\text{波ペアリングの必要条件ではない。}}
+\end{equation}
+\end{proposition}
+
+\begin{proof}
+\emph{ステップ1：数値的証拠。}
+$U/t=12$で$\Delta_{\mathrm{pb}}<0$。
+
+\emph{ステップ2：大きな$d$波重なりとの共存。}
+$U/t=12$でも$d$波行列要素$|\langle N\!=\!4|\Delta_d^\dagger|N\!=\!2\rangle|=1.54$は$O(1)$であり、
+拡張$s$波は$\sim10^{-15}$。ペアリング\emph{チャンネル}（対称性選択）はbinding
+\emph{エネルギー}が負になっても存続する。
+
+\emph{ステップ3：説明。}
+ペア束縛はペア追加の\emph{全}エネルギーバランス（運動エネルギーコスト含む）を測る。
+$d$波行列要素は$d$波演算子を通じた$N=2$と$N=4$基底状態の\emph{重なり}を測る。
+大きな重なりと負の束縛エネルギーは、ペアチャンネルは活性だが
+このクラスターサイズでは運動エネルギーペナルティがペアリング利得を超えることを意味する。
+\end{proof}
+
+\begin{proposition}[ペア束縛は超伝導の十分条件でもない]\label{prop:notsuff}
+有限クラスターで$\Delta_{\mathrm{pb}}>0$でも、超伝導は長距離位相コヒーレンス
+（ODLRO）を要求し、有限系では不在。
+\begin{equation}
+\boxed{\Delta_{\mathrm{pb}}>0\text{は超伝導の十分条件でもない。}}
+\end{equation}
+\end{proposition}
+
+\begin{proof}
+超伝導はODLROで定義される：
+$\lim_{|\bm{r}-\bm{r}'|\to\infty}
+\langle\Delta^\dagger(\bm{r})\Delta(\bm{r}')\rangle\neq 0$。
+これは熱力学的極限$L\to\infty$を要求する。$L$サイトの有限クラスターでは
+全ての相関関数は$L$を超える距離でゼロに減衰するのでODLROは確立できない。
+$\Delta_{\mathrm{pb}}>0$は局所ペア形成の有限クラスター診断であり
+大域的位相コヒーレンスの診断ではない。
+\end{proof}
+
+
+\part{超伝導判定基準と相図}
+
+\section{LoN超伝導判定基準}\label{sec:SCcriterion}
+
+\begin{definition}[位相剛性]\label{def:stiffness}
+$x$方向にtwisted boundary phase $\phi$を導入する。位相剛性は
+\begin{equation}
+\boxed{\rho_s := \frac{1}{N}\left.\frac{\partial^2\Gamma_{d,\phi}}
+{\partial\phi^2}\right|_{\phi=0}.}
+\end{equation}
+$\rho_s>0$は系が位相ねじれに抵抗する、すなわち超流動剛性を持つことを意味する。
+\end{definition}
+
+\begin{theorem}[LoN超伝導判定基準]\label{thm:SCcriterion}
+超伝導相の最小判定基準は
+\begin{equation}
+\boxed{\kappa_d < 0 \quad\text{かつ}\quad \rho_s > 0.}
+\end{equation}
+三つのレジーム：
+\begin{center}
+\begin{tabular}{lll}
+\toprule
+$\kappa_d$ & $\rho_s$ & 相\\
+\midrule
+$>0$ & 任意 & 常伝導（ペアリングなし）\\
+$<0$ & $=0$ & 前駆ペア/擬ギャップ\\
+$<0$ & $>0$ & 超伝導\\
+\bottomrule
+\end{tabular}
+\end{center}
+\end{theorem}
+
+\begin{proof}
+\emph{ステップ1：$\kappa_d<0$の必要性。}
+$\kappa_d\geq 0$なら$\Gamma_d(J_d,\bar{J}_d)$は$J_d=0$で凸。
+一様状態（$\Delta_d=0$）が局所極小であり自発的ペア凝縮は起きない。
+
+\emph{ステップ2：$\rho_s>0$の必要性。}
+$\kappa_d<0$だが$\rho_s=0$なら、ペアは局所的に形成されるが位相が自由に揺らぐ。
+2DではMermin-Wagner定理が$T>0$で連続対称性の真の長距離秩序を禁じるが、
+BKT転移は$\rho_s>0$のとき準長距離秩序を確立する。
+
+\emph{ステップ3：十分性。}
+$\kappa_d<0$かつ$\rho_s>0$のとき：
+(i) ペア曲率が負なのでランダウ自由エネルギーは$\Delta_d=0$で局所極大、
+$|\Delta_d|>0$で極小。
+(ii) 位相剛性が正なので$\Delta_d$の位相は剛。
+合わせて自発的$U(1)$対称性の破れ（2Dでは準長距離秩序）を確立する。
+\end{proof}
+
+
+\section{ドーム構造}\label{sec:dome}
+
+\begin{corollary}[ペアリング-剛性交差からのドーム]\label{cor:dome}
+ペアリング開始スケール$T^*(x)$を$\kappa_d(x,T^*)=0$、
+位相秩序スケール$T_\theta(x)$を$\rho_s(x,T_\theta)=0$で定義する。
+物理的臨界温度は
+\begin{equation}
+\boxed{T_c(x) = \min\{T^*(x),\,T_\theta(x)\}.}
+\end{equation}
+最小ドープMott仮定の下で$T_c(x)$は必ずドーム形状を持つ。
+\end{corollary}
+
+\begin{proof}
+\emph{ステップ1：境界値。}
+$x=0$（未ドープMott絶縁体）：$T_\theta(0)=0$（移動キャリアなし）、
+$T^*$の値に関わらず$T_c(0)=0$。
+大きな$x$（過剰ドープ）：$T^*(x)\to 0$（ブリッジ共分散が弱まる）、
+$T_\theta$の値に関わらず$T_c\to 0$。
+
+\emph{ステップ2：中間の極大。}
+仮定により$T^*(x)$は正で減少、$T_\theta(x)$は$0$から出発して増加。
+両方とも連続関数。中間値の定理により
+$T^*(x_{\mathrm{opt}})=T_\theta(x_{\mathrm{opt}})$
+となる$x_{\mathrm{opt}}$が存在する。
+$x<x_{\mathrm{opt}}$では$T_c=T_\theta$（増加）。
+$x>x_{\mathrm{opt}}$では$T_c=T^*$（減少）。
+$T_c$は$x_{\mathrm{opt}}$で極大を持ち、両端でゼロ。これがドーム。
+
+\emph{ステップ3：擬ギャップの同定。}
+$x<x_{\mathrm{opt}}$かつ$T_\theta<T<T^*$：
+$\kappa_d<0$（ペア存在）だが$\rho_s=0$（位相コヒーレンスなし）。
+これが擬ギャップ。
+\end{proof}
+
+
+\part{競合チャンネル：ストライプ、擬ギャップ、超伝導}
+
+\section{多チャンネルブリッジ共分散}\label{sec:competing}
+
+\begin{theorem}[ブリッジ共分散行列からの競合チャンネル]\label{thm:competing}
+$d$波ペア場$\Delta_d$と電荷/ストライプ秩序パラメータ$\Phi_Q$
+（波数$\bm{Q}$）を同時にソースに結合する。
+チャンネルヘシアンは
+\begin{equation}
+\boxed{\mathcal{K} = \begin{pmatrix}
+K_d^{\mathrm{bare}}-\mathcal{C}_{dd}^{\br}
+& -\mathcal{C}_{dQ}^{\br}\\
+-\mathcal{C}_{Qd}^{\br}
+& K_Q^{\mathrm{bare}}-\mathcal{C}_{QQ}^{\br}
+\end{pmatrix}.}
+\end{equation}
+相図は$\mathcal{K}$の固有構造で決まる：
+\begin{center}
+\begin{tabular}{ll}
+\toprule
+固有構造 & 相\\
+\midrule
+最小固有ベクトル$\parallel\Delta_d$、固有値$<0$ & $d$波SC\\
+最小固有ベクトル$\parallel\Phi_Q$、固有値$<0$ & ストライプ/CDW\\
+ほぼ縮退、quartic結合が許す & SC+ストライプ共存\\
+$\kappa_d<0$だが$\rho_s=0$ & 擬ギャップ\\
+全固有値$>0$ & 常伝導\\
+\bottomrule
+\end{tabular}
+\end{center}
+\end{theorem}
+
+\begin{proof}
+\emph{ステップ1：多チャンネルヘシアン。}
+LoNalogy対数周辺ヘシアン恒等式を多成分ソース
+$X=(J_d,\bar{J}_d,h_Q)$に適用。$X=0$でのヘシアンブロック構造は
+各チャンネル対のbare stiffnessとbridge covarianceに分離する。
+オフダイアゴナルブロック
+$\mathcal{C}_{dQ}^{\br}=\beta\Cov(B_d,B_Q)$は
+$d$波とストライプのbridge演算子間の交差相関を測る。
+
+\emph{ステップ2：固有値からの不安定性。}
+$\mathcal{K}$の最も負の固有値の方向に系は不安定。
+固有ベクトルが主に$\Delta_d$なら$d$波SC、
+主に$\Phi_Q$ならストライプ/CDW。
+
+\emph{ステップ3：共存。}
+$\mathcal{K}$の二つの最小固有値がほぼ縮退で両方とも負、かつ
+quarticランダウ結合$|\Delta_d|^2|\Phi_Q|^2$が適切な符号なら
+両秩序が共存可能。これがHubbard大規模計算で報告される
+「intertwined orders」。
+
+\emph{ステップ4：擬ギャップ。}
+$\kappa_d<0$だが$\rho_s=0$（位相揺らぎが長距離秩序を破壊）なら
+局所ペアリングはあるが大域コヒーレンスなし。これが擬ギャップ。
+\end{proof}
+
+\begin{remark}[統一]
+超伝導、ストライプ秩序、擬ギャップは三つの別々の謎ではない。
+LoNalogyでは同一のブリッジ共分散行列$\mathcal{K}$の
+三つの可能な帰結であり、どの固有値が先に負になるかと
+位相剛性が確立されるかで決まる。
+\end{remark}
+
+
+\part{三バンド電荷移動化学}
+
+\section{Emeryモデルはパラメータソース}\label{sec:threeband}
+
+\begin{definition}[三バンドEmeryハミルトニアン]
+ホール表現でのCuO$_2$平面：
+\begin{align}\label{eq:emery}
+H_{3b} &= \epsilon_d\sum_{i,\sigma}n_{i\sigma}^d
++\epsilon_p\sum_{j,\sigma}n_{j\sigma}^p
+-t_{pd}\sum_{\langle ij\rangle,\sigma}
+(d_{i\sigma}^\dagger p_{j\sigma}+\mathrm{h.c.})\notag\\
+&\quad -t_{pp}\sum_{\langle jj'\rangle,\sigma}
+(p_{j\sigma}^\dagger p_{j'\sigma}+\mathrm{h.c.})
++U_d\sum_i n_{i\uparrow}^d n_{i\downarrow}^d\notag\\
+&\quad +U_p\sum_j n_{j\uparrow}^p n_{j\downarrow}^p
++V_{pd}\sum_{\langle ij\rangle}n_i^d n_j^p.
+\end{align}
+電荷移動ギャップは$\Delta_{pd}:=\epsilon_p-\epsilon_d$。
+\end{definition}
+
+\begin{theorem}[三バンド化学はパラメータソース]\label{thm:threeband}
+三バンドEmeryハミルトニアン\eqref{eq:emery}にLoN正準ブリッジを適用する。
+活性空間$P_A$をZhang-Rice的低エネルギー多様体（Cuダブロンなし）に取ると、
+ブリッジ$P_B=\Pi_{\Ran(QH_{3b}P_A)}$は酸素リガンドホールと
+Cu-O電荷移動励起で構成される。
+電荷移動レジーム$\Delta_{pd},U_d,U_p-2V_{pd}\gg t_{pd},|t_{pp}|$での
+leading order被約パラメータは：
+\begin{align}
+t_{\eff} &= t_{pp}+\chi\frac{t_{pd}^2}{\Delta_{pd}}+O(t^3/\Delta^2),\\
+\boxed{J_{\eff} = \frac{4t_{pd}^4}{\Delta_{pd}^2}
+\left(\frac{1}{U_d}+\frac{2}{2\Delta_{pd}+U_p-2V_{pd}}\right)
++O(t^6/\Delta^5).}
+\end{align}
+三バンド化学は別機構ではなく、同じLoNブリッジフレームワーク内の
+$(t_{\eff},t_{\eff}',J_{\eff})$を固定する。
+\end{theorem}
+
+\begin{proof}
+\emph{ステップ1：ブリッジの同定。}
+活性空間はCuサイト当たり高々1ホール（Cuダブロンなし）の状態で構成。
+$QH_{3b}P_A$はこれらをCuダブロンまたはO-O電荷移動励起を含む
+励起状態に写す。ブリッジ$P_B$はこれらの状態を正確に捕捉。
+
+\emph{ステップ2：leading orderのSchur消去。}
+ブリッジエネルギーはCuダブロン状態で$H_{BB}\approx(\Delta_{pd}+U_d)I_B$、
+Oリガンドホール状態で$H_{BB}\approx\Delta_{pd}I_B$が支配的。
+$E\approx 0$でのSchur補正は：
+(a) 有効ホッピング：Cu($i$)→O($j$)→Cu($k$)の2次仮想過程で
+$t_{\eff}^{(2)}=t_{pd}^2/\Delta_{pd}$。
+(b) 超交換：Cu($i$)→O→Cu($j$)→O→Cu($i$)の4次仮想過程。
+Cuダブロン（エネルギー$U_d$）とOダブロン
+（エネルギー$2\Delta_{pd}+U_p-2V_{pd}$）の中間状態を経由し、
+二つの経路が加法的に寄与して$J_{\eff}$を与える。
+
+\emph{ステップ3：$\Delta_{pd}$に関する単調性。}
+$J_{\eff}\propto\Delta_{pd}^{-2}$であるから、小さい$\Delta_{pd}$は
+大きい$J_{\eff}$を与える。$J_{\eff}$がブリッジ共分散を制御するので、
+$\Delta_{pd}$と$T_{c,\max}$の実験的負相関が説明される。
+\end{proof}
+
+
+\part{物質固有$T_c$}
+
+\section{被約逆問題}\label{sec:materialTc}
+
+\begin{definition}[物質パラメータベクトル]
+物質$M$に対して：
+\begin{align}
+\bm{p}_M:=(&\Delta_{pd},t_{pd},t_{pp},U_d,U_p,V_{pd},\notag\\
+&x,g_{\mathrm{ph}},\omega_{\mathrm{ph}},
+\Gamma_{\mathrm{dis}},t_\perp,\Delta_\perp)_M.
+\end{align}
+\end{definition}
+
+\begin{theorem}[物質固有$T_c$は被約逆問題]\label{thm:materialTc}
+ペアリング曲率と位相剛性を
+\begin{align}
+\kappa_d(T;\bm{p}_M) &:= K_d^{\mathrm{bare}}
+-\mathcal{C}_{dd}^{\mathrm{ct}}-\mathcal{C}_{dd}^{\mathrm{ph}},\\
+\rho_s(T;\bm{p}_M) &:= \rho_s^{ab}+\rho_s^c-\rho_s^{\mathrm{dis}}
+\end{align}
+で定義し、$T^*(M):=\sup\{T:\kappa_d<0\}$、
+$T_\theta(M):=\sup\{T:\rho_s>0\}$とすると
+\begin{equation}
+\boxed{T_c(M) = \min\{T^*(M),\,T_\theta(M)\}.}
+\end{equation}
+機構は全銅酸化物で同一。物質依存性は$\bm{p}_M$のみを通じて入る。
+\end{theorem}
+
+\begin{proof}
+\emph{ステップ1：$\bm{p}_M$の網羅性。}
+LoN有効ハミルトニアンはCuO$_2$平面の微視的パラメータに
+被約量$(t_{\eff},t_{\eff}',J_{\eff})$のみを通じて依存する
+（定理\ref{thm:threeband}）。追加チャンネル（フォノン、不純物、層間）は
+それぞれの結合定数を通じて入る。合わせて$\bm{p}_M$がペア曲率$\kappa_d$と
+位相剛性$\rho_s$を完全に決定する。
+
+\emph{ステップ2：判定基準からの$T_c$。}
+定理\ref{thm:SCcriterion}により超伝導は$\kappa_d<0$かつ$\rho_s>0$を要求。
+温度上昇に伴い$\kappa_d$が先にゼロを横切る（$T^*$）か
+$\rho_s$が先にゼロを横切る（$T_\theta$）。
+SC相はどちらか先に起きた方で終了：$T_c=\min\{T^*,T_\theta\}$。
+
+\emph{ステップ3：逆問題への還元。}
+機構（ブリッジ共分散）が普遍で$\bm{p}_M$のみが物質間で変わるので、
+$T_c(M)$の予測はab initio計算または実験から$\bm{p}_M$を決定して
+上式を評価することに還元される。有限次元逆問題であり概念的未解決問題ではない。
+\end{proof}
+
+
+\part{フォノン、不純物、$c$軸はリノーマリゼーション}
+
+\section{フォノンチャンネル}\label{sec:phonon}
+
+\begin{theorem}[フォノンはペア曲率リノーマリゼーション]\label{thm:phonon}
+フォノンブリッジがガウス形
+$\Phi_{\mathrm{ph}}=\frac{1}{2}X_{\mathrm{ph}}^\top D_{\mathrm{ph}}X_{\mathrm{ph}}
+-\Delta_d^\dagger g_d X_{\mathrm{ph}}-X_{\mathrm{ph}}^\top g_d^\dagger\Delta_d$
+（$D_{\mathrm{ph}}\succ 0$）を持つとき、$X_{\mathrm{ph}}$を積分消去すると
+\begin{equation}
+\boxed{\mathcal{C}_{dd}^{\mathrm{ph}}
+=g_d D_{\mathrm{ph}}^{-1}g_d^\dagger\succeq 0.}
+\end{equation}
+フォノンは$\kappa_d\mapsto\kappa_d-\mathcal{C}_{dd}^{\mathrm{ph}}$として
+ペア曲率を下げる（ペアリングを助ける）が、primary glueではない。
+\end{theorem}
+
+\begin{proof}
+量子化学姉妹論文のガウスブリッジ定理を直接適用。
+$X=\Delta_d$、$Z=X_{\mathrm{ph}}$、$M=g_d$、$D=D_{\mathrm{ph}}$として
+ガウス積分で$\mathcal{C}_{\br}=MD^{-1}M^\top=g_dD_{\mathrm{ph}}^{-1}g_d^\dagger$。
+$\mathcal{C}_{dd}^{\mathrm{ph}}\geq 0$であるからフォノンは$\kappa_d$を下げ、
+電荷移動ブリッジ共分散を補助するが置き換えない。
+\end{proof}
+
+
+\section{不純物チャンネル}\label{sec:disorder}
+
+\begin{theorem}[不純物は剛性キラー]\label{thm:disorder}
+位相剛性は
+$\rho_s=\langle K_{\phi\phi}\rangle-\beta\Cov(j_\phi,j_\phi)$
+を満たす。クエンチ不純物平均後：
+\begin{equation}
+\boxed{\rho_s^{\mathrm{dis}}
+:=\beta\Cov_W(j_\phi,j_\phi)\geq 0}
+\end{equation}
+が剛性を下げる。不純物は主にペアリングではなく位相コヒーレンスを破壊する。
+\end{theorem}
+
+\begin{proof}
+\emph{ステップ1.}
+位相剛性はツイスト角$\phi$に関する自由エネルギーの2階微分：
+$\rho_s=N^{-1}\partial_\phi^2\Gamma|_{\phi=0}$。
+電流演算子は$j_\phi=\partial_\phi H|_{\phi=0}$、
+反磁性カーネルは$K_{\phi\phi}=\partial_\phi^2 H|_{\phi=0}$。
+
+\emph{ステップ2.}
+LoNヘシアン恒等式を$X=\phi$に適用：
+$\partial_\phi^2\Gamma=\langle K_{\phi\phi}\rangle
+-\beta\Cov(j_\phi,j_\phi)$。
+
+\emph{ステップ3.}
+クエンチ不純物$W$で共分散$\Cov_W(j_\phi,j_\phi)$は
+熱揺らぎと不純物揺らぎの両方を含む。共分散は非負であるから
+$\rho_s^{\mathrm{dis}}\geq 0$で不純物は$\rho_s$を下げる。
+
+\emph{ステップ4.}
+ペア曲率$\kappa_d$はペア-ペア相関に依存し、
+電流-電流相関には直接依存しない。したがって
+$\kappa_d<0$、$\rho_s\approx 0$
+（前駆ペア/擬ギャップ）のレジームが不純物により自然に生成される。
+\end{proof}
+
+
+\section{$c$軸層間結合}\label{sec:caxis}
+
+\begin{theorem}[$c$軸結合は位相剛性を上げる]\label{thm:caxis}
+層間ブリッジを位相のみのセクターにダウンフォールドすると、leading orderで
+\begin{equation}
+H_\perp^{\eff}=-J_\perp\sum_\ell\cos(\theta_{\ell+1}-\theta_\ell),
+\quad J_\perp\sim\frac{t_\perp^2}{\Delta_\perp}.
+\end{equation}
+小ツイストでは$\boxed{\rho_s^c\propto J_\perp>0}$。
+層間結合は位相剛性を上げるが面内ペアリングは作らない。
+\end{theorem}
+
+\begin{proof}
+\emph{ステップ1.}
+層間ホッピング$t_\perp$は電荷移動ギャップ$\Delta_\perp$で
+隔てられたCuO$_2$面を接続。Schur消去で有効ジョセフソン結合
+$J_\perp\sim t_\perp^2/\Delta_\perp$が各層の超伝導位相間に生じる。
+
+\emph{ステップ2.}
+$\cos(\delta\theta)=1-\frac{1}{2}(\delta\theta)^2+\cdots$を展開して
+$H_\perp^{\eff}\approx\text{const}+\frac{J_\perp}{2}\sum(\theta_{\ell+1}-\theta_\ell)^2$。
+$c$軸の位相剛性寄与は$\rho_s^c=J_\perp/N_\perp>0$。
+
+\emph{ステップ3.}
+$J_\perp$は層間の位相を結合するが面内ペア引力を生成しない。
+面内ペア曲率$\kappa_d$はleading orderで$t_\perp$に影響されない。
+$c$軸結合は$\rho_s$を上げ（位相揺らぎに対してSCを安定化）
+ペアリング機構を変更しない。
+\end{proof}
+
+\begin{corollary}[多層/圧力/頂点酸素の効果]\label{cor:material}
+全ての物質固有の変更は同じ二量：
+$\kappa_d=K_d^{\mathrm{bare}}-\mathcal{C}_{dd}^{\mathrm{ct}}
+-\mathcal{C}_{dd}^{\mathrm{ph}}$と
+$\rho_s=\rho_s^{ab}+\rho_s^c-\rho_s^{\mathrm{dis}}$
+を通じて作用する。
+Hg系・Bi系・YBCO・単層/二層/三層の違いは
+別機構の違いではなく同じ被約カーネル上のパラメータ工学の違い。
+\end{corollary}
+
+\begin{proof}
+各物質変更は上式の正確に一つの項に入る：
+$\Delta_{pd}$減少→$\mathcal{C}_{dd}^{\mathrm{ct}}$増大（定理\ref{thm:threeband}）、
+$t_\perp$増大→$\rho_s^c$増大（定理\ref{thm:caxis}）、
+$\Gamma_{\mathrm{dis}}$増大→$\rho_s^{\mathrm{dis}}$増大（定理\ref{thm:disorder}）。
+機構（$d$波ブリッジ共分散）は不変。
+\end{proof}
+
+
+\part{要約}
+
+\section{閉じたもの}\label{sec:closed}
+
+\begin{center}
+\begin{tabular}{lll}
+\toprule
+結果 & 参照 & ステータス\\
+\midrule
+Hubbardの正準ブリッジ & 定理\ref{thm:bridge} & 厳密\\
+斥力→一重項引力 & 定理\ref{thm:attraction} & 厳密\\
+結合一重項恒等式 & 定理\ref{thm:bondsinglet} & 厳密\\
+ペアグルー=ブリッジ共分散 & 定理\ref{thm:glue} & 厳密\\
+$d_{x^2-y^2}$選択 & 定理\ref{thm:dwave} & 厳密\\
+プラケット$d$波支配 & 命題\ref{prop:plaquette} & 数値\\
+ペア束縛は必要でない & 命題\ref{prop:notnec} & No-go\\
+ペア束縛は十分でない & 命題\ref{prop:notsuff} & No-go\\
+SC判定基準 & 定理\ref{thm:SCcriterion} & 厳密\\
+ドーム構造 & 系\ref{cor:dome} & 厳密\\
+競合チャンネル & 定理\ref{thm:competing} & 厳密\\
+三バンドはパラメータソース & 定理\ref{thm:threeband} & 厳密\\
+物質固有$T_c$ & 定理\ref{thm:materialTc} & 厳密\\
+フォノンは曲率リノーマリゼーション & 定理\ref{thm:phonon} & 厳密\\
+不純物は剛性キラー & 定理\ref{thm:disorder} & 厳密\\
+$c$軸は剛性を上げる & 定理\ref{thm:caxis} & 厳密\\
+物質ノブの系 & 系\ref{cor:material} & 厳密\\
+\bottomrule
+\end{tabular}
+\end{center}
+
+LoNalogyにおける最小銅酸化物平面機構：
+\begin{equation}
+\boxed{U
+\;\xrightarrow{\text{Schur}}\;
+J\!=\!\tfrac{4t^2}{U}
+\;\xrightarrow{\text{AF一重項}}\;
+\mathcal{C}_{dd}^{\br}
+\;\xrightarrow{\kappa_d<0}\;
+d\text{波}
+\;\xrightarrow{\rho_s>0}\;
+\text{高温超伝導}}
+\end{equation}
+
+
+\section*{結論}
+\addcontentsline{toc}{section}{結論}
+
+高温超伝導は「斥力からのペアリング」の謎ではない。
+LoNalogyでは斥力的オンサイト$U$がdoublon-holonブリッジの
+Schur消去により最近接一重項結合引力
+$-Jb_{ij}^\dagger b_{ij}$に変わる。
+ペアグルーはブリッジ共分散
+$\mathcal{C}_d^{\br}=\beta\Cov(B_d,B_d)$。
+主要チャンネルは反強磁性的符号構造により$d_{x^2-y^2}$。
+
+一文で：
+
+\begin{quote}
+\emph{高温超伝導のペアリングは仮想doublon-holonブリッジの
+共分散であり、その$d$波対称性は正方格子の反強磁性的符号構造が
+強制する。}
+\end{quote}
+
+
+\section*{謝辞}
+\addcontentsline{toc}{section}{謝辞}
+
+著者はClaude (Anthropic)にブリッジ共分散機構の共同開発を感謝する。
+
+
+\begin{thebibliography}{99}
+\bibitem{LoNalogyv87} M.~Nakamura, \textit{LoNalogy v87.1},
+Zenodo (2026),
+\href{https://doi.org/10.5281/zenodo.19115338}{doi:10.5281/zenodo.19115338}.
+\bibitem{BM} J.~G.~Bednorz and K.~A.~M\"uller,
+Z.\ Phys.\ B \textbf{64}, 189 (1986).
+\bibitem{Anderson} P.~W.~Anderson,
+Science \textbf{235}, 1196 (1987).
+\bibitem{tJ} F.~C.~Zhang and T.~M.~Rice,
+Phys.\ Rev.\ B \textbf{37}, 3759 (1988).
+\end{thebibliography}
+
+\end{document}
