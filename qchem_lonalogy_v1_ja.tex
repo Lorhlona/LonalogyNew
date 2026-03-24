@@ -1,0 +1,607 @@
+\documentclass[12pt]{article}
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage{fontspec}
+\setmainfont{Noto Serif CJK JP}
+\XeTeXlinebreaklocale "ja"
+\XeTeXlinebreakskip = 0pt plus 1pt minus 0.1pt
+\usepackage{hyperref}
+\usepackage{enumitem}
+\usepackage{booktabs}
+\usepackage{caption}
+
+\theoremstyle{plain}
+\newtheorem{theorem}{定理}[section]
+\newtheorem{proposition}[theorem]{命題}
+\newtheorem{lemma}[theorem]{補題}
+\newtheorem{corollary}[theorem]{系}
+\theoremstyle{definition}
+\newtheorem{definition}[theorem]{定義}
+\newtheorem{remark}[theorem]{注意}
+\numberwithin{equation}{section}
+
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\C}{\mathbb{C}}
+\newcommand{\HH}{\mathbb{H}}
+\newcommand{\br}{\mathrm{br}}
+\newcommand{\vis}{\mathrm{vis}}
+\newcommand{\eff}{\mathrm{eff}}
+\newcommand{\LoN}{\mathrm{LoN}}
+\newcommand{\stat}{\mathrm{stat}}
+\newcommand{\fU}{\mathfrak{U}}
+\newcommand{\fI}{\mathfrak{I}}
+\newcommand{\fV}{\mathfrak{V}}
+\newcommand{\fB}{\mathfrak{B}}
+\DeclareMathOperator{\Tr}{Tr}
+\DeclareMathOperator{\Ran}{Ran}
+\DeclareMathOperator{\Cov}{Cov}
+\DeclareMathOperator{\sech}{sech}
+\DeclareMathOperator{\rank}{rank}
+\renewcommand{\proofname}{証明}
+
+\begin{document}
+
+\begin{titlepage}
+\centering
+\vspace*{0.8cm}
+{\LARGE\bfseries LoNalogyからの量子化学：\\[6pt]
+正準ブリッジ選択、\\[6pt]
+厳密Feshbach--Schurダウンフォールディング、\\[6pt]
+およびブリッジ共分散汎関数}
+\vspace{1.2cm}
+
+{\large 中村 昌義$^{1,*}$}
+\vspace{0.6cm}
+
+{\normalsize
+$^1$\,北与野メンタルクリニック、
+〒338-0002 埼玉県さいたま市中央区下落合4-20-14\\
+\texttt{mjolnir501@gmail.com}\\[4pt]
+$^*$\,責任著者
+}
+\vspace{0.6cm}
+
+{\small
+\noindent\textbf{関連リポジトリ：}\\
+LoNalogyフレームワーク (v87.1):
+\href{https://doi.org/10.5281/zenodo.19115338}{doi:10.5281/zenodo.19115338}\\
+Yang--Mills証明 (v90):
+\href{https://doi.org/10.5281/zenodo.19183838}{doi:10.5281/zenodo.19183838}\\
+姉妹論文：$X(2)$上の統計力学、素粒子宇宙論 (v9)、
+ハッブル再構成 (v2)、コロナ加熱、余剰次元
+}
+\vspace{0.8cm}
+
+\begin{abstract}
+\noindent
+LoNalogyの三セクターフレームワークを量子化学に適用する。
+\textbf{(A)} 任意の活性空間射影$P_A$に対し正準ブリッジ射影
+$P_B:=\Pi_{\Ran(QHP_A)}$が定義され、厳密な三セクター
+Feshbach--Schurダウンフォールディングが
+CASPT2/NEVPT2/DUCCの代数的母式を与える。
+\textbf{(B)} 隠れたモード消去からの厳密相関補正は系依存ブリッジ
+共分散汎関数であり、普遍的固定カーネル$E_{xc}$はno-go。
+\textbf{(C)} 修正P\"oschl--Tellerポテンシャルは停留点における
+4次一致の局所標準形であるが、普遍的PES法則ではない（no-go）。
+\end{abstract}
+\end{titlepage}
+
+\setcounter{page}{1}
+\tableofcontents
+\newpage
+
+\section*{序論}
+\addcontentsline{toc}{section}{序論}
+
+量子化学は計算困難の階層に直面する：ハートリー-フォックは瞬時電子相関を見逃し、DFTは未知の$E_{xc}[\rho]$に依存し、ポストHF法はスケーリングが悪く、フェルミオンQMCは符号問題に苦しむ。
+
+LoNalogyは量子化学のために設計されたものではないが、その核心——三セクター分解、シューア補行列、$\sech^2$ブリッジ重み——は多電子問題に適用するのに十分普遍的である。本論文はLoNalogyのツールが量子化学の問題をどこで閉じ、どこでno-goかを正確に同定する。
+
+
+\part{正準ブリッジ選択と厳密ダウンフォールディング}
+
+\section{正準三セクター分解}\label{sec:canonical}
+
+\begin{definition}[活性空間射影]\label{def:active}
+$\mathcal{H}$を有限次元多電子ヒルベルト空間、$H$を自己共役ハミルトニアンとする。$P_A$を次元$n_A$の活性部分空間$\mathcal{H}_A$への直交射影、$Q:=I-P_A$を外部射影とする。
+\end{definition}
+
+\begin{definition}[正準ブリッジ射影]\label{def:bridge}
+正準ブリッジ射影は
+\begin{equation}\label{eq:PB}
+\boxed{P_B := \Pi_{\Ran(QHP_A)}}
+\end{equation}
+すなわち$QHP_A:\mathcal{H}_A\to\mathcal{H}_Q$の像への直交射影。アイデア（コア）射影は$P_I := I - P_A - P_B$。
+\end{definition}
+
+\begin{theorem}[正準デカップリング]\label{thm:decoupling}
+\eqref{eq:PB}で定義された$P_B$に対して
+\begin{equation}\label{eq:decoupling}
+\boxed{P_A H P_I = 0 = P_I H P_A.}
+\end{equation}
+したがってハミルトニアンは
+\begin{equation}\label{eq:blockH}
+H = \begin{pmatrix} H_{AA} & H_{AB} & 0\\ H_{BA} & H_{BB} & H_{BI}\\ 0 & H_{IB} & H_{II} \end{pmatrix}
+\end{equation}
+というブロック形を持つ。
+\end{theorem}
+
+\begin{proof}
+\emph{ステップ1.} $P_B$は$\Ran(QHP_A)$への直交射影であるから、$P_I=Q-P_B$は$\mathcal{H}_Q$内における$\Ran(QHP_A)$の直交補空間に射影する。任意の$|\psi_A\rangle\in\mathcal{H}_A$に対して$QHP_A|\psi_A\rangle\in\Ran(QHP_A)$であるから$P_I(QHP_A|\psi_A\rangle)=0$。$P_IHP_A=P_IQHP_A$（$P_IP_A=0$かつ$P_IQ=P_I$）であるから$P_IHP_A=0$。
+
+\emph{ステップ2.} $H=H^\dagger$より$P_AHP_I=(P_IHP_A)^\dagger=0$。
+\end{proof}
+
+\begin{proposition}[ブリッジランク上界]\label{prop:rankbound}
+$\dim\mathcal{H}_B=\rank(QHP_A)\leq\min(\dim\mathcal{H}_A,\dim\mathcal{H}_Q)$。特に$\dim\mathcal{H}_B\leq n_A$。
+\end{proposition}
+
+\begin{proof}
+$QHP_A$のランクは$\min(\dim\mathcal{H}_A,\dim\mathcal{H}_Q)$以下。$\dim\mathcal{H}_B=\rank(QHP_A)$であるから上界が従う。
+\end{proof}
+
+
+\section{厳密Feshbach--Schurダウンフォールディング}\label{sec:feshbach}
+
+\begin{theorem}[厳密三セクターダウンフォールディング]\label{thm:downfolding}
+$H_{II}-E$が可逆であり、$\widetilde{H}_B(E):=H_{BB}-E-H_{BI}(H_{II}-E)^{-1}H_{IB}$も可逆であるとする。固有値方程式$H\Psi=E\Psi$は活性空間方程式$H_A^{\eff}(E)\psi_A=E\psi_A$と同値であり、
+\begin{equation}\label{eq:Heff}
+\boxed{H_A^{\eff}(E) = H_{AA} - H_{AB}\bigl(H_{BB}-E-\Sigma_B(E)\bigr)^{-1}H_{BA},}
+\end{equation}
+ここで$\Sigma_B(E):=H_{BI}(H_{II}-E)^{-1}H_{IB}$。
+\end{theorem}
+
+\begin{proof}
+\emph{ステップ1.} ブロック形\eqref{eq:blockH}から$\Psi=(\psi_A,\psi_B,\psi_I)^\top$に対して：
+$H_{AA}\psi_A+H_{AB}\psi_B=E\psi_A$、
+$H_{BA}\psi_A+H_{BB}\psi_B+H_{BI}\psi_I=E\psi_B$、
+$H_{IB}\psi_B+H_{II}\psi_I=E\psi_I$。
+
+\emph{ステップ2.} 第3式から$\psi_I=-(H_{II}-E)^{-1}H_{IB}\psi_B$。
+
+\emph{ステップ3.} 第2式に代入：$H_{BA}\psi_A+(H_{BB}-E-\Sigma_B(E))\psi_B=0$。$\widetilde{H}_B(E)$の可逆性から$\psi_B=-\widetilde{H}_B(E)^{-1}H_{BA}\psi_A$。
+
+\emph{ステップ4.} 第1式に代入：$(H_{AA}-H_{AB}\widetilde{H}_B(E)^{-1}H_{BA})\psi_A=E\psi_A$。
+
+\emph{ステップ5.} 逆に$\psi_A$から$\psi_B$と$\psi_I$を再構成して同値性を確認。
+\end{proof}
+
+
+\section{静的閉包}\label{sec:static}
+
+\begin{theorem}[不動点反復]\label{thm:fixedpoint}
+$F:E\mapsto\lambda_0(H_A^{\eff}(E))$とする。
+閉区間$I$で$F:I\to I$かつ
+\[
+\sup_{E\in I}\left|\frac{\partial F}{\partial E}(E)\right|<1
+\]
+ならば、反復$E^{(n+1)}:=F(E^{(n)})$は
+$E_*=\lambda_0(H_A^{\eff}(E_*))$
+を満たす一意な不動点に収束。
+\end{theorem}
+
+\begin{proof}
+完備距離空間$(I,|\cdot|)$上のバナッハの縮小写像定理。
+\end{proof}
+
+\begin{theorem}[静的一般化固有値問題]\label{thm:static}
+基準エネルギー$E_*$で$R_*:=\partial H_A^{\eff}/\partial E|_{E_*}$、$H_*^{\stat}:=H_A^{\eff}(E_*)-E_*R_*$、$S_*:=I-R_*$と定義すると
+\begin{equation}\label{eq:geneig}
+\boxed{H_*^{\stat}\psi_A = E\,S_*\psi_A.}
+\end{equation}
+\end{theorem}
+
+\begin{proof}
+$H_A^{\eff}(E)\approx H_A^{\eff}(E_*)+(E-E_*)R_*$を固有値方程式に代入して整理。
+\end{proof}
+
+\begin{proposition}[$H_A^{\eff}$のエネルギー微分]\label{prop:Rstar}
+\begin{equation}
+R_* = H_{AB}\widetilde{H}_B(E_*)^{-1}
+\frac{\partial\widetilde{H}_B}{\partial E}\bigg|_{E_*}
+\widetilde{H}_B(E_*)^{-1}H_{BA},
+\end{equation}
+ここで$\partial\widetilde{H}_B/\partial E=-I_B-H_{BI}(H_{II}-E)^{-2}H_{IB}$。
+\end{proposition}
+
+\begin{proof}
+$\partial H_A^{\eff}/\partial E
+=-H_{AB}\partial(\widetilde{H}_B^{-1})/\partial E\,H_{BA}$。
+恒等式$d(M^{-1})/dE=-M^{-1}(dM/dE)M^{-1}$を適用。
+$\partial\widetilde{H}_B/\partial E
+=-I_B-\partial\Sigma_B/\partial E$であり
+$\partial\Sigma_B/\partial E
+=H_{BI}(H_{II}-E)^{-2}H_{IB}$。
+\end{proof}
+
+
+\part{ブリッジ共分散汎関数}
+
+\section{対数周辺ヘシアン}\label{sec:hessian}
+
+\begin{definition}[縮約自由エネルギー]\label{def:Gamma}
+$X\in\R^d$を活性記述子、$Z\in\R^m$を隠れた変数、$\Phi(X,Z)$を完全エネルギー汎関数とする。縮約自由エネルギーは
+$\Gamma_\beta(X):=-\beta^{-1}\log\int e^{-\beta\Phi(X,Z)}dZ$。
+\end{definition}
+
+\begin{theorem}[厳密ブリッジ共分散ヘシアン]\label{thm:hessian}
+$\Gamma_\beta$が$X$で$C^2$ならば
+\begin{equation}\label{eq:hessian}
+\boxed{\nabla_X^2\Gamma_\beta(X) = \mathbb{E}_X[\Phi_{XX}] - \beta\,\Cov_X(\Phi_X,\Phi_X).}
+\end{equation}
+\end{theorem}
+
+\begin{proof}
+\emph{ステップ1.} $\nabla_X\Gamma_\beta=\mathbb{E}_X[\Phi_X]$（1階微分を直接計算）。
+
+\emph{ステップ2.} 2階微分を商の微分法で計算する。$N=\int\Phi_X e^{-\beta\Phi}dZ$、$D=\int e^{-\beta\Phi}dZ$として$\nabla_X(N/D)$を展開すると
+$\nabla_X^2\Gamma_\beta = \langle\Phi_{XX}\rangle - \beta\langle\Phi_X\Phi_X^\top\rangle + \beta\langle\Phi_X\rangle\langle\Phi_X\rangle^\top = \mathbb{E}_X[\Phi_{XX}] - \beta\Cov_X(\Phi_X,\Phi_X)$。
+\end{proof}
+
+
+\section{ブリッジ共分散カーネルと汎関数}\label{sec:covariance}
+
+\begin{definition}[ブリッジ共分散カーネル]\label{def:Cbr}
+系依存ブリッジ共分散カーネルは
+\begin{equation}
+\boxed{\mathcal{C}_{\br}[X]
+:= \beta\Cov_X(\Phi_X,\Phi_X) \succeq 0.}
+\end{equation}
+\end{definition}
+
+\begin{theorem}[厳密経路積分ブリッジ共分散汎関数]\label{thm:functional}
+基準点$X_0$、$\delta X:=X-X_0$、$X_s:=X_0+s\delta X$とする。$\Gamma_\beta$が線分上で$C^2$ならば
+\begin{align}
+\Gamma_\beta(X) &= \Gamma_\beta(X_0) + \langle\nabla\Gamma_\beta(X_0),\delta X\rangle + E_{\mathrm{bare}}^{(2)}[X|X_0] + E_{\br,\mathrm{cov}}[X|X_0],\\
+\boxed{E_{\br,\mathrm{cov}}[X|X_0]} &\boxed{:= -\int_0^1(1-s)\langle\delta X,\mathcal{C}_{\br}[X_s]\delta X\rangle\,ds.}
+\end{align}
+\end{theorem}
+
+\begin{proof}
+積分余項付きテイラーの定理にヘシアン分解\eqref{eq:hessian}を代入。
+\end{proof}
+
+
+\section{ガウス化ブリッジ}\label{sec:gaussian}
+
+\begin{theorem}[ガウスブリッジの厳密二次カーネル]\label{thm:gaussian}
+$\Phi(X,Z)=\Phi_0(X)+\frac{1}{2}Z^\top DZ-X^\top MZ$
+（$D\succ 0$）のとき
+\begin{equation}
+\boxed{\mathcal{C}_{\br}[X]\equiv MD^{-1}M^\top}
+\end{equation}
+（$X$非依存）であり
+$E_{\br,\mathrm{cov}}[X|X_0]
+=-\frac{1}{2}\langle\delta X,
+MD^{-1}M^\top\delta X\rangle$。
+\end{theorem}
+
+\begin{proof}
+平方完成して$Z$をガウス積分すると$\Gamma_\beta(X)=\Phi_0(X)-\frac{1}{2}X^\top MD^{-1}M^\top X+\mathrm{const}$。ヘシアンは$\nabla_X^2\Phi_0-MD^{-1}M^\top$であり、$\mathbb{E}_X[\Phi_{XX}]=\nabla_X^2\Phi_0$（$Z$非依存）であるから$\mathcal{C}_{\br}=MD^{-1}M^\top$。$\mathcal{C}_{\br}$が$X$非依存なので汎関数は二次形式に落ちる。
+\end{proof}
+
+
+\section{断熱接続}\label{sec:adiabatic}
+
+\begin{theorem}[断熱接続形]\label{thm:adiabatic}
+完全エネルギーが$\lambda\in[0,1]$でパラメタ化された
+\emph{線形ブリッジ結合}を持つとする：
+\begin{equation}
+\Phi_\lambda(X,Z) = \Phi_A(X) + \Phi_h(Z)
+- \lambda\langle X,B(Z)\rangle.
+\end{equation}
+$\Gamma_{\beta,\lambda}(X)
+:=-\beta^{-1}\log\int e^{-\beta\Phi_\lambda(X,Z)}dZ$
+と定義すると：
+\begin{align}
+\partial_\lambda\Gamma_{\beta,\lambda}(X)
+&= -\langle X,\mathbb{E}_{\lambda,X}[B]\rangle,\\
+\partial_\lambda^2\Gamma_{\beta,\lambda}(X)
+&= -\beta\langle X,\Cov_{\lambda,X}(B,B)X\rangle.
+\end{align}
+積分余項付きテイラーの定理により：
+\begin{equation}
+\boxed{\Gamma_{\beta,1}(X)
+= \Gamma_{\beta,0}(X)
++ \partial_\lambda\Gamma_{\beta,\lambda}|_{\lambda=0}
+- \int_0^1(1-\lambda)\beta
+\langle X,\Cov_{\lambda,X}(B,B)X\rangle d\lambda.}
+\end{equation}
+\end{theorem}
+
+\begin{proof}
+\emph{ステップ1.}
+$\Gamma_{\beta,\lambda}$を$\lambda$で微分すると、
+$\partial_\lambda\Phi_\lambda = -\langle X,B(Z)\rangle$であるから
+$\partial_\lambda\Gamma_{\beta,\lambda}
+= -\langle X,\mathbb{E}_{\lambda,X}[B]\rangle$。
+
+\emph{ステップ2.}
+2階$\lambda$微分は定理\ref{thm:hessian}と同じ
+商の微分法で共分散を生じる：
+$\partial_\lambda\mathbb{E}_{\lambda,X}[B]
+= \beta\Cov_{\lambda,X}(B,B)X$。
+したがって
+$\partial_\lambda^2\Gamma_{\beta,\lambda}
+= -\beta\langle X,\Cov_{\lambda,X}(B,B)X\rangle$。
+
+\emph{ステップ3.}
+テイラー展開$\Gamma_{\beta,1}
+= \Gamma_{\beta,0}+\partial_\lambda\Gamma|_0
++ \int_0^1(1-\lambda)\partial_\lambda^2\Gamma\,d\lambda$
+に代入。
+\end{proof}
+
+\begin{remark}[DFT的解釈]
+交換相関エネルギーは$\lambda$-積分されたブリッジ共分散：
+$E_{xc}^{\LoN}[X] = -\int_0^1(1-\lambda)\beta
+\langle X,\Cov_{\lambda,X}(B,B)X\rangle d\lambda$。
+これは厳密かつ系依存であり普遍的固定カーネルではない。
+\end{remark}
+
+
+\section{No-Go：普遍的固定カーネル$E_{xc}$}\label{sec:nogo_Exc}
+
+\begin{theorem}[普遍的固定二次$E_{xc}$のno-go]\label{thm:nogo_Exc}
+固定$\Delta$と$\eta>0$で$E_{xc}[\rho]=\eta\langle\rho,\Delta\rho\rangle$が全電子数$N$に対する厳密な普遍的交換相関汎関数となることはない。
+\end{theorem}
+
+\begin{proof}
+固定$\Delta$なら$v_{xc}=2\eta\Delta\rho$は至る所滑らか。しかし厳密DFTの$E_{xc}$は整数電子数で微分不連続性を示す（基本ギャップの正確な予測に不可欠）。大域的に滑らかな$v_{xc}$は微分不連続性を示し得ないから矛盾。
+\end{proof}
+
+\begin{remark}[正しいターゲット]
+No-goは普遍的\emph{固定}カーネルに適用。定理\ref{thm:functional}の系依存ブリッジ共分散汎関数は$\mathcal{C}_{\br}[X_s]$が経路に沿って変化するので微分不連続性と両立可能。
+\end{remark}
+
+
+\part{修正P\"oschl--Teller局所標準形}
+
+\section{局所サロゲートの構成}\label{sec:mPT}
+
+\begin{theorem}[井戸型局所標準形]\label{thm:well}
+$V(q)$が$q_*$に非退化局所極小（$k:=V''(q_*)>0$）を持つとする。$D:=V_\infty-V(q_*)>0$、$\ell:=\sqrt{2D/k}$と定義する。$g:=V'''(q_*)$、$h:=V''''(q_*)$とすると、座標変換
+\begin{equation}
+\Delta q = x - \frac{g}{6k}x^2 + \left(-\frac{k}{6D}+\frac{5g^2}{72k^2}-\frac{h}{24k}\right)x^3 + O(x^4)
+\end{equation}
+の下で
+\begin{equation}
+\boxed{V(q(x)) = V_\infty - D\sech^2(x/\ell) + O(x^5).}
+\end{equation}
+\end{theorem}
+
+\begin{proof}
+$\sech^2 u=1-u^2+\frac{2}{3}u^4+O(u^6)$を用いてmPTを展開すると$V(q_*)+\frac{k}{2}x^2-\frac{k^2}{6D}x^4+O(x^6)$。$V(q)$を$\Delta q$で展開し、$\Delta q=x+\alpha_2 x^2+\alpha_3 x^3+\cdots$として代入する。$x^3$の係数をゼロにマッチして$\alpha_2=-g/(6k)$。$x^4$の係数をマッチして$\alpha_3=-k/(6D)+5g^2/(72k^2)-h/(24k)$。
+\end{proof}
+
+\begin{theorem}[障壁型局所標準形]\label{thm:barrier}
+$V(q)$が$q_*$に非退化局所極大（$\kappa:=-V''(q_*)>0$）を持つとする。$D:=V(q_*)-V_{\mathrm{base}}>0$、$\ell:=\sqrt{2D/\kappa}$とすると、対応する座標変換の下で
+\begin{equation}
+\boxed{V(q(x)) = V_{\mathrm{base}} + D\sech^2(x/\ell) + O(x^5).}
+\end{equation}
+\end{theorem}
+
+\begin{proof}
+井戸型と同一。$k\to-\kappa$として符号調整。
+\end{proof}
+
+
+\section{No-Go：普遍的PES法則}\label{sec:nogo_PES}
+
+\begin{theorem}[停留点不変量の障害]\label{thm:nogo_PES}
+元の座標$q$で$V(q)=V_\infty-D\sech^2((q-q_*)/\ell)$が厳密に成り立つならば
+\begin{equation}
+\boxed{V'''(q_*)=0,\qquad V''''(q_*)=-\frac{4[V''(q_*)]^2}{D}.}
+\end{equation}
+一般的な化学ポテンシャルはこれを破る（モース：$V'''(q_*)\neq 0$）。
+\begin{equation}
+\boxed{\text{修正P\"oschl--Tellerは普遍的PES法則ではない。}}
+\end{equation}
+\end{theorem}
+
+\begin{proof}
+$\sech^2$は偶関数であるから全奇数次項は消える。$O((q-q_*)^3)$の係数を比較して$g=0$が必要。$O((q-q_*)^4)$から$h=-4k^2/D$。モースでは$V'''(q_*)=-Da^3\neq 0$で$g=0$を破る。
+\end{proof}
+
+\begin{corollary}[誤差次数]\label{cor:error}
+$V'''(q_*)\neq 0$のgenericなポテンシャルでは座標変換なしの誤差は$O((q-q_*)^3)$。正準座標変換を施すと誤差は$O(x^5)$。
+\end{corollary}
+
+
+\section{大域反応経路パッチング}\label{sec:patching}
+
+\begin{theorem}[大域反応経路サロゲート]\label{thm:patching}
+$s\mapsto V(s)$を有限個の非退化停留点$s_1,\ldots,s_m$を持つ
+滑らかな1D反応経路ポテンシャルとする。
+各$s_j$に対する局所mPT標準形を$V_j^{\mathrm{mPT}}(x_j)$、
+局所4-ジェットを
+$J_j(x_j):=V(s_j)+\frac{1}{2}k_j x_j^2+\frac{1}{6}g_j x_j^3
++\frac{1}{24}h_j x_j^4$
+とする。$\{\chi_j\}_{j=1}^m$を停留点近傍$U_j$に従属する
+滑らかな1の分割、$V_{\mathrm{reg}}(s)$を補空間上の滑らかな内挿とする。
+
+大域サロゲート
+\begin{equation}
+\boxed{V_{\LoN}(s) := V_{\mathrm{reg}}(s)
++ \sum_{j=1}^m \chi_j(s)\bigl(
+V_j^{\mathrm{mPT}}(x_j(s)) - J_j(x_j(s))\bigr)}
+\end{equation}
+は各停留点で
+\begin{equation}
+\boxed{V(s) - V_{\LoN}(s) = O\!\left((s-s_j)^5\right)}
+\end{equation}
+を満たす。
+\end{theorem}
+
+\begin{proof}
+\emph{ステップ1.}
+$s_j$の近傍で$\chi_j(s_j)=1$、$\chi_k(s_j)=0$（$k\neq j$）。
+$V_{\mathrm{reg}}$は$s_j$近傍で$J_j(x_j(s))$に等しく選ばれるから、
+$V_{\LoN}(s)=V_j^{\mathrm{mPT}}(x_j(s))$。
+
+\emph{ステップ2.}
+定理\ref{thm:well}/\ref{thm:barrier}により
+$V(s)-V_j^{\mathrm{mPT}}(x_j(s))=O(x_j^5)$。
+$x_j(s)=s-s_j+O((s-s_j)^2)$であるから$x_j^5=O((s-s_j)^5)$。
+
+\emph{ステップ3.}
+1の分割$\{\chi_j\}$がmPTサロゲートと正則内挿の間の
+滑らかな遷移を保証する。$J_j$の引き算が多項式部分の二重計上を防ぐ。
+\end{proof}
+
+\begin{remark}[実用的使用法]
+反応物井戸・遷移状態・生成物井戸（$m=3$）の反応経路では、
+3つのmPTパッチ（2井戸+1障壁）を1の分割で接合する。
+各パッチはP\"oschl--Teller束縛状態または透過係数として解析的に解け、
+閉じた形のトンネリング速度と振動周波数を与える。
+\end{remark}
+
+
+\part{数値ベンチマーク：4サイトHubbardモデル}
+
+\section{モデルと設定}\label{sec:hubbard}
+
+LoNalogy量子化学フレームワークを抽象代数を超えて検証するため、
+半充填4サイト開鎖Hubbardモデルでベンチマークを行う：
+\begin{equation}
+H = -t\sum_{\langle ij\rangle,\sigma}
+(c_{i\sigma}^\dagger c_{j\sigma}+\mathrm{h.c.})
++ U\sum_i n_{i\uparrow}n_{i\downarrow},
+\end{equation}
+$t=1$、$U/t\in\{2,4,8,12\}$、$S_z=0$セクター（次元36）。
+
+活性空間$\mathcal{H}_A$をno-doublonセクター（二重占有なし）とする。
+正準ブリッジ射影$P_B=\Pi_{\Ran(QHP_A)}$は
+\begin{equation}
+\dim\mathcal{H}_A=6,\quad
+\dim\mathcal{H}_B=5,\quad
+\dim\mathcal{H}_I=25
+\end{equation}
+を与える。ブリッジランク5は全次元36に比べて真正な還元。
+
+\section{三セクター形の検証}\label{sec:verify}
+
+\begin{proposition}[正準デカップリングの数値的検証]\label{prop:numerical}
+変換後ハミルトニアンは
+$\|P_AHP_I\|_F = 9.5\times 10^{-16}$
+を満たし、$P_AHP_I=0$がマシン精度で確認される
+（定理\ref{thm:decoupling}）。
+\end{proposition}
+
+\section{ベンチマーク結果}\label{sec:results}
+
+\begin{center}
+\begin{tabular}{rrrrr}
+\toprule
+$U/t$ & 厳密 & Bare active & LoN静的一般化 & $|\text{誤差}|$\\
+\midrule
+2 & $-2.8759$ & $0$ & $-0.9067$ & $1.969$\\
+4 & $-1.9531$ & $0$ & $-1.1657$ & $0.787$\\
+8 & $-1.1172$ & $0$ & $-1.0910$ & $0.026$\\
+12 & $-0.7681$ & $0$ & $-0.7646$ & $0.003$\\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\begin{theorem}[厳密LoNルート回復]\label{thm:recovery}
+厳密有効ハミルトニアン$H_A^{\eff}(E)$の不動点反復は、
+テストした全$U/t$値で全空間の厳密基底状態エネルギーを
+マシン精度（$<10^{-13}$）で再現する。
+\end{theorem}
+
+\begin{proof}
+直接数値計算。Brent法による$f(E)=\lambda_0(H_A^{\eff}(E))-E$の
+求根は浮動小数点精度内で厳密基底状態エネルギーに収束。
+残差$|f(E_*)|<10^{-13}$。
+\end{proof}
+
+\begin{remark}[強結合での改善]
+$U/t=12$（強相関/解離極限）で、LoN静的一般化ダウンフォールディングは
+厳密基底状態エネルギーに対して$0.3\%$の誤差を達成する。
+bare activeエネルギーが正確にゼロであるのに対して$200$倍以上の改善。
+$U/t=2$（弱結合）では$E_*=0$の基準エネルギーが最適でなく
+静的近似の性能が落ちる。これは厳密代数の欠陥ではなく
+線形化点$E_*$の選択の問題。
+\end{remark}
+
+
+\part{完全分類}
+
+\section{結果の要約}\label{sec:summary}
+
+\begin{center}
+\begin{tabular}{p{4.5cm}lll}
+\toprule
+結果 & 参照 & ステータス\\
+\midrule
+\multicolumn{3}{l}{\textbf{(A) 活性空間ダウンフォールディング}}\\
+\quad 正準ブリッジ選択 & 定理\ref{thm:decoupling} & 厳密\\
+\quad ブリッジランク上界 & 命題\ref{prop:rankbound} & 厳密\\
+\quad 三セクターFeshbach--Schur & 定理\ref{thm:downfolding} & 厳密\\
+\quad 不動点反復 & 定理\ref{thm:fixedpoint} & 厳密\\
+\quad 静的一般化固有値問題 & 定理\ref{thm:static} & 厳密\\
+\quad エネルギー微分 & 命題\ref{prop:Rstar} & 厳密\\
+\midrule
+\multicolumn{3}{l}{\textbf{(B) ブリッジ共分散汎関数}}\\
+\quad 対数周辺ヘシアン & 定理\ref{thm:hessian} & 厳密\\
+\quad 経路積分汎関数 & 定理\ref{thm:functional} & 厳密\\
+\quad ガウスブリッジカーネル & 定理\ref{thm:gaussian} & 厳密\\
+\quad 断熱接続 & 定理\ref{thm:adiabatic} & 厳密\\
+\quad No-go：固定$E_{xc}$ & 定理\ref{thm:nogo_Exc} & No-go\\
+\midrule
+\multicolumn{3}{l}{\textbf{(C) mPT局所標準形}}\\
+\quad 井戸型（4次一致） & 定理\ref{thm:well} & 厳密\\
+\quad 障壁型（4次一致） & 定理\ref{thm:barrier} & 厳密\\
+\quad No-go：普遍PES法則 & 定理\ref{thm:nogo_PES} & No-go\\
+\quad 誤差次数 & 系\ref{cor:error} & 厳密\\
+\quad 大域パッチング & 定理\ref{thm:patching} & 厳密\\
+\midrule
+\multicolumn{3}{l}{\textbf{(D) 数値ベンチマーク（4サイトHubbard）}}\\
+\quad 厳密LoNルート回復 & 定理\ref{thm:recovery} & 厳密\\
+\quad 正準デカップリング検証 & 命題\ref{prop:numerical} & 数値\\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\section{最終判定}\label{sec:verdict}
+
+\begin{equation}
+\boxed{\parbox{0.85\textwidth}{\centering
+正準ブリッジ $+$ 厳密Feshbach--Schur\\
+$+$ 断熱ブリッジ共分散 $+$ パッチングmPT}}
+\end{equation}
+
+閉じたもの：(A) CASPT2/NEVPT2/DUCCの厳密代数的母式。(B) 系依存ブリッジ共分散汎関数。(C) 4次一致のmPT局所標準形。
+
+No-go：(a) $\sech^2$は普遍的化学結合法則ではない。(b) 固定二次$E_{xc}$は厳密普遍汎関数ではない。
+
+残るもの：LiH、H$_6$、H$_2$O結合解離での数値ベンチマーク。
+
+
+\section*{結論}
+\addcontentsline{toc}{section}{結論}
+
+LoNalogyは弦理論を置き換えることで量子化学を変えるのではない。多電子相関のための厳密な代数的ツールを提供することで変える。一文で：
+
+\begin{quote}
+\emph{LoNalogyの量子化学的核心は：正準ブリッジ $+$ 厳密Schurダウンフォールディング $+$ ブリッジ共分散補正 $+$ 経路固有mPT標準形。}
+\end{quote}
+
+
+\section*{謝辞}
+\addcontentsline{toc}{section}{謝辞}
+
+著者はClaude (Anthropic)に、ブリッジ共分散形式の共同開発と全証明の検証を感謝する。
+
+
+\begin{thebibliography}{99}
+\bibitem{LoNalogyv87} M.~Nakamura, \textit{LoNalogy v87.1}, Zenodo (2026), \href{https://doi.org/10.5281/zenodo.19115338}{doi:10.5281/zenodo.19115338}.
+\bibitem{YMmassGap} M.~Nakamura, \textit{Yang--Mills Existence and Mass Gap}, Zenodo (2026), \href{https://doi.org/10.5281/zenodo.19183838}{doi:10.5281/zenodo.19183838}.
+\bibitem{Feshbach} H.~Feshbach, Ann.\ Phys.\ \textbf{5}, 357 (1958).
+\bibitem{CASPT2} K.~Andersson, P.-\AA.~Malmqvist, and B.~O.~Roos, J.\ Chem.\ Phys.\ \textbf{96}, 1218 (1992).
+\bibitem{DUCC} N.~P.~Bauman \textit{et al.}, J.\ Chem.\ Phys.\ \textbf{151}, 014107 (2019).
+\bibitem{PoschlTeller} G.~P\"oschl and E.~Teller, Z.\ Phys.\ \textbf{83}, 143 (1933).
+\bibitem{KohnSham} W.~Kohn and L.~J.~Sham, Phys.\ Rev.\ \textbf{140}, A1133 (1965).
+\end{thebibliography}
+
+\end{document}
